@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:subscription_tracker/app/theme/app_theme.dart';
+import 'package:subscription_tracker/data/local/isar_database.dart';
+import 'package:subscription_tracker/data/local/services/user_settings_service.dart';
+import 'package:subscription_tracker/features/dashboard/dashboard_screen.dart';
+import 'package:subscription_tracker/features/onboarding/onboarding_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalDatabase.instance.open();
   runApp(const MainApp());
 }
 
@@ -27,57 +33,77 @@ class MainApp extends StatelessWidget {
           child: child ?? const SizedBox.shrink(),
         );
       },
-      home: const _ThemePreviewScreen(),
+      home: const _AppBootstrapScreen(),
     );
   }
 }
 
-class _ThemePreviewScreen extends StatelessWidget {
-  const _ThemePreviewScreen();
+class _AppBootstrapScreen extends StatefulWidget {
+  const _AppBootstrapScreen();
+
+  @override
+  State<_AppBootstrapScreen> createState() => _AppBootstrapScreenState();
+}
+
+class _AppBootstrapScreenState extends State<_AppBootstrapScreen> {
+  final UserSettingsService _settingsService = UserSettingsService();
+  late Future<bool> _hasBaseCurrency;
+
+  @override
+  void initState() {
+    super.initState();
+    _hasBaseCurrency = _settingsService.hasBaseCurrency();
+  }
+
+  Future<void> _refreshStatus() async {
+    final bool hasBaseCurrency = await _settingsService.hasBaseCurrency();
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _hasBaseCurrency = Future<bool>.value(hasBaseCurrency);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    return FutureBuilder<bool>(
+      future: _hasBaseCurrency,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PayTempo'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: AppSpacing.sm),
-            Text('Theme Ready', style: textTheme.headlineMedium),
-            const SizedBox(height: AppSpacing.xs),
-            Text(
-              'DESIGN_SYSTEM.md tokenlariyla uyumlu temel tema aktif.',
-              style: textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Bu Ayki Toplam Harcama', style: textTheme.titleMedium),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text('€0.00', style: textTheme.displayLarge),
-                  ],
+        if ((snapshot.data ?? false) == false) {
+          return OnboardingScreen(
+            onCompleted: _refreshStatus,
+          );
+        }
+
+        return FutureBuilder<String>(
+          future: _settingsService
+              .getSettings()
+              .then((settings) => settings?.baseCurrency ?? 'USD'),
+          builder: (BuildContext context, AsyncSnapshot<String> currencySnap) {
+            if (currencySnap.connectionState != ConnectionState.done) {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+              );
+            }
+
+            return DashboardScreen(
+              baseCurrency: currencySnap.data ?? 'USD',
+            );
+          },
+        );
+      },
     );
   }
 }
