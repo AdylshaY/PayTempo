@@ -1,8 +1,8 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:subscription_tracker/data/local/models/payment_transaction.dart';
-import 'package:subscription_tracker/data/local/models/subscription_record.dart';
-import 'package:subscription_tracker/data/local/models/user_settings.dart';
+import 'package:pay_tempo/data/local/models/payment_transaction.dart';
+import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/data/local/models/user_settings.dart';
 
 class LocalDatabase {
   LocalDatabase._();

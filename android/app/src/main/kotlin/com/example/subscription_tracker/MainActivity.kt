@@ -1,4 +1,4 @@
-package com.example.subscription_tracker
+package com.example.pay_tempo
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:subscription_tracker/data/local/isar_database.dart';
-import 'package:subscription_tracker/data/local/models/user_settings.dart';
+import 'package:pay_tempo/data/local/isar_database.dart';
+import 'package:pay_tempo/data/local/models/user_settings.dart';
 
 class UserSettingsService {
   UserSettingsService({Isar? isar}) : _isar = isar ?? LocalDatabase.instance.isar;

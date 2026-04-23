@@ -1,3 +1,3 @@
-# subscription_tracker
+# pay_tempo
 
 A new Flutter project.

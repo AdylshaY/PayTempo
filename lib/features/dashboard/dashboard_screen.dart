@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:subscription_tracker/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/theme/app_theme.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({

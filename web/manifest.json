@@ -1,6 +1,6 @@
 {
-    "name": "subscription_tracker",
-    "short_name": "subscription_tracker",
+    "name": "pay_tempo",
+    "short_name": "pay_tempo",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
