@@ -8,6 +8,13 @@ class SubscriptionRecord {
     this.id = Isar.autoIncrement,
     required this.uid,
     required this.name,
+    required this.category,
+    this.avatarType,
+    this.avatarEmoji,
+    this.avatarIconCodePoint,
+    this.avatarIconFontFamily,
+    this.avatarIconFontPackage,
+    this.avatarColorValue,
     required this.price,
     required this.currency,
     required this.billingCycle,
@@ -25,6 +32,22 @@ class SubscriptionRecord {
   String? userId;
 
   String name;
+
+  @Index(caseSensitive: false)
+  String category;
+
+  @Index(caseSensitive: false)
+  String? avatarType;
+
+  String? avatarEmoji;
+
+  int? avatarIconCodePoint;
+
+  String? avatarIconFontFamily;
+
+  String? avatarIconFontPackage;
+
+  int? avatarColorValue;
 
   double price;
 
