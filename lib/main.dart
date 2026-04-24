@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
-import 'package:pay_tempo/data/local/services/user_settings_service.dart';
 import 'package:pay_tempo/features/dashboard/dashboard_screen.dart';
 import 'package:pay_tempo/features/onboarding/onboarding_screen.dart';
+import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

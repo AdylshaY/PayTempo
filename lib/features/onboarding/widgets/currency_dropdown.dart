@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 
 class CurrencyDropdown extends StatelessWidget {
@@ -14,46 +14,19 @@ class CurrencyDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    final TextStyle? dropdownTextStyle = textTheme.bodyMedium?.copyWith(
-      color: AppColors.textPrimary,
-    );
-
     return ListenableBuilder(
       listenable: Listenable.merge([selectedCurrency, saving]),
       builder: (BuildContext context, _) {
-        return DropdownMenu<String>(
+        return AppDropdownFieldWidget<String>(
           initialSelection: selectedCurrency.value,
-          textStyle: dropdownTextStyle,
-          menuStyle: MenuStyle(
-            backgroundColor: WidgetStatePropertyAll(
-              Theme.of(context).colorScheme.surface,
-            ),
-            shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppRadii.card),
-              ),
-            ),
-          ),
-          expandedInsets: EdgeInsets.zero,
-          inputDecorationTheme: InputDecorationTheme(
-            hintStyle: textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary,
-            ),
-          ),
           hintText: 'Select base currency',
           enabled: !saving.value,
-          onSelected: (String? value) {
-            selectedCurrency.value = value;
-          },
-          dropdownMenuEntries: onboardingCurrencies
+          onSelected: (String? value) => selectedCurrency.value = value,
+          entries: onboardingCurrencies
               .map(
                 (OnboardingCurrency currency) => DropdownMenuEntry<String>(
                   value: currency.code,
                   label: '${currency.code} - ${currency.label}',
-                  style: ButtonStyle(
-                    textStyle: WidgetStatePropertyAll(dropdownTextStyle),
-                  ),
                 ),
               )
               .toList(growable: false),

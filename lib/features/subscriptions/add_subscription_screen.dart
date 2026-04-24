@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
-import 'package:pay_tempo/data/local/services/subscription_service.dart';
+import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
+import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
+import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_emojis.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_options.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_templates.dart';
+import 'package:pay_tempo/features/subscriptions/models/add_subscription_avatar_selection_model.dart';
+import 'package:pay_tempo/features/subscriptions/sheets/add_subscription_avatar_selection_sheet.dart';
 
 class AddSubscriptionScreen extends StatefulWidget {
   const AddSubscriptionScreen({
@@ -117,13 +121,13 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
       return;
     }
 
-    final _AvatarSelection? selection =
-        await showModalBottomSheet<_AvatarSelection>(
+    final AvatarSelection? selection =
+        await showModalBottomSheet<AvatarSelection>(
           context: context,
           isScrollControlled: true,
           showDragHandle: true,
           builder: (BuildContext context) {
-            return _AvatarSelectorSheet(
+            return AvatarSelectionSheet(
               initialType: _avatarType.value,
               initialIconIndex: _selectedIconIndex.value,
               initialColorHex: _selectedColorHex.value,
@@ -153,8 +157,6 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     }
 
     _nameController.text = template.title;
-    final double price = widget.initialPriceOverride ?? template.suggestedPrice;
-    _priceController.text = price.toStringAsFixed(2);
     _category.value = _categoryValueFromTemplate(template.category);
     _avatarType.value = 'icon';
     _selectedIconIndex.value = subscriptionAvatarIcons.indexWhere(
@@ -168,8 +170,6 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
         .toRadixString(16)
         .substring(2)
         .toUpperCase();
-    _currency.value = template.defaultCurrency;
-    _billingCycle.value = template.defaultBillingCycle;
   }
 
   @override
@@ -228,7 +228,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
 
     if (parsedPrice == null || parsedPrice <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lutfen gecerli bir tutar girin.')),
+        const SnackBar(content: Text('Please enter a valid amount.')),
       );
       return;
     }
@@ -280,7 +280,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Abonelik kaydedilemedi. Tekrar deneyin.'),
+          content: Text('Failed to save subscription. Please try again.'),
         ),
       );
       _saving.value = false;
@@ -294,7 +294,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isTemplateFlow ? 'Hazir Servis Ayarlari' : 'Yeni Abonelik',
+          _isTemplateFlow ? 'Preset Service Settings' : 'New Subscription',
         ),
       ),
       body: SafeArea(
@@ -303,18 +303,6 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
           child: ListView(
             padding: const EdgeInsets.all(AppSpacing.sm),
             children: [
-              Text(
-                _isTemplateFlow ? 'Servis Ayarlari' : 'Abonelik Bilgileri',
-                style: textTheme.headlineMedium,
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                _isTemplateFlow
-                    ? 'This is a preset configuration based on the selected service. You can adjust the price, currency, billing cycle, and first payment date as needed.'
-                    : 'Enter the details of your subscription. You can customize the avatar, category, price, currency, billing cycle, and first payment date.',
-                style: textTheme.bodySmall,
-              ),
-              const SizedBox(height: AppSpacing.md),
               InkWell(
                 borderRadius: BorderRadius.circular(AppRadii.card),
                 onTap: _openAvatarSelector,
@@ -373,24 +361,19 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
               ValueListenableBuilder<String>(
                 valueListenable: _category,
                 builder: (BuildContext context, String selectedCategory, _) {
-                  return DropdownButtonFormField<String>(
-                    initialValue: selectedCategory,
-                    decoration: const InputDecoration(labelText: 'Category'),
-                    items: subscriptionCategories
+                  return AppDropdownFieldWidget<String>(
+                    initialSelection: selectedCategory,
+                    labelText: 'Category',
+                    entries: subscriptionCategories
                         .map(
-                          (item) => DropdownMenuItem<String>(
+                          (item) => DropdownMenuEntry<String>(
                             value: item.value,
-                            child: Row(
-                              children: [
-                                Icon(item.icon, size: 18),
-                                const SizedBox(width: 8),
-                                Text(item.label),
-                              ],
-                            ),
+                            label: item.label,
+                            leadingIcon: Icon(item.icon, size: 18),
                           ),
                         )
                         .toList(growable: false),
-                    onChanged: (String? value) {
+                    onSelected: (String? value) {
                       if (value == null) {
                         return;
                       }
@@ -422,18 +405,18 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
               ValueListenableBuilder<String>(
                 valueListenable: _currency,
                 builder: (BuildContext context, String selectedCurrency, _) {
-                  return DropdownButtonFormField<String>(
-                    initialValue: selectedCurrency,
-                    decoration: const InputDecoration(labelText: 'Currency'),
-                    items: onboardingCurrencies
+                  return AppDropdownFieldWidget<String>(
+                    initialSelection: selectedCurrency,
+                    labelText: 'Currency',
+                    entries: onboardingCurrencies
                         .map(
-                          (item) => DropdownMenuItem<String>(
+                          (item) => DropdownMenuEntry<String>(
                             value: item.code,
-                            child: Text('${item.code} - ${item.label}'),
+                            label: '${item.code} - ${item.label}',
                           ),
                         )
                         .toList(growable: false),
-                    onChanged: (String? value) {
+                    onSelected: (String? value) {
                       if (value == null) {
                         return;
                       }
@@ -510,262 +493,6 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AvatarSelection {
-  const _AvatarSelection({
-    required this.type,
-    required this.iconIndex,
-    required this.colorHex,
-    required this.emoji,
-  });
-
-  final String type;
-  final int iconIndex;
-  final String colorHex;
-  final String emoji;
-}
-
-class _AvatarSelectorSheet extends StatefulWidget {
-  const _AvatarSelectorSheet({
-    required this.initialType,
-    required this.initialIconIndex,
-    required this.initialColorHex,
-    required this.initialEmoji,
-  });
-
-  final String initialType;
-  final int initialIconIndex;
-  final String initialColorHex;
-  final String initialEmoji;
-
-  @override
-  State<_AvatarSelectorSheet> createState() => _AvatarSelectorSheetState();
-}
-
-class _AvatarSelectorSheetState extends State<_AvatarSelectorSheet> {
-  late String _type;
-  late int _iconIndex;
-  late String _colorHex;
-  late String _emoji;
-
-  @override
-  void initState() {
-    super.initState();
-    _type = widget.initialType;
-    _iconIndex = widget.initialIconIndex;
-    _colorHex = widget.initialColorHex;
-    _emoji = widget.initialEmoji;
-  }
-
-  Color get _selectedColor {
-    try {
-      return Color(int.parse(_colorHex, radix: 16) | 0xFF000000);
-    } catch (_) {
-      return Color(0xFF4F46E5);
-    }
-  }
-
-  String _colorToHex(Color color) {
-    return color.toARGB32().toRadixString(16).substring(2).toUpperCase();
-  }
-
-  Widget _preview() {
-    return Container(
-      width: 84,
-      height: 84,
-      decoration: BoxDecoration(
-        color: _selectedColor,
-        borderRadius: BorderRadius.circular(26),
-      ),
-      alignment: Alignment.center,
-      child: _type == 'emoji'
-          ? Text(_emoji, style: const TextStyle(fontSize: 34))
-          : Icon(
-              subscriptionAvatarIcons[_iconIndex].icon,
-              color: Colors.white,
-              size: 36,
-            ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.sm,
-          0,
-          AppSpacing.sm,
-          AppSpacing.sm,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(child: _preview()),
-            const SizedBox(height: AppSpacing.sm),
-            Center(
-              child: SegmentedButton<String>(
-                segments: const <ButtonSegment<String>>[
-                  ButtonSegment<String>(
-                    value: 'icon',
-                    icon: Icon(Icons.apps_rounded),
-                    label: Text('Icon'),
-                  ),
-                  ButtonSegment<String>(
-                    value: 'emoji',
-                    icon: Icon(Icons.emoji_emotions_outlined),
-                    label: Text('Emoji'),
-                  ),
-                ],
-                selected: <String>{_type},
-                onSelectionChanged: (Set<String> selection) {
-                  if (selection.isEmpty) {
-                    return;
-                  }
-                  setState(() {
-                    _type = selection.first;
-                  });
-                },
-              ),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text('Renk Paleti', style: textTheme.titleMedium),
-            const SizedBox(height: AppSpacing.xs),
-            Wrap(
-              spacing: AppSpacing.xs,
-              runSpacing: AppSpacing.xs,
-              children: subscriptionAvatarPalette
-                  .map((Color color) {
-                    final String colorHex = _colorToHex(color);
-                    final bool isSelected = colorHex == _colorHex;
-
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(999),
-                      onTap: () {
-                        setState(() {
-                          _colorHex = colorHex;
-                        });
-                      },
-                      child: Container(
-                        width: 34,
-                        height: 34,
-                        decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: isSelected
-                                ? AppColors.textPrimary
-                                : Colors.transparent,
-                            width: 2,
-                          ),
-                        ),
-                        child: isSelected
-                            ? const Icon(
-                                Icons.check,
-                                size: 16,
-                                color: Colors.white,
-                              )
-                            : null,
-                      ),
-                    );
-                  })
-                  .toList(growable: false),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            if (_type == 'icon') ...[
-              Text('Icon Selection', style: textTheme.titleMedium),
-              const SizedBox(height: AppSpacing.xs),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: AppSpacing.xs,
-                  mainAxisSpacing: AppSpacing.xs,
-                ),
-                itemCount: subscriptionAvatarIcons.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final bool isSelected = index == _iconIndex;
-                  return Material(
-                    color: isSelected
-                        ? AppColors.primary.withValues(alpha: 0.12)
-                        : AppColors.surface,
-                    borderRadius: BorderRadius.circular(AppRadii.button),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(AppRadii.button),
-                      onTap: () => setState(() => _iconIndex = index),
-                      child: Icon(
-                        subscriptionAvatarIcons[index].icon,
-                        color: isSelected
-                            ? AppColors.primary
-                            : AppColors.textSecondary,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ] else ...[
-              Text('Emoji sec', style: textTheme.titleMedium),
-              const SizedBox(height: AppSpacing.xs),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: AppSpacing.xs,
-                  mainAxisSpacing: AppSpacing.xs,
-                ),
-                itemCount: subscriptionAvatarEmojis.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final bool isSelected =
-                      subscriptionAvatarEmojis[index] == _emoji;
-                  return Material(
-                    color: isSelected
-                        ? AppColors.primary.withValues(alpha: 0.12)
-                        : AppColors.surface,
-                    borderRadius: BorderRadius.circular(AppRadii.button),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(AppRadii.button),
-                      onTap: () => setState(
-                        () => _emoji = subscriptionAvatarEmojis[index],
-                      ),
-                      child: Center(
-                        child: Text(
-                          subscriptionAvatarEmojis[index],
-                          style: const TextStyle(fontSize: 24),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
-            const SizedBox(height: AppSpacing.sm),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(
-                    _AvatarSelection(
-                      type: _type,
-                      iconIndex: _iconIndex,
-                      colorHex: _colorHex,
-                      emoji: _emoji,
-                    ),
-                  );
-                },
-                child: const Text('Secimi Kaydet'),
-              ),
-            ),
-          ],
         ),
       ),
     );

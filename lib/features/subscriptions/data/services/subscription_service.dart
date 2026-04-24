@@ -3,38 +3,7 @@ import 'dart:math';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
-
-class SubscriptionDraft {
-  SubscriptionDraft({
-    required this.name,
-    required this.category,
-    this.avatarType,
-    this.avatarEmoji,
-    this.avatarIconCodePoint,
-    this.avatarIconFontFamily,
-    this.avatarIconFontPackage,
-    this.avatarColorValue,
-    required this.price,
-    required this.currency,
-    required this.billingCycle,
-    required this.firstPaymentDate,
-    this.userId,
-  });
-
-  final String name;
-  final String category;
-  final String? avatarType;
-  final String? avatarEmoji;
-  final int? avatarIconCodePoint;
-  final String? avatarIconFontFamily;
-  final String? avatarIconFontPackage;
-  final int? avatarColorValue;
-  final double price;
-  final String currency;
-  final String billingCycle;
-  final DateTime firstPaymentDate;
-  final String? userId;
-}
+import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 
 class SubscriptionService {
   SubscriptionService({Isar? isar})

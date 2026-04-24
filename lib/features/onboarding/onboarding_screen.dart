@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
-import 'package:pay_tempo/data/local/services/user_settings_service.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
+import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/onboarding/widgets/continue_button.dart';
 import 'package:pay_tempo/features/onboarding/widgets/currency_dropdown.dart';
 import 'package:pay_tempo/features/onboarding/widgets/onboarding_animated_icon.dart';
