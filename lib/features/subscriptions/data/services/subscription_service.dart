@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
+import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 
@@ -47,6 +48,66 @@ class SubscriptionService {
     });
   }
 
+  Future<void> markSubscriptionAsPaid({
+    required SubscriptionRecord subscription,
+    required DateTime paidAt,
+    required String baseCurrency,
+  }) async {
+    final DateTime normalizedPaidAt = DateTime(
+      paidAt.year,
+      paidAt.month,
+      paidAt.day,
+    );
+    final DateTime now = DateTime.now();
+    final DateTime nextPaymentDate = _nextPaymentDateAfter(
+      paidAt: normalizedPaidAt,
+      anchorDay: subscription.anchorDay,
+      billingCycle: subscription.billingCycle,
+    );
+    final PaymentTransaction transaction = PaymentTransaction(
+      uid: _generateUid(now),
+      subscriptionUid: subscription.uid,
+      userId: subscription.userId,
+      paidAmount: subscription.price,
+      paidCurrency: subscription.currency,
+      snapshotBaseCurrency: baseCurrency.trim().toUpperCase(),
+      snapshotBaseAmount: subscription.price,
+      paidAt: normalizedPaidAt,
+      updatedAt: now,
+      isDeleted: false,
+    );
+
+    await _isar.writeTxn(() async {
+      final DateTime monthStart = DateTime(normalizedPaidAt.year, normalizedPaidAt.month);
+      final DateTime nextMonthStart = DateTime(
+        normalizedPaidAt.year,
+        normalizedPaidAt.month + 1,
+      );
+      final bool alreadyPaidThisMonth = await _isar.paymentTransactions
+          .filter()
+          .isDeletedEqualTo(false)
+          .subscriptionUidEqualTo(subscription.uid)
+          .paidAtBetween(
+            monthStart,
+            nextMonthStart,
+            includeLower: true,
+            includeUpper: false,
+          )
+          .findFirst() !=
+          null;
+
+      if (alreadyPaidThisMonth) {
+        throw StateError('This subscription is already marked paid for this month.');
+      }
+
+      await _isar.paymentTransactions.put(transaction);
+
+      subscription.nextPaymentDate = nextPaymentDate;
+      subscription.updatedAt = now;
+      await _isar.subscriptionRecords.put(subscription);
+    });
+  }
+
   Future<List<SubscriptionRecord>> getActiveSubscriptions() {
     return _isar.subscriptionRecords.filter().isDeletedEqualTo(false).findAll();
   }
@@ -64,13 +125,32 @@ class SubscriptionService {
     required String billingCycle,
     required DateTime now,
   }) {
+    final DateTime today = DateTime(now.year, now.month, now.day);
     DateTime candidate = DateTime(
       startDate.year,
       startDate.month,
       startDate.day,
     );
 
-    while (!candidate.isAfter(now)) {
+    while (candidate.isBefore(today)) {
+      candidate = _advanceWithAnchor(
+        date: candidate,
+        anchorDay: anchorDay,
+        billingCycle: billingCycle,
+      );
+    }
+
+    return candidate;
+  }
+
+  DateTime _nextPaymentDateAfter({
+    required DateTime paidAt,
+    required int anchorDay,
+    required String billingCycle,
+  }) {
+    DateTime candidate = DateTime(paidAt.year, paidAt.month, paidAt.day);
+
+    while (!candidate.isAfter(paidAt)) {
       candidate = _advanceWithAnchor(
         date: candidate,
         anchorDay: anchorDay,

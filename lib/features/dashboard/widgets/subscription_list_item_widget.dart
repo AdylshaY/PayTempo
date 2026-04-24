@@ -1,23 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
-import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 
 class SubscriptionListItemWidget extends StatelessWidget {
   const SubscriptionListItemWidget({
     required this.item,
+    this.dueDateOverride,
+    this.statusLabel,
+    this.statusColor,
     super.key,
   });
 
   final SubscriptionRecord item;
+  final DateTime? dueDateOverride;
+  final String? statusLabel;
+  final Color? statusColor;
 
-  String _categoryLabel(String categoryValue) {
-    return subscriptionCategories
-        .firstWhere(
-          (SubscriptionCategoryOption option) => option.value == categoryValue,
-          orElse: () => subscriptionCategories.first,
-        )
-        .label;
+  String _dateLabel(DateTime date) {
+    const List<String> months = <String>[
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return '${months[date.month - 1]} ${date.day}';
+  }
+
+  ({String label, Color color}) _status(DateTime nextPaymentDate) {
+    final DateTime now = DateTime.now();
+    final DateTime startOfToday = DateTime(now.year, now.month, now.day);
+    final DateTime dueDate = DateTime(
+      nextPaymentDate.year,
+      nextPaymentDate.month,
+      nextPaymentDate.day,
+    );
+    final int daysUntil = dueDate.difference(startOfToday).inDays;
+
+    if (daysUntil < 0) {
+      return (label: 'Overdue', color: AppColors.error);
+    }
+
+    if (daysUntil == 0) {
+      return (label: 'Due today', color: AppColors.warning);
+    }
+
+    if (daysUntil <= 3) {
+      return (label: 'Due soon', color: AppColors.warning);
+    }
+
+    return (label: 'Scheduled', color: AppColors.secondaryHighlight);
   }
 
   Widget _avatar() {
@@ -78,12 +117,36 @@ class SubscriptionListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime dueDate = dueDateOverride ?? item.nextPaymentDate;
+    final ({String label, Color color}) status =
+        statusLabel == null || statusColor == null
+        ? _status(dueDate)
+        : (label: statusLabel!, color: statusColor!);
     return Card(
       child: ListTile(
+        dense: true,
+        visualDensity: VisualDensity.compact,
         leading: _avatar(),
         title: Text(item.name),
         subtitle: Text(
-          '${_categoryLabel(item.category)} • ${item.price.toStringAsFixed(2)} ${item.currency} - ${item.billingCycle}',
+          '${item.price.toStringAsFixed(2)} ${item.currency} • Due ${_dateLabel(dueDate)}',
+        ),
+        trailing: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xs,
+            vertical: 4,
+          ),
+          decoration: BoxDecoration(
+            color: status.color.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(AppRadii.button),
+          ),
+          child: Text(
+            status.label,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
