@@ -314,9 +314,6 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                                       .subscriptionUid];
 
                                               return PaymentRow(
-                                                subscriptionName:
-                                                    subscription?.name ??
-                                                    'Unknown subscription',
                                                 paidAmount: item.paidAmount,
                                                 paidCurrency: item.paidCurrency,
                                                 snapshotBaseAmount:
@@ -324,6 +321,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                                 snapshotBaseCurrency:
                                                     item.snapshotBaseCurrency,
                                                 paidAt: item.paidAt,
+                                                subscription: subscription!,
                                               );
                                             },
                                       ),

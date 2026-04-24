@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tempo/features/analytics/analytics_screen.dart';
 import 'package:pay_tempo/features/dashboard/dashboard_screen.dart';
 import 'package:pay_tempo/features/payments/payments_screen.dart';
+import 'package:pay_tempo/features/profile/profile_screen.dart';
 
 class AppShellScreen extends StatefulWidget {
   const AppShellScreen({required this.baseCurrency, super.key});
@@ -19,15 +21,12 @@ class _AppShellScreenState extends State<AppShellScreen> {
     final List<Widget> pages = <Widget>[
       DashboardScreen(baseCurrency: widget.baseCurrency),
       const PaymentsScreen(),
-      const _PlaceholderPage(title: 'Analytics'),
-      const _PlaceholderPage(title: 'Profile'),
+      const AnalyticsScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: pages),
       bottomNavigationBar: SafeArea(
         top: false,
         child: SizedBox(
@@ -65,20 +64,6 @@ class _AppShellScreenState extends State<AppShellScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _PlaceholderPage extends StatelessWidget {
-  const _PlaceholderPage({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: const SizedBox.shrink(),
     );
   }
 }
