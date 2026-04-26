@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
 
@@ -30,23 +31,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
     _selectedDate = DateTime(now.year, now.month, now.day);
   }
 
-  String _dateLabel(DateTime date) {
-    const List<String> months = <String>[
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[date.month - 1]} ${date.day}, ${date.year}';
-  }
+
 
   Future<void> _pickDate() async {
     final DateTime now = DateTime.now();
@@ -137,7 +122,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
             Card(
               child: ListTile(
                 title: const Text('Payment date'),
-                subtitle: Text(_dateLabel(_selectedDate)),
+                subtitle: Text(_selectedDate.toMonthDayYearCommaLabel()),
                 trailing: const Icon(Icons.calendar_today_outlined),
                 onTap: _saving ? null : _pickDate,
               ),

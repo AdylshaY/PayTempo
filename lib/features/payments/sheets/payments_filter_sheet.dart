@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/date_formatter.dart';
 
 class PaymentsFilterSheet extends StatefulWidget {
   const PaymentsFilterSheet({
@@ -26,23 +27,7 @@ class _PaymentsFilterSheetState extends State<PaymentsFilterSheet> {
     _toDate = widget.initialToDate;
   }
 
-  String _dateLabel(DateTime date) {
-    const List<String> months = <String>[
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${date.day} ${months[date.month - 1]} ${date.year}';
-  }
+
 
   Future<void> _pickFromDate() async {
     final DateTime now = DateTime.now();
@@ -109,7 +94,7 @@ class _PaymentsFilterSheetState extends State<PaymentsFilterSheet> {
               contentPadding: EdgeInsets.zero,
               title: const Text('From date'),
               subtitle: Text(
-                _fromDate == null ? 'Any time' : _dateLabel(_fromDate!),
+                _fromDate == null ? 'Any time' : _fromDate!.toFullDateLabel(),
               ),
               trailing: const Icon(Icons.calendar_month_outlined),
               onTap: _pickFromDate,
@@ -118,7 +103,7 @@ class _PaymentsFilterSheetState extends State<PaymentsFilterSheet> {
               contentPadding: EdgeInsets.zero,
               title: const Text('To date'),
               subtitle: Text(
-                _toDate == null ? 'Any time' : _dateLabel(_toDate!),
+                _toDate == null ? 'Any time' : _toDate!.toFullDateLabel(),
               ),
               trailing: const Icon(Icons.calendar_month_outlined),
               onTap: _pickToDate,

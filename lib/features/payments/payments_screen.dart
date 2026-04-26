@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -19,43 +20,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
   DateTime? _fromDate;
   DateTime? _toDate;
 
-  String _monthLabel(DateTime date) {
-    const List<String> months = <String>[
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
 
-    return '${months[date.month - 1]} ${date.year}';
-  }
-
-  String _dateLabel(DateTime date) {
-    const List<String> months = <String>[
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-
-    return '${date.day} ${months[date.month - 1]} ${date.year}';
-  }
 
   DateTime _monthStart(DateTime date) => DateTime(date.year, date.month);
 
@@ -275,7 +240,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          _monthLabel(period),
+                                          period.toMonthYearLabel(),
                                           style: textTheme.titleMedium,
                                         ),
                                         Text(
@@ -389,7 +354,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                             ),
                             if (_fromDate != null || _toDate != null)
                               Text(
-                                '${_fromDate == null ? 'Any time' : _dateLabel(_fromDate!)} - ${_toDate == null ? 'Any time' : _dateLabel(_toDate!)}',
+                                '${_fromDate == null ? 'Any time' : _fromDate!.toFullDateLabel()} - ${_toDate == null ? 'Any time' : _toDate!.toFullDateLabel()},',
                                 style: textTheme.bodySmall?.copyWith(
                                   color: AppColors.textSecondary,
                                 ),

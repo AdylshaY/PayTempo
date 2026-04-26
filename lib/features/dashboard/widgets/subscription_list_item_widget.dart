@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 
 class SubscriptionListItemWidget extends StatelessWidget {
@@ -16,23 +17,7 @@ class SubscriptionListItemWidget extends StatelessWidget {
   final String? statusLabel;
   final Color? statusColor;
 
-  String _dateLabel(DateTime date) {
-    const List<String> months = <String>[
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[date.month - 1]} ${date.day}';
-  }
+
 
   ({String label, Color color}) _status(DateTime nextPaymentDate) {
     final DateTime now = DateTime.now();
@@ -129,7 +114,7 @@ class SubscriptionListItemWidget extends StatelessWidget {
         leading: _avatar(),
         title: Text(item.name),
         subtitle: Text(
-          '${item.price.toStringAsFixed(2)} ${item.currency} • Due ${_dateLabel(dueDate)}',
+          '${item.price.toStringAsFixed(2)} ${item.currency} • Due ${dueDate.toMonthDayLabel()}',
         ),
         trailing: Container(
           padding: const EdgeInsets.symmetric(

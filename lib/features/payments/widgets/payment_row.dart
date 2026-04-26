@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 
 class PaymentRow extends StatelessWidget {
@@ -73,23 +74,7 @@ class PaymentRow extends StatelessWidget {
     );
   }
 
-  String _dateLabel(DateTime date) {
-    const List<String> months = <String>[
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[date.month - 1]} ${date.day}';
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +109,7 @@ class PaymentRow extends StatelessWidget {
                 Text(subscription.name, style: textTheme.bodyMedium),
                 const SizedBox(height: 2),
                 Text(
-                  '${paidAmount.toStringAsFixed(2)} $paidCurrency • ${_dateLabel(paidAt)}',
+                  '${paidAmount.toStringAsFixed(2)} $paidCurrency • ${paidAt.toMonthDayLabel()}',
                   style: textTheme.bodySmall?.copyWith(
                     color: AppColors.textSecondary,
                   ),
