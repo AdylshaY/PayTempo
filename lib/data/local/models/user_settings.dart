@@ -2,6 +2,12 @@ import 'package:isar/isar.dart';
 
 part 'user_settings.g.dart';
 
+enum AppThemeMode {
+  system,
+  light,
+  dark,
+}
+
 @collection
 class UserSettings {
   UserSettings({
@@ -15,6 +21,7 @@ class UserSettings {
     this.proExpiryDate,
     this.proPlanType,
     this.proPriceDisplay,
+    this.themeMode = AppThemeMode.system,
   });
 
   Id id;
@@ -42,4 +49,7 @@ class UserSettings {
 
   /// Formatted price string from the store (e.g. "₺599").
   String? proPriceDisplay;
+
+  @enumerated
+  AppThemeMode themeMode;
 }

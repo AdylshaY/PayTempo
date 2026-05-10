@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
@@ -6,6 +7,41 @@ class UserSettingsService {
   UserSettingsService({Isar? isar}) : _isar = isar ?? LocalDatabase.instance.isar;
 
   final Isar _isar;
+
+  /// Global notifier for the app theme to enable instant UI updates.
+  static final ValueNotifier<ThemeMode> appThemeNotifier =
+      ValueNotifier(ThemeMode.system);
+
+  /// Converts Isar AppThemeMode enum to Flutter ThemeMode.
+  ThemeMode _toFlutterThemeMode(AppThemeMode mode) {
+    switch (mode) {
+      case AppThemeMode.light:
+        return ThemeMode.light;
+      case AppThemeMode.dark:
+        return ThemeMode.dark;
+      case AppThemeMode.system:
+        return ThemeMode.system;
+    }
+  }
+
+  /// Initializes the theme notifier with the value from the database.
+  Future<void> initializeTheme() async {
+    final settings = await getSettings();
+    if (settings != null) {
+      appThemeNotifier.value = _toFlutterThemeMode(settings.themeMode);
+    }
+  }
+
+  Future<void> setThemeMode(AppThemeMode mode) async {
+    await _isar.writeTxn(() async {
+      final UserSettings? current = await _isar.userSettings.get(1);
+      if (current != null) {
+        current.themeMode = mode;
+        await _isar.userSettings.put(current);
+        appThemeNotifier.value = _toFlutterThemeMode(mode);
+      }
+    });
+  }
 
   Future<UserSettings?> getSettings() {
     return _isar.userSettings.get(1);

@@ -78,10 +78,13 @@ class PaymentRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final rowColor = isDark ? AppColors.backgroundDark : AppColors.background;
+
     return Container(
       padding: const EdgeInsets.all(AppSpacing.sm),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: rowColor,
         borderRadius: BorderRadius.circular(AppRadii.card),
       ),
       child: Row(

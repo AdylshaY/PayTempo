@@ -57,8 +57,14 @@ const UserSettingsSchema = CollectionSchema(
       name: r'proPriceDisplay',
       type: IsarType.string,
     ),
-    r'userId': PropertySchema(
+    r'themeMode': PropertySchema(
       id: 8,
+      name: r'themeMode',
+      type: IsarType.byte,
+      enumMap: _UserSettingsthemeModeEnumValueMap,
+    ),
+    r'userId': PropertySchema(
+      id: 9,
       name: r'userId',
       type: IsarType.string,
     )
@@ -145,7 +151,8 @@ void _userSettingsSerialize(
   writer.writeDateTime(offsets[5], object.proExpiryDate);
   writer.writeString(offsets[6], object.proPlanType);
   writer.writeString(offsets[7], object.proPriceDisplay);
-  writer.writeString(offsets[8], object.userId);
+  writer.writeByte(offsets[8], object.themeMode.index);
+  writer.writeString(offsets[9], object.userId);
 }
 
 UserSettings _userSettingsDeserialize(
@@ -164,7 +171,10 @@ UserSettings _userSettingsDeserialize(
     proExpiryDate: reader.readDateTimeOrNull(offsets[5]),
     proPlanType: reader.readStringOrNull(offsets[6]),
     proPriceDisplay: reader.readStringOrNull(offsets[7]),
-    userId: reader.readStringOrNull(offsets[8]),
+    themeMode:
+        _UserSettingsthemeModeValueEnumMap[reader.readByteOrNull(offsets[8])] ??
+            AppThemeMode.system,
+    userId: reader.readStringOrNull(offsets[9]),
   );
   return object;
 }
@@ -193,11 +203,26 @@ P _userSettingsDeserializeProp<P>(
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
+      return (_UserSettingsthemeModeValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          AppThemeMode.system) as P;
+    case 9:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _UserSettingsthemeModeEnumValueMap = {
+  'system': 0,
+  'light': 1,
+  'dark': 2,
+};
+const _UserSettingsthemeModeValueEnumMap = {
+  0: AppThemeMode.system,
+  1: AppThemeMode.light,
+  2: AppThemeMode.dark,
+};
 
 Id _userSettingsGetId(UserSettings object) {
   return object.id;
@@ -1300,6 +1325,62 @@ extension UserSettingsQueryFilter
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      themeModeEqualTo(AppThemeMode value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'themeMode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      themeModeGreaterThan(
+    AppThemeMode value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'themeMode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      themeModeLessThan(
+    AppThemeMode value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'themeMode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      themeModeBetween(
+    AppThemeMode lower,
+    AppThemeMode upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'themeMode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
       userIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1564,6 +1645,18 @@ extension UserSettingsQuerySortBy
     });
   }
 
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy> sortByThemeMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'themeMode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy> sortByThemeModeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'themeMode', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy> sortByUserId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'userId', Sort.asc);
@@ -1694,6 +1787,18 @@ extension UserSettingsQuerySortThenBy
     });
   }
 
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy> thenByThemeMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'themeMode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy> thenByThemeModeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'themeMode', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy> thenByUserId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'userId', Sort.asc);
@@ -1764,6 +1869,12 @@ extension UserSettingsQueryWhereDistinct
     });
   }
 
+  QueryBuilder<UserSettings, UserSettings, QDistinct> distinctByThemeMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'themeMode');
+    });
+  }
+
   QueryBuilder<UserSettings, UserSettings, QDistinct> distinctByUserId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1828,6 +1939,13 @@ extension UserSettingsQueryProperty
       proPriceDisplayProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'proPriceDisplay');
+    });
+  }
+
+  QueryBuilder<UserSettings, AppThemeMode, QQueryOperations>
+      themeModeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'themeMode');
     });
   }
 

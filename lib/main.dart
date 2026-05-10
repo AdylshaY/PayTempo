@@ -9,6 +9,7 @@ import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalDatabase.instance.open();
+  await UserSettingsService().initializeTheme();
   runApp(const MainApp());
 }
 
@@ -17,23 +18,28 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
-      builder: (BuildContext context, Widget? child) {
-        final Brightness brightness = Theme.of(context).brightness;
-        final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
-            ? AppTheme.darkSystemUi
-            : AppTheme.lightSystemUi;
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: UserSettingsService.appThemeNotifier,
+      builder: (context, themeMode, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: themeMode,
+          builder: (BuildContext context, Widget? child) {
+            final Brightness brightness = Theme.of(context).brightness;
+            final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
+                ? AppTheme.darkSystemUi
+                : AppTheme.lightSystemUi;
 
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: overlayStyle,
-          child: child ?? const SizedBox.shrink(),
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+              value: overlayStyle,
+              child: child ?? const SizedBox.shrink(),
+            );
+          },
+          home: const _AppBootstrapScreen(),
         );
       },
-      home: const _AppBootstrapScreen(),
     );
   }
 }
