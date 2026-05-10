@@ -74,14 +74,9 @@ class PaymentRow extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final String label = subscription.name.trim().isEmpty
-        ? '?'
-        : subscription.name.trim()[0].toUpperCase();
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.sm),
