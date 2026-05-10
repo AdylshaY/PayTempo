@@ -19,6 +19,9 @@ class AppColors {
   static const Color error = Color(0xFFEF4444);
   static const Color inactive = Color(0xFFCBD5E1);
   static const Color inactiveDark = Color(0xFF334155);
+
+  /// Gold accent used for Pro/premium UI elements.
+  static const Color proGold = Color(0xFFD4A853);
 }
 
 class AppSpacing {

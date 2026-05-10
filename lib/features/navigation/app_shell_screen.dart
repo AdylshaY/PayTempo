@@ -22,7 +22,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
       DashboardScreen(baseCurrency: widget.baseCurrency),
       const PaymentsScreen(),
       const AnalyticsScreen(),
-      const ProfileScreen(),
+      ProfileScreen(),
     ];
 
     return Scaffold(
