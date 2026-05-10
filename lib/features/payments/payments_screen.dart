@@ -7,6 +7,7 @@ import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/payments/sheets/payments_filter_sheet.dart';
 import 'package:pay_tempo/features/payments/widgets/payment_row.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class PaymentsScreen extends StatefulWidget {
   const PaymentsScreen({super.key});
@@ -117,6 +118,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Isar isar = LocalDatabase.instance.isar;
+    final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Scaffold(
@@ -145,7 +147,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                             paymentsSnapshot.hasError) {
                           return Center(
                             child: Text(
-                              'Payments failed to load.',
+                              l10n.paymentsFailedToLoad,
                               style: textTheme.bodyMedium?.copyWith(
                                 color: AppColors.textSecondary,
                               ),
@@ -244,7 +246,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                           style: textTheme.titleMedium,
                                         ),
                                         Text(
-                                          '${items.length} payments',
+                                          l10n.paymentsCount(items.length),
                                           style: textTheme.bodySmall?.copyWith(
                                             color: AppColors.textSecondary,
                                           ),
@@ -254,7 +256,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                     const SizedBox(height: AppSpacing.sm),
                                     if (items.isEmpty)
                                       Text(
-                                        'No payments recorded for this month.',
+                                        l10n.noPaymentsForMonth,
                                         style: textTheme.bodyMedium?.copyWith(
                                           color: AppColors.textSecondary,
                                         ),
@@ -310,7 +312,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                       });
                                     },
                                     decoration: InputDecoration(
-                                      hintText: 'Search by subscription name',
+                                      hintText: l10n.searchSubscription,
                                       prefixIcon: const Icon(Icons.search),
                                       suffixIcon: _searchQuery.isEmpty
                                           ? null
@@ -338,8 +340,8 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                 Expanded(
                                   child: Text(
                                     _fromDate == null && _toDate == null
-                                        ? 'Showing last 3 months'
-                                        : 'Showing filtered date range',
+                                        ? l10n.showingLast3Months
+                                        : l10n.showingFilteredRange,
                                     style: textTheme.bodySmall?.copyWith(
                                       color: AppColors.textSecondary,
                                     ),
@@ -348,13 +350,13 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                 if (_fromDate != null || _toDate != null)
                                   TextButton(
                                     onPressed: _clearFilters,
-                                    child: const Text('Clear filters'),
+                                    child: Text(l10n.clearFilters),
                                   ),
                               ],
                             ),
                             if (_fromDate != null || _toDate != null)
                               Text(
-                                '${_fromDate == null ? 'Any time' : _fromDate!.toFullDateLabel()} - ${_toDate == null ? 'Any time' : _toDate!.toFullDateLabel()},',
+                                '${_fromDate == null ? l10n.anyTime : _fromDate!.toFullDateLabel()} - ${_toDate == null ? l10n.anyTime : _toDate!.toFullDateLabel()}',
                                 style: textTheme.bodySmall?.copyWith(
                                   color: AppColors.textSecondary,
                                 ),
@@ -373,8 +375,8 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                   padding: const EdgeInsets.all(AppSpacing.md),
                                   child: Text(
                                     hasActiveFilters
-                                        ? 'No payments match the current filters.'
-                                        : 'No payments recorded yet.',
+                                        ? l10n.noPaymentsMatchFilter
+                                        : l10n.noPaymentsRecordedYet,
                                     style: textTheme.bodyMedium?.copyWith(
                                       color: AppColors.textSecondary,
                                     ),

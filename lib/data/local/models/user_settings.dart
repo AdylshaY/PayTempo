@@ -22,6 +22,7 @@ class UserSettings {
     this.proPlanType,
     this.proPriceDisplay,
     this.themeMode = AppThemeMode.system,
+    this.languageCode,
   });
 
   Id id;
@@ -52,4 +53,7 @@ class UserSettings {
 
   @enumerated
   AppThemeMode themeMode;
+
+  /// Selected language code ('en', 'tr', etc.) or null for system default.
+  String? languageCode;
 }

@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   lottie: ^3.3.3
@@ -23,5 +26,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/lottie/

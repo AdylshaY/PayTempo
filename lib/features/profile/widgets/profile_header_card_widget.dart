@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/features/profile/widgets/profile_account_section.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 /// Reusable status badge chip used in profile header cards.
 class StatusBadge extends StatelessWidget {
@@ -74,6 +75,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     final isGuest = status == AccountStatus.guest;
     final isProActive = status == AccountStatus.proActive;
     final isProExpired = status == AccountStatus.proExpired;
@@ -98,24 +100,24 @@ class ProfileHeaderCardWidget extends StatelessWidget {
     // Badge
     Widget badge;
     if (isGuest) {
-      badge = const StatusBadge(
+      badge = StatusBadge(
         icon: Icons.circle,
         iconSize: 8,
-        label: 'Anonymous · Local Data',
+        label: l10n.anonymousLocalData,
         color: AppColors.warning,
       );
     } else if (isProActive) {
-      badge = const StatusBadge(
+      badge = StatusBadge(
         icon: Icons.auto_awesome,
         iconSize: 14,
-        label: 'Pro Plan · Active',
+        label: l10n.proPlanActive,
         color: AppColors.proGold,
       );
     } else {
-      badge = const StatusBadge(
+      badge = StatusBadge(
         icon: Icons.warning_rounded,
         iconSize: 14,
-        label: 'Pro Expired',
+        label: l10n.proExpiredBadge,
         color: AppColors.error,
       );
     }
@@ -179,7 +181,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isGuest ? 'Guest User' : (displayName ?? 'User'),
+                    isGuest ? l10n.guestUser : (displayName ?? l10n.user),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -198,7 +200,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                   if (isGuest) ...[
                     const SizedBox(height: 2),
                     Text(
-                      'No account created',
+                      l10n.noAccountCreated,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.textTheme.bodySmall?.color?.withValues(
                           alpha: 0.7,

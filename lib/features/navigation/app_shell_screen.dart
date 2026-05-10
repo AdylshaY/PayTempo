@@ -3,6 +3,7 @@ import 'package:pay_tempo/features/analytics/analytics_screen.dart';
 import 'package:pay_tempo/features/dashboard/dashboard_screen.dart';
 import 'package:pay_tempo/features/payments/payments_screen.dart';
 import 'package:pay_tempo/features/profile/profile_screen.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class AppShellScreen extends StatefulWidget {
   const AppShellScreen({required this.baseCurrency, super.key});
@@ -18,6 +19,8 @@ class _AppShellScreenState extends State<AppShellScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     final List<Widget> pages = <Widget>[
       DashboardScreen(baseCurrency: widget.baseCurrency),
       const PaymentsScreen(),
@@ -39,26 +42,26 @@ class _AppShellScreenState extends State<AppShellScreen> {
               });
             },
             type: BottomNavigationBarType.fixed,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard_outlined),
-                activeIcon: Icon(Icons.dashboard),
-                label: 'Dashboard',
+                icon: const Icon(Icons.dashboard_outlined),
+                activeIcon: const Icon(Icons.dashboard),
+                label: l10n.dashboard,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.receipt_long_outlined),
-                activeIcon: Icon(Icons.receipt_long),
-                label: 'Payments',
+                icon: const Icon(Icons.receipt_long_outlined),
+                activeIcon: const Icon(Icons.receipt_long),
+                label: l10n.payments,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.bar_chart_outlined),
-                activeIcon: Icon(Icons.bar_chart),
-                label: 'Analytics',
+                icon: const Icon(Icons.bar_chart_outlined),
+                activeIcon: const Icon(Icons.bar_chart),
+                label: l10n.analytics,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
-                activeIcon: Icon(Icons.person),
-                label: 'Profile',
+                icon: const Icon(Icons.person_outline),
+                activeIcon: const Icon(Icons.person),
+                label: l10n.profile,
               ),
             ],
           ),

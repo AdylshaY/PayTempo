@@ -12,6 +12,9 @@ class UserSettingsService {
   static final ValueNotifier<ThemeMode> appThemeNotifier =
       ValueNotifier(ThemeMode.system);
 
+  /// Global notifier for the app language to enable instant UI updates.
+  static final ValueNotifier<String?> appLanguageNotifier = ValueNotifier(null);
+
   /// Converts Isar AppThemeMode enum to Flutter ThemeMode.
   ThemeMode _toFlutterThemeMode(AppThemeMode mode) {
     switch (mode) {
@@ -24,11 +27,12 @@ class UserSettingsService {
     }
   }
 
-  /// Initializes the theme notifier with the value from the database.
-  Future<void> initializeTheme() async {
+  /// Initializes the notifiers with values from the database.
+  Future<void> initializeSettings() async {
     final settings = await getSettings();
     if (settings != null) {
       appThemeNotifier.value = _toFlutterThemeMode(settings.themeMode);
+      appLanguageNotifier.value = settings.languageCode;
     }
   }
 
@@ -39,6 +43,17 @@ class UserSettingsService {
         current.themeMode = mode;
         await _isar.userSettings.put(current);
         appThemeNotifier.value = _toFlutterThemeMode(mode);
+      }
+    });
+  }
+
+  Future<void> setLanguageCode(String? code) async {
+    await _isar.writeTxn(() async {
+      final UserSettings? current = await _isar.userSettings.get(1);
+      if (current != null) {
+        current.languageCode = code;
+        await _isar.userSettings.put(current);
+        appLanguageNotifier.value = code;
       }
     });
   }

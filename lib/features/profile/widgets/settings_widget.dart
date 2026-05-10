@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
-class SettingsWidget extends StatelessWidget {
-  SettingsWidget({super.key});
+class SettingsWidget extends StatefulWidget {
+  const SettingsWidget({super.key});
 
-  final Future<UserSettings?> _settingsFuture = UserSettingsService()
-      .getSettings();
+  @override
+  State<SettingsWidget> createState() => _SettingsWidgetState();
+}
+
+class _SettingsWidgetState extends State<SettingsWidget> {
+  late final Future<UserSettings?> _settingsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _settingsFuture = UserSettingsService().getSettings();
+  }
 
   AppThemeMode _flutterModeToAppMode(ThemeMode mode) {
     switch (mode) {
@@ -23,6 +34,7 @@ class SettingsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final AppLocalizations l10n = AppLocalizations.of(context)!;
 
     return FutureBuilder<UserSettings?>(
       future: _settingsFuture,
@@ -36,10 +48,10 @@ class SettingsWidget extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Settings', style: textTheme.titleMedium),
+            Text(l10n.settings, style: textTheme.titleMedium),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              'Manage your profile and app settings.',
+              l10n.settingsSubtitle,
               style: textTheme.bodySmall?.copyWith(
                 color: AppColors.textSecondary,
               ),
@@ -48,9 +60,9 @@ class SettingsWidget extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: const Icon(Icons.currency_exchange),
-                title: const Text('Your Currency'),
+                title: Text(l10n.yourCurrency),
                 subtitle: Text(
-                  'Selected currency used for totals and reports.',
+                  l10n.yourCurrencySubtitle,
                   style: textTheme.bodySmall?.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -62,46 +74,67 @@ class SettingsWidget extends StatelessWidget {
             ValueListenableBuilder<ThemeMode>(
               valueListenable: UserSettingsService.appThemeNotifier,
               builder: (context, themeMode, _) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.sm),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(Icons.palette_outlined),
-                            const SizedBox(width: AppSpacing.sm),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Appearance',
-                                    style: textTheme.titleMedium,
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    'Customize your app theme.',
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: AppColors.textSecondary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.sm),
-                        _ThemeSelector(
-                          currentMode: _flutterModeToAppMode(themeMode),
-                          onChanged: (AppThemeMode mode) {
-                            UserSettingsService().setThemeMode(mode);
-                          },
-                        ),
-                      ],
+                return SettingsDropdownTile<ThemeMode>(
+                  icon: Icons.palette_outlined,
+                  title: l10n.appearance,
+                  subtitle: l10n.appearanceSubtitle,
+                  value: themeMode,
+                  onChanged: (ThemeMode? mode) {
+                    if (mode != null) {
+                      UserSettingsService().setThemeMode(
+                        _flutterModeToAppMode(mode),
+                      );
+                    }
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: ThemeMode.system,
+                      child: Text(
+                        l10n.themeSystem,
+                        style: textTheme.bodyMedium,
+                      ),
                     ),
-                  ),
+                    DropdownMenuItem(
+                      value: ThemeMode.light,
+                      child: Text(l10n.themeLight, style: textTheme.bodyMedium),
+                    ),
+                    DropdownMenuItem(
+                      value: ThemeMode.dark,
+                      child: Text(l10n.themeDark, style: textTheme.bodyMedium),
+                    ),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            ValueListenableBuilder<String?>(
+              valueListenable: UserSettingsService.appLanguageNotifier,
+              builder: (context, languageCode, _) {
+                return SettingsDropdownTile<String?>(
+                  icon: Icons.language_outlined,
+                  title: l10n.language,
+                  subtitle: l10n.languageSubtitle,
+                  value: languageCode,
+                  onChanged: (String? code) {
+                    UserSettingsService().setLanguageCode(code);
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: null,
+                      child: Text(
+                        l10n.languageSystem,
+                        style: textTheme.bodyMedium,
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'en',
+                      child: Text('English', style: textTheme.bodyMedium),
+                    ),
+                    DropdownMenuItem(
+                      value: 'tr',
+                      child: Text('Türkçe', style: textTheme.bodyMedium),
+                    ),
+                  ],
                 );
               },
             ),
@@ -112,95 +145,50 @@ class SettingsWidget extends StatelessWidget {
   }
 }
 
-class _ThemeSelector extends StatelessWidget {
-  const _ThemeSelector({required this.currentMode, required this.onChanged});
+class SettingsDropdownTile<T> extends StatelessWidget {
+  const SettingsDropdownTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+    super.key,
+  });
 
-  final AppThemeMode currentMode;
-  final ValueChanged<AppThemeMode> onChanged;
-
-  Widget _buildOption(
-    BuildContext context,
-    String label,
-    IconData icon,
-    AppThemeMode mode,
-  ) {
-    final theme = Theme.of(context);
-    final isSelected = currentMode == mode;
-    final color = isSelected
-        ? AppColors.primary
-        : theme.colorScheme.onSurface.withValues(alpha: 0.5);
-    final bgColor = isSelected
-        ? AppColors.primary.withValues(alpha: 0.1)
-        : Colors.transparent;
-
-    return Expanded(
-      child: InkWell(
-        onTap: () => onChanged(mode),
-        borderRadius: BorderRadius.circular(AppRadii.button),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(AppRadii.button),
-            border: Border.all(
-              color: isSelected
-                  ? AppColors.primary.withValues(alpha: 0.3)
-                  : Colors.transparent,
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 22, color: color),
-              const SizedBox(height: 6),
-              Text(
-                label,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: color,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final T value;
+  final List<DropdownMenuItem<T>> items;
+  final ValueChanged<T?> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final containerColor = isDark
-        ? AppColors.inactiveDark.withValues(alpha: 0.3)
-        : AppColors.inactive.withValues(alpha: 0.3);
+    final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: containerColor,
-        borderRadius: BorderRadius.circular(AppRadii.button),
-      ),
-      padding: const EdgeInsets.all(4),
-      child: Row(
-        children: [
-          _buildOption(
-            context,
-            'System',
-            Icons.brightness_auto_outlined,
-            AppThemeMode.system,
+    return Card(
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: 4,
+        ),
+        leading: Icon(icon),
+        title: Text(title),
+        subtitle: Text(
+          subtitle,
+          style: textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
+        ),
+        trailing: DropdownButtonHideUnderline(
+          child: DropdownButton<T>(
+            value: value,
+            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+            borderRadius: BorderRadius.circular(AppRadii.card),
+            alignment: Alignment.centerRight,
+            onChanged: onChanged,
+            items: items,
           ),
-          _buildOption(
-            context,
-            'Light',
-            Icons.light_mode_outlined,
-            AppThemeMode.light,
-          ),
-          _buildOption(
-            context,
-            'Dark',
-            Icons.dark_mode_outlined,
-            AppThemeMode.dark,
-          ),
-        ],
+        ),
       ),
     );
   }

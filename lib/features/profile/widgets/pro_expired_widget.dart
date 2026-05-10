@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 /// Pro expired warning card with expiry date and a renew CTA button.
 class ProExpiredWidget extends StatelessWidget {
@@ -13,6 +14,7 @@ class ProExpiredWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final price = settings?.proPriceDisplay ?? '\$29.99';
     final planType = settings?.proPlanType ?? 'year';
 
@@ -58,7 +60,7 @@ class ProExpiredWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Your Pro subscription has ended',
+                        l10n.proExpiredTitle,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: AppColors.error,
                           fontWeight: FontWeight.bold,
@@ -66,8 +68,7 @@ class ProExpiredWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Your data is preserved, but cloud sync and advanced '
-                        'analytics have been temporarily disabled.',
+                        l10n.proExpiredSubtitle,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurface.withValues(
                             alpha: 0.6,
@@ -80,7 +81,7 @@ class ProExpiredWidget extends StatelessWidget {
                           style: theme.textTheme.bodySmall,
                           children: [
                             TextSpan(
-                              text: 'Expired: ',
+                              text: l10n.expiredLabel,
                               style: TextStyle(
                                 color: theme.colorScheme.onSurface.withValues(
                                   alpha: 0.6,
@@ -119,7 +120,7 @@ class ProExpiredWidget extends StatelessWidget {
                 ),
                 icon: const Icon(Icons.refresh),
                 label: Text(
-                  'Renew Pro — $price/$planType',
+                  '${l10n.renewPro} — $price/$planType',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

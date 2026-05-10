@@ -3,6 +3,7 @@ import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/features/subscriptions/sheets/subscription_template_picker_sheet.dart';
 import 'package:pay_tempo/features/dashboard/widgets/monthly_spending_card_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_section_widget.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({required this.baseCurrency, super.key});
@@ -24,8 +25,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('PayTempo')),
+      appBar: AppBar(title: Text(l10n.appTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
         children: [

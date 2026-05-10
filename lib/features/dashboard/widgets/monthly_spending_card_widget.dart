@@ -5,6 +5,7 @@ import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/dashboard/utils/due_date_resolver.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class MonthlySpendingCardWidget extends StatelessWidget {
   const MonthlySpendingCardWidget({
@@ -21,6 +22,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
     final DateTime monthStart = DateTime(now.year, now.month, 1);
     final DateTime nextMonthStart = DateTime(now.year, now.month + 1, 1);
     final isar = LocalDatabase.instance.isar;
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       child: StreamBuilder<List<SubscriptionRecord>>(
@@ -98,7 +100,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      'Paid this month',
+                      l10n.paidThisMonth,
                       style: textTheme.bodyMedium?.copyWith(
                         color: AppColors.textSecondary,
                         fontWeight: FontWeight.w600,
@@ -106,7 +108,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      'Remaining: ${remainingTotal.toStringAsFixed(2)} $baseCurrency from active subscriptions',
+                      l10n.remainingFromActive(remainingTotal.toStringAsFixed(2), baseCurrency),
                       style: textTheme.bodySmall?.copyWith(
                         color: AppColors.textSecondary.withValues(alpha: 0.75),
                       ),

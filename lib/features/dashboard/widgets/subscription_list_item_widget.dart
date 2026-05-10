@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class SubscriptionListItemWidget extends StatelessWidget {
   const SubscriptionListItemWidget({
@@ -19,7 +20,8 @@ class SubscriptionListItemWidget extends StatelessWidget {
 
 
 
-  ({String label, Color color}) _status(DateTime nextPaymentDate) {
+  ({String label, Color color}) _status(DateTime nextPaymentDate, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final DateTime now = DateTime.now();
     final DateTime startOfToday = DateTime(now.year, now.month, now.day);
     final DateTime dueDate = DateTime(
@@ -30,18 +32,18 @@ class SubscriptionListItemWidget extends StatelessWidget {
     final int daysUntil = dueDate.difference(startOfToday).inDays;
 
     if (daysUntil < 0) {
-      return (label: 'Overdue', color: AppColors.error);
+      return (label: l10n.overdue, color: AppColors.error);
     }
 
     if (daysUntil == 0) {
-      return (label: 'Due today', color: AppColors.warning);
+      return (label: l10n.dueToday, color: AppColors.warning);
     }
 
     if (daysUntil <= 3) {
-      return (label: 'Due soon', color: AppColors.warning);
+      return (label: l10n.dueSoon, color: AppColors.warning);
     }
 
-    return (label: 'Scheduled', color: AppColors.secondaryHighlight);
+    return (label: l10n.scheduled, color: AppColors.secondaryHighlight);
   }
 
   Widget _avatar() {
@@ -102,10 +104,11 @@ class SubscriptionListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final DateTime dueDate = dueDateOverride ?? item.nextPaymentDate;
     final ({String label, Color color}) status =
         statusLabel == null || statusColor == null
-        ? _status(dueDate)
+        ? _status(dueDate, context)
         : (label: statusLabel!, color: statusColor!);
     return Card(
       child: ListTile(
@@ -114,7 +117,7 @@ class SubscriptionListItemWidget extends StatelessWidget {
         leading: _avatar(),
         title: Text(item.name),
         subtitle: Text(
-          '${item.price.toStringAsFixed(2)} ${item.currency} • Due ${dueDate.toMonthDayLabel()}',
+          l10n.dueSubtitle(item.price.toStringAsFixed(2), item.currency, dueDate.toMonthDayLabel()),
         ),
         trailing: Container(
           padding: const EdgeInsets.symmetric(

@@ -8,6 +8,7 @@ import 'package:pay_tempo/features/dashboard/utils/due_date_resolver.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_item_widget.dart';
 import 'package:pay_tempo/features/dashboard/sheets/mark_subscription_paid_sheet.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class SubscriptionListSectionWidget extends StatelessWidget {
   const SubscriptionListSectionWidget({
@@ -42,6 +43,7 @@ class SubscriptionListSectionWidget extends StatelessWidget {
     final DateTime now = DateTime.now();
     final DateTime monthStart = DateTime(now.year, now.month);
     final DateTime nextMonthStart = DateTime(now.year, now.month + 1);
+    final l10n = AppLocalizations.of(context)!;
 
     return StreamBuilder<List<SubscriptionRecord>>(
       stream: subscriptionService.watchActiveSubscriptions(),
@@ -61,7 +63,7 @@ class SubscriptionListSectionWidget extends StatelessWidget {
               ) {
                 if (snapshot.hasError || paymentsSnapshot.hasError) {
                   return Text(
-                    'Active subscriptions failed to load.',
+                    l10n.activeSubscriptionsFailed,
                     style: textTheme.bodyMedium?.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -102,10 +104,10 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Active subscriptions', style: textTheme.titleMedium),
+                          Text(l10n.activeSubscriptions, style: textTheme.titleMedium),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            'No active subscriptions yet.',
+                            l10n.noActiveSubscriptions,
                             style: textTheme.bodyMedium?.copyWith(
                               color: AppColors.textSecondary,
                             ),
@@ -125,9 +127,9 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Active subscriptions', style: textTheme.titleMedium),
+                            Text(l10n.activeSubscriptions, style: textTheme.titleMedium),
                             Text(
-                              '${items.length} total',
+                              l10n.totalItems(items.length),
                               style: textTheme.bodySmall?.copyWith(
                                 color: AppColors.textSecondary,
                               ),
@@ -154,7 +156,7 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                             final Widget card = SubscriptionListItemWidget(
                               item: item,
                               dueDateOverride: effectiveDueDate,
-                              statusLabel: payment == null ? null : 'Paid',
+                              statusLabel: payment == null ? null : l10n.paidLabel,
                               statusColor: payment == null ? null : AppColors.success,
                             );
 
@@ -164,8 +166,8 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                               confirmDismiss: (_) async {
                                 if (payment != null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('You already recorded a payment for this month.'),
+                                    SnackBar(
+                                      content: Text(l10n.alreadyRecordedThisMonth),
                                     ),
                                   );
                                   return false;

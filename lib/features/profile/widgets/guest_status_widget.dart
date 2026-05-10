@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 /// Guest user section: local-data info banner + Pro upsell card.
 ///
@@ -13,6 +14,7 @@ class GuestStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       children: [
@@ -31,8 +33,7 @@ class GuestStatusWidget extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(
-                    'All your data is stored only on this device. '
-                    'Upgrade to Pro to back up your data to the cloud.',
+                    l10n.guestStatusTitle,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
@@ -74,7 +75,7 @@ class GuestStatusWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Try PayTempo Pro',
+                      l10n.tryPro,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -82,19 +83,19 @@ class GuestStatusWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                const _ProFeatureRow(
+                _ProFeatureRow(
                   icon: Icons.cloud_outlined,
-                  text: 'Cloud backup — safe even when switching devices',
+                  text: l10n.proFeature1,
                 ),
                 const SizedBox(height: AppSpacing.xs),
-                const _ProFeatureRow(
+                _ProFeatureRow(
                   icon: Icons.auto_awesome,
-                  text: 'Advanced analytics — category & trend charts',
+                  text: l10n.proFeature2,
                 ),
                 const SizedBox(height: AppSpacing.xs),
-                const _ProFeatureRow(
+                _ProFeatureRow(
                   icon: Icons.attach_money,
-                  text: 'Custom categories & priority support',
+                  text: l10n.proFeature3,
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 SizedBox(
@@ -110,8 +111,8 @@ class GuestStatusWidget extends StatelessWidget {
                       ),
                     ),
                     icon: const Icon(Icons.workspace_premium_outlined),
-                    label: const Text(
-                      'View Pro Plans',
+                    label: Text(
+                      l10n.viewProPlans,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

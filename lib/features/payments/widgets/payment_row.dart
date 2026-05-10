@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class PaymentRow extends StatelessWidget {
   const PaymentRow({
@@ -77,6 +78,7 @@ class PaymentRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final rowColor = isDark ? AppColors.backgroundDark : AppColors.background;
@@ -128,7 +130,7 @@ class PaymentRow extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                'Recorded',
+                l10n.recordedLabel,
                 style: textTheme.bodySmall?.copyWith(
                   color: AppColors.textSecondary,
                 ),

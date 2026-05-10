@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 /// Pro active subscription details card: renewal date, plan, feature checklist,
 /// and a manage subscription link.
@@ -25,6 +26,7 @@ class ProActiveWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       child: Container(
@@ -54,7 +56,7 @@ class ProActiveWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'PayTempo Pro',
+                  l10n.proActiveTitle,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -69,9 +71,9 @@ class ProActiveWidget extends StatelessWidget {
                     color: AppColors.success.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text(
-                    'Active',
-                    style: TextStyle(
+                  child: Text(
+                    l10n.proActiveActiveBadge,
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                       color: AppColors.success,
@@ -90,7 +92,7 @@ class ProActiveWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Next renewal',
+                        l10n.proActiveExpires,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: AppColors.success,
                         ),
@@ -110,7 +112,7 @@ class ProActiveWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Plan',
+                      l10n.proActivePlan,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurface.withValues(
                           alpha: 0.6,
@@ -131,13 +133,11 @@ class ProActiveWidget extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Divider(color: AppColors.proGold.withValues(alpha: 0.2), height: 1),
             const SizedBox(height: AppSpacing.sm),
-            const _ProFeatureCheck(text: 'Cloud synchronization'),
+            _ProFeatureCheck(text: l10n.proFeatureCloudSync),
             const SizedBox(height: AppSpacing.xs),
-            const _ProFeatureCheck(text: 'Advanced analytics & charts'),
+            _ProFeatureCheck(text: l10n.proFeature2),
             const SizedBox(height: AppSpacing.xs),
-            const _ProFeatureCheck(text: 'Custom categories'),
-            const SizedBox(height: AppSpacing.xs),
-            const _ProFeatureCheck(text: 'Priority support'),
+            _ProFeatureCheck(text: l10n.proFeature3),
             const SizedBox(height: AppSpacing.sm),
             InkWell(
               onTap: onManageSubscription,
@@ -149,11 +149,13 @@ class ProActiveWidget extends StatelessWidget {
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                   const SizedBox(width: 6),
-                  Text(
-                    'Manage Subscription (App Store / Play Store)',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      decoration: TextDecoration.underline,
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  Expanded(
+                    child: Text(
+                      l10n.manageSubscription,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        decoration: TextDecoration.underline,
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
                     ),
                   ),
                 ],
@@ -181,7 +183,7 @@ class _ProFeatureCheck extends StatelessWidget {
           color: AppColors.success,
         ),
         const SizedBox(width: 8),
-        Text(text, style: Theme.of(context).textTheme.bodyMedium),
+        Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyMedium)),
       ],
     );
   }

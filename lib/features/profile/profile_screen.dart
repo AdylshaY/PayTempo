@@ -5,11 +5,21 @@ import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/profile/widgets/profile_account_section.dart';
 import 'package:pay_tempo/features/profile/widgets/settings_widget.dart';
 
-class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
-  final Future<UserSettings?> _settingsFuture =
-      UserSettingsService().getSettings();
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late final Future<UserSettings?> _settingsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _settingsFuture = UserSettingsService().getSettings();
+  }
 
   @override
   Widget build(BuildContext context) {

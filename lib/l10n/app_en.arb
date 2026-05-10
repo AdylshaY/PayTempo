@@ -1,0 +1,104 @@
+{
+  "@@locale": "en",
+  "appTitle": "PayTempo",
+  "settings": "Settings",
+  "settingsSubtitle": "Manage your profile and app settings.",
+  "yourCurrency": "Your Currency",
+  "yourCurrencySubtitle": "Selected currency used for totals and reports.",
+  "appearance": "Appearance",
+  "appearanceSubtitle": "Customize your app theme.",
+  "language": "Language",
+  "languageSubtitle": "Choose your preferred language.",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "languageSystem": "System Default",
+  "guestStatusTitle": "All your data is stored only on this device. Upgrade to Pro to back up your data to the cloud.",
+  "tryPro": "Try PayTempo Pro",
+  "proFeature1": "Cloud backup — safe even when switching devices",
+  "proFeature2": "Advanced analytics — category & trend charts",
+  "proFeature3": "Custom categories & priority support",
+  "viewProPlans": "View Pro Plans",
+  "proActiveTitle": "PayTempo Pro",
+  "proActiveActiveBadge": "Active",
+  "proActiveExpires": "Expires / Renews",
+  "proActivePlan": "Plan",
+  "manageSubscription": "Manage Subscription (App Store / Play Store)",
+  "proFeatureCloudSync": "Cloud Sync Active",
+  "proExpiredTitle": "PayTempo Pro Expired",
+  "proExpiredSubtitle": "Your data is preserved, but cloud sync and advanced analytics have been temporarily disabled.",
+  "expiredLabel": "Expired: ",
+  "renewPro": "Renew PayTempo Pro",
+  "noAccountCreated": "No account created",
+  "payments": "Payments",
+  "paymentsFailedToLoad": "Payments failed to load.",
+  "paymentsCount": "{count} payments",
+  "@paymentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noPaymentsForMonth": "No payments recorded for this month.",
+  "searchSubscription": "Search by subscription name",
+  "showingLast3Months": "Showing last 3 months",
+  "showingFilteredRange": "Showing filtered date range",
+  "clearFilters": "Clear filters",
+  "anyTime": "Any time",
+  "noPaymentsMatchFilter": "No payments match the current filters.",
+  "noPaymentsRecordedYet": "No payments recorded yet.",
+  "recordedLabel": "Recorded",
+  "dashboard": "Dashboard",
+  "subscriptions": "Subscriptions",
+  "profile": "Profile",
+  "anonymousLocalData": "Anonymous · Local Data",
+  "proPlanActive": "Pro Plan · Active",
+  "proExpiredBadge": "Pro Expired",
+  "guestUser": "Guest User",
+  "user": "User",
+  "analytics": "Analytics",
+  "paidThisMonth": "Paid this month",
+  "remainingFromActive": "Remaining: {amount} {currency} from active subscriptions",
+  "@remainingFromActive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "activeSubscriptionsFailed": "Active subscriptions failed to load.",
+  "activeSubscriptions": "Active subscriptions",
+  "noActiveSubscriptions": "No active subscriptions yet.",
+  "totalItems": "{count} total",
+  "@totalItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "paidLabel": "Paid",
+  "alreadyRecordedThisMonth": "You already recorded a payment for this month.",
+  "overdue": "Overdue",
+  "dueToday": "Due today",
+  "dueSoon": "Due soon",
+  "scheduled": "Scheduled",
+  "dueSubtitle": "{price} {currency} • Due {date}",
+  "@dueSubtitle": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  }
+}
