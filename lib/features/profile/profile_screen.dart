@@ -5,6 +5,7 @@ import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/profile/widgets/profile_account_section.dart';
 import 'package:pay_tempo/features/profile/widgets/settings_widget.dart';
 import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -24,7 +25,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.profile),
+      ),
       body: SafeArea(
         bottom: false,
         child: FutureBuilder<UserSettings?>(
