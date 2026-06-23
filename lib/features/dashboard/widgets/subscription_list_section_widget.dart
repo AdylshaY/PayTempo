@@ -8,6 +8,7 @@ import 'package:pay_tempo/features/dashboard/utils/due_date_resolver.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_item_widget.dart';
 import 'package:pay_tempo/features/dashboard/sheets/mark_subscription_paid_sheet.dart';
 import 'package:pay_tempo/features/dashboard/sheets/subscription_detail_sheet.dart';
+import 'package:pay_tempo/features/subscriptions/subscription_manage_screen.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -41,7 +42,7 @@ class SubscriptionListSectionWidget extends StatelessWidget {
     SubscriptionRecord subscription, {
     required bool isPaidThisMonth,
   }) async {
-    await showModalBottomSheet<void>(
+    final bool? shouldManage = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
@@ -54,6 +55,17 @@ class SubscriptionListSectionWidget extends StatelessWidget {
         );
       },
     );
+
+    if (shouldManage == true && context.mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => SubscriptionManageScreen(
+            subscription: subscription,
+            baseCurrency: baseCurrency,
+          ),
+        ),
+      );
+    }
   }
 
   @override

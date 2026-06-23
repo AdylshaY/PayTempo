@@ -1303,6 +1303,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reminders are turned off for this subscription.'**
   String get notificationsDisabledSubtitle;
+
+  /// No description provided for @manageSubscriptionDetailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage & History'**
+  String get manageSubscriptionDetailLabel;
+
+  /// No description provided for @subscriptionManageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription Details'**
+  String get subscriptionManageTitle;
+
+  /// No description provided for @totalSpentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Spent'**
+  String get totalSpentLabel;
+
+  /// No description provided for @editSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Subscription'**
+  String get editSubscription;
+
+  /// No description provided for @deleteSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Subscription'**
+  String get deleteSubscription;
+
+  /// No description provided for @deleteSubscriptionConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this subscription? This will cancel all upcoming reminders and keep payment history as read-only.'**
+  String get deleteSubscriptionConfirm;
+
+  /// No description provided for @subscriptionDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription deleted.'**
+  String get subscriptionDeletedSuccess;
+
+  /// No description provided for @subscriptionUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription updated.'**
+  String get subscriptionUpdatedSuccess;
 }
 
 class _AppLocalizationsDelegate

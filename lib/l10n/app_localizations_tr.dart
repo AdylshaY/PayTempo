@@ -660,4 +660,29 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get notificationsDisabledSubtitle =>
       'Bu abonelik için hatırlatıcılar kapatıldı.';
+
+  @override
+  String get manageSubscriptionDetailLabel => 'Yönetim & Geçmiş';
+
+  @override
+  String get subscriptionManageTitle => 'Abonelik Detayları';
+
+  @override
+  String get totalSpentLabel => 'Toplam Harcama';
+
+  @override
+  String get editSubscription => 'Aboneliği Düzenle';
+
+  @override
+  String get deleteSubscription => 'Aboneliği Sil';
+
+  @override
+  String get deleteSubscriptionConfirm =>
+      'Bu aboneliği silmek istediğinize emin misiniz? Bu işlem yaklaşan tüm hatırlatıcıları iptal eder ve ödeme geçmişini arşivler.';
+
+  @override
+  String get subscriptionDeletedSuccess => 'Abonelik silindi.';
+
+  @override
+  String get subscriptionUpdatedSuccess => 'Abonelik güncellendi.';
 }

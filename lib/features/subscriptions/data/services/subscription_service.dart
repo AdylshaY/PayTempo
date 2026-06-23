@@ -132,6 +132,33 @@ class SubscriptionService {
     });
   }
 
+  Future<void> updateSubscription(SubscriptionRecord existing, SubscriptionDraft draft) async {
+    final DateTime now = DateTime.now();
+
+    existing.name = draft.name.trim();
+    existing.category = draft.category.trim();
+    existing.avatarType = draft.avatarType;
+    existing.avatarEmoji = draft.avatarEmoji;
+    existing.avatarIconCodePoint = draft.avatarIconCodePoint;
+    existing.avatarIconFontFamily = draft.avatarIconFontFamily;
+    existing.avatarIconFontPackage = draft.avatarIconFontPackage;
+    existing.avatarColorValue = draft.avatarColorValue;
+    existing.price = draft.price;
+    existing.currency = draft.currency.toUpperCase();
+    existing.billingCycle = draft.billingCycle;
+    existing.note = draft.note;
+    existing.nextPaymentDate = draft.firstPaymentDate;
+    existing.anchorDay = draft.firstPaymentDate.day;
+    existing.updatedAt = now;
+
+    await _isar.writeTxn(() async {
+      await _isar.subscriptionRecords.put(existing);
+    });
+
+    // Reschedule notifications for the updated configuration
+    await NotificationService.instance.scheduleSubscriptionNotifications(existing);
+  }
+
   Future<List<SubscriptionRecord>> getActiveSubscriptions() {
     return _isar.subscriptionRecords.filter().isDeletedEqualTo(false).findAll();
   }

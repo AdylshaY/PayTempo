@@ -294,6 +294,17 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             // ── Actions ──
             SizedBox(
               width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                icon: const Icon(Icons.settings_outlined),
+                label: Text(l10n.manageSubscriptionDetailLabel),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            SizedBox(
+              width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: isPaidThisMonth
                     ? null

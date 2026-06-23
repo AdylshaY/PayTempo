@@ -5,6 +5,7 @@ import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
+import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/category_service.dart';
@@ -21,11 +22,13 @@ class AddSubscriptionScreen extends StatefulWidget {
   const AddSubscriptionScreen({
     this.initialPriceOverride,
     this.template,
+    this.subscriptionToEdit,
     super.key,
   });
 
   final double? initialPriceOverride;
   final SubscriptionTemplate? template;
+  final SubscriptionRecord? subscriptionToEdit;
 
   @override
   State<AddSubscriptionScreen> createState() => _AddSubscriptionScreenState();
@@ -167,25 +170,55 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
   void initState() {
     super.initState();
     _loadCategoryOptions();
+
+    final SubscriptionRecord? editSub = widget.subscriptionToEdit;
     final SubscriptionTemplate? template = widget.template;
-    if (template == null) {
-      return;
+
+    if (editSub != null) {
+      _nameController.text = editSub.name;
+      _priceController.text = editSub.price.toString();
+      _noteController.text = editSub.note ?? '';
+      _category.value = editSub.category;
+      _avatarType.value = editSub.avatarType ?? 'icon';
+      _selectedEmoji = editSub.avatarEmoji ?? '';
+      _currency.value = editSub.currency;
+      _billingCycle.value = editSub.billingCycle;
+      _firstPaymentDate.value = editSub.nextPaymentDate;
+
+      if (editSub.avatarIconCodePoint != null) {
+        final idx = subscriptionAvatarIcons.indexWhere(
+          (option) => option.icon.codePoint == editSub.avatarIconCodePoint,
+        );
+        _selectedIconIndex.value = idx >= 0 ? idx : 0;
+      }
+
+      if (editSub.avatarColorValue != null) {
+        _selectedColorHex.value = Color(editSub.avatarColorValue!)
+            .toARGB32()
+            .toRadixString(16)
+            .substring(2)
+            .toUpperCase();
+      }
+    } else if (template != null) {
+      _nameController.text = template.title;
+      _category.value = _categoryValueFromTemplate(template.category);
+      _avatarType.value = 'icon';
+      _selectedIconIndex.value = subscriptionAvatarIcons.indexWhere(
+        (SubscriptionAvatarIconOption option) => option.icon == template.icon,
+      );
+      if (_selectedIconIndex.value < 0) {
+        _selectedIconIndex.value = 0;
+      }
+      _selectedColorHex.value = template.brandColor
+          .toARGB32()
+          .toRadixString(16)
+          .substring(2)
+          .toUpperCase();
     }
 
-    _nameController.text = template.title;
-    _category.value = _categoryValueFromTemplate(template.category);
-    _avatarType.value = 'icon';
-    _selectedIconIndex.value = subscriptionAvatarIcons.indexWhere(
-      (SubscriptionAvatarIconOption option) => option.icon == template.icon,
-    );
-    if (_selectedIconIndex.value < 0) {
-      _selectedIconIndex.value = 0;
+    if (widget.initialPriceOverride != null && editSub == null) {
+      _priceController.text = widget.initialPriceOverride!.toString();
     }
-    _selectedColorHex.value = template.brandColor
-        .toARGB32()
-        .toRadixString(16)
-        .substring(2)
-        .toUpperCase();
   }
 
   @override
@@ -252,42 +285,50 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     }
 
     _saving.value = true;
+    final bool isEdit = widget.subscriptionToEdit != null;
 
     try {
-      await _subscriptionService.createSubscription(
-        SubscriptionDraft(
-          name: _serviceName,
-          category: _category.value,
-          avatarType: _avatarTypeForSubmission(),
-          avatarEmoji: !_isTemplateFlow && _avatarType.value == 'emoji'
-              ? _selectedEmoji
-              : null,
-          avatarIconCodePoint: _isTemplateFlow
-              ? _templateAvatarIcon?.codePoint
-              : _avatarType.value == 'icon'
-              ? _selectedAvatarIcon().icon.codePoint
-              : null,
-          avatarIconFontFamily: _isTemplateFlow
-              ? _templateAvatarIcon?.fontFamily
-              : _avatarType.value == 'icon'
-              ? _selectedAvatarIcon().icon.fontFamily
-              : null,
-          avatarIconFontPackage: _isTemplateFlow
-              ? _templateAvatarIcon?.fontPackage
-              : _avatarType.value == 'icon'
-              ? _selectedAvatarIcon().icon.fontPackage
-              : null,
-          avatarColorValue: (_templateAvatarColor ?? _selectedAvatarColor())
-              .toARGB32(),
-          price: parsedPrice,
-          currency: _currency.value,
-          billingCycle: _billingCycle.value,
-          firstPaymentDate: _firstPaymentDate.value,
-          note: _noteController.text.trim().isEmpty
-              ? null
-              : _noteController.text.trim(),
-        ),
+      final draft = SubscriptionDraft(
+        name: _serviceName,
+        category: _category.value,
+        avatarType: _avatarTypeForSubmission(),
+        avatarEmoji: !_isTemplateFlow && _avatarType.value == 'emoji'
+            ? _selectedEmoji
+            : null,
+        avatarIconCodePoint: _isTemplateFlow
+            ? _templateAvatarIcon?.codePoint
+            : _avatarType.value == 'icon'
+            ? _selectedAvatarIcon().icon.codePoint
+            : null,
+        avatarIconFontFamily: _isTemplateFlow
+            ? _templateAvatarIcon?.fontFamily
+            : _avatarType.value == 'icon'
+            ? _selectedAvatarIcon().icon.fontFamily
+            : null,
+        avatarIconFontPackage: _isTemplateFlow
+            ? _templateAvatarIcon?.fontPackage
+            : _avatarType.value == 'icon'
+            ? _selectedAvatarIcon().icon.fontPackage
+            : null,
+        avatarColorValue: (_templateAvatarColor ?? _selectedAvatarColor())
+            .toARGB32(),
+        price: parsedPrice,
+        currency: _currency.value,
+        billingCycle: _billingCycle.value,
+        firstPaymentDate: _firstPaymentDate.value,
+        note: _noteController.text.trim().isEmpty
+            ? null
+            : _noteController.text.trim(),
       );
+
+      if (isEdit) {
+        await _subscriptionService.updateSubscription(
+          widget.subscriptionToEdit!,
+          draft,
+        );
+      } else {
+        await _subscriptionService.createSubscription(draft);
+      }
 
       if (!mounted) {
         return;
@@ -316,7 +357,9 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isTemplateFlow ? l10n.presetServiceSettings : l10n.newSubscription,
+          widget.subscriptionToEdit != null
+              ? l10n.editSubscription
+              : (_isTemplateFlow ? l10n.presetServiceSettings : l10n.newSubscription),
         ),
       ),
       body: SafeArea(

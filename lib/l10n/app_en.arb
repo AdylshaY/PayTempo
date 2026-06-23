@@ -287,6 +287,14 @@
   "notificationsLabel": "Notifications",
   "notificationsSubtitle": "Enable or disable reminders for upcoming bills.",
   "notificationsEnabledSubtitle": "Reminders are scheduled for this subscription.",
-  "notificationsDisabledSubtitle": "Reminders are turned off for this subscription."
+  "notificationsDisabledSubtitle": "Reminders are turned off for this subscription.",
+  "manageSubscriptionDetailLabel": "Manage & History",
+  "subscriptionManageTitle": "Subscription Details",
+  "totalSpentLabel": "Total Spent",
+  "editSubscription": "Edit Subscription",
+  "deleteSubscription": "Delete Subscription",
+  "deleteSubscriptionConfirm": "Are you sure you want to delete this subscription? This will cancel all upcoming reminders and keep payment history as read-only.",
+  "subscriptionDeletedSuccess": "Subscription deleted.",
+  "subscriptionUpdatedSuccess": "Subscription updated."
 }
 

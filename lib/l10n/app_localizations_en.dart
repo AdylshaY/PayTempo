@@ -658,4 +658,29 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notificationsDisabledSubtitle =>
       'Reminders are turned off for this subscription.';
+
+  @override
+  String get manageSubscriptionDetailLabel => 'Manage & History';
+
+  @override
+  String get subscriptionManageTitle => 'Subscription Details';
+
+  @override
+  String get totalSpentLabel => 'Total Spent';
+
+  @override
+  String get editSubscription => 'Edit Subscription';
+
+  @override
+  String get deleteSubscription => 'Delete Subscription';
+
+  @override
+  String get deleteSubscriptionConfirm =>
+      'Are you sure you want to delete this subscription? This will cancel all upcoming reminders and keep payment history as read-only.';
+
+  @override
+  String get subscriptionDeletedSuccess => 'Subscription deleted.';
+
+  @override
+  String get subscriptionUpdatedSuccess => 'Subscription updated.';
 }

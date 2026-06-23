@@ -200,6 +200,14 @@
   "notificationsLabel": "Bildirimler",
   "notificationsSubtitle": "Yaklaşan ödemeler için hatırlatıcıları açın veya kapatın.",
   "notificationsEnabledSubtitle": "Bu abonelik için hatırlatıcılar planlandı.",
-  "notificationsDisabledSubtitle": "Bu abonelik için hatırlatıcılar kapatıldı."
+  "notificationsDisabledSubtitle": "Bu abonelik için hatırlatıcılar kapatıldı.",
+  "manageSubscriptionDetailLabel": "Yönetim & Geçmiş",
+  "subscriptionManageTitle": "Abonelik Detayları",
+  "totalSpentLabel": "Toplam Harcama",
+  "editSubscription": "Aboneliği Düzenle",
+  "deleteSubscription": "Aboneliği Sil",
+  "deleteSubscriptionConfirm": "Bu aboneliği silmek istediğinize emin misiniz? Bu işlem yaklaşan tüm hatırlatıcıları iptal eder ve ödeme geçmişini arşivler.",
+  "subscriptionDeletedSuccess": "Abonelik silindi.",
+  "subscriptionUpdatedSuccess": "Abonelik güncellendi."
 }
 
