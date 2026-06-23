@@ -3,6 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
+import 'package:pay_tempo/data/local/models/custom_category.dart';
 
 class LocalDatabase {
   LocalDatabase._();
@@ -23,7 +24,9 @@ class LocalDatabase {
         UserSettingsSchema,
         SubscriptionRecordSchema,
         PaymentTransactionSchema,
+        CustomCategorySchema,
       ],
+
       directory: appSupportDir.path,
       name: 'paytempo',
     );

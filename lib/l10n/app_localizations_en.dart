@@ -569,4 +569,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get potentialSavingsDesc =>
       'Consider switching monthly subscriptions to yearly billing to save up to 20% annually.';
+
+  @override
+  String get manageCategories => 'Custom Categories';
+
+  @override
+  String get manageCategoriesSubtitle =>
+      'Add or remove custom subscription categories.';
+
+  @override
+  String get addCategory => 'Add Category';
+
+  @override
+  String get deleteCategory => 'Delete Category';
+
+  @override
+  String get deleteCategoryConfirm =>
+      'Are you sure you want to delete this category? Subscriptions using it will keep their category name but will fall back to a default icon.';
+
+  @override
+  String get categoryNameLabel => 'Category Name';
+
+  @override
+  String get categoryNameRequired => 'Category name is required.';
+
+  @override
+  String get categoryNameMinLength => 'Name must be at least 2 characters.';
+
+  @override
+  String get categoryNameExists => 'A category with this name already exists.';
+
+  @override
+  String get addCategoryLabel => 'Add Custom Category';
+
+  @override
+  String get categoryIconLabel => 'Select Icon';
+
+  @override
+  String get categorySavedSuccess => 'Category created successfully.';
+
+  @override
+  String get failedToSaveCategory => 'Failed to create category.';
+
+  @override
+  String get categoryDeletedSuccess => 'Category deleted.';
+
+  @override
+  String get noCustomCategoriesYet =>
+      'No custom categories created yet. Tap \'+\' to add one.';
 }

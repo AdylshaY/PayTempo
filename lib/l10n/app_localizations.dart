@@ -1153,6 +1153,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Consider switching monthly subscriptions to yearly billing to save up to 20% annually.'**
   String get potentialSavingsDesc;
+
+  /// No description provided for @manageCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Categories'**
+  String get manageCategories;
+
+  /// No description provided for @manageCategoriesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add or remove custom subscription categories.'**
+  String get manageCategoriesSubtitle;
+
+  /// No description provided for @addCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Category'**
+  String get addCategory;
+
+  /// No description provided for @deleteCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Category'**
+  String get deleteCategory;
+
+  /// No description provided for @deleteCategoryConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this category? Subscriptions using it will keep their category name but will fall back to a default icon.'**
+  String get deleteCategoryConfirm;
+
+  /// No description provided for @categoryNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Name'**
+  String get categoryNameLabel;
+
+  /// No description provided for @categoryNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Category name is required.'**
+  String get categoryNameRequired;
+
+  /// No description provided for @categoryNameMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at least 2 characters.'**
+  String get categoryNameMinLength;
+
+  /// No description provided for @categoryNameExists.
+  ///
+  /// In en, this message translates to:
+  /// **'A category with this name already exists.'**
+  String get categoryNameExists;
+
+  /// No description provided for @addCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Custom Category'**
+  String get addCategoryLabel;
+
+  /// No description provided for @categoryIconLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Icon'**
+  String get categoryIconLabel;
+
+  /// No description provided for @categorySavedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Category created successfully.'**
+  String get categorySavedSuccess;
+
+  /// No description provided for @failedToSaveCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create category.'**
+  String get failedToSaveCategory;
+
+  /// No description provided for @categoryDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Category deleted.'**
+  String get categoryDeletedSuccess;
+
+  /// No description provided for @noCustomCategoriesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom categories created yet. Tap \'+\' to add one.'**
+  String get noCustomCategoriesYet;
 }
 
 class _AppLocalizationsDelegate

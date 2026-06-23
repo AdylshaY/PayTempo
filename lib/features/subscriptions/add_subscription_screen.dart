@@ -3,14 +3,18 @@ import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
+import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
+import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
+import 'package:pay_tempo/features/subscriptions/data/services/category_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_emojis.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_options.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_templates.dart';
 import 'package:pay_tempo/features/subscriptions/models/add_subscription_avatar_selection_model.dart';
 import 'package:pay_tempo/features/subscriptions/sheets/add_subscription_avatar_selection_sheet.dart';
+import 'package:pay_tempo/features/subscriptions/sheets/add_custom_category_sheet.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 
 class AddSubscriptionScreen extends StatefulWidget {
@@ -150,9 +154,19 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     });
   }
 
+  List<SubscriptionCategoryOption> _categoryOptions = [];
+
+  Future<void> _loadCategoryOptions() async {
+    final list = await CategoryService.instance.getAllCategoryOptions();
+    setState(() {
+      _categoryOptions = list;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadCategoryOptions();
     final SubscriptionTemplate? template = widget.template;
     if (template == null) {
       return;
@@ -376,23 +390,76 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
               ValueListenableBuilder<String>(
                 valueListenable: _category,
                 builder: (BuildContext context, String selectedCategory, _) {
+                  final List<DropdownMenuEntry<String>> dropdownEntries = _categoryOptions
+                      .map(
+                        (item) => DropdownMenuEntry<String>(
+                          value: item.value,
+                          label: getCategoryLabel(item.value, l10n),
+                          leadingIcon: Icon(item.icon, size: 18),
+                        ),
+                      )
+                      .toList();
+
+                  // Append "+ Add Custom Category" option at the bottom
+                  dropdownEntries.add(
+                    DropdownMenuEntry<String>(
+                      value: '_add_custom_',
+                      label: '+ ${l10n.addCategory}',
+                      leadingIcon: const Icon(Icons.add_rounded, size: 18),
+                    ),
+                  );
+
                   return AppDropdownFieldWidget<String>(
+                    key: ValueKey<String>('${selectedCategory}_${_categoryOptions.length}'),
                     initialSelection: selectedCategory,
                     labelText: l10n.categoryLabel,
-                    entries: subscriptionCategories
-                        .map(
-                          (item) => DropdownMenuEntry<String>(
-                            value: item.value,
-                            label: getCategoryLabel(item.value, l10n),
-                            leadingIcon: Icon(item.icon, size: 18),
-                          ),
-                        )
-                        .toList(growable: false),
-                    onSelected: (String? value) {
+                    entries: dropdownEntries,
+                    onSelected: (String? value) async {
                       if (value == null) {
                         return;
                       }
-                      _category.value = value;
+
+                      if (value == '_add_custom_') {
+                        // Check if user is Pro
+                        final userSettings = await UserSettingsService().getSettings();
+                        final bool isPro = userSettings?.isPro ?? false;
+
+                        if (!context.mounted) return;
+
+                        if (!isPro) {
+                          // Revert value notifier to trigger rebuild and keep visually selected category correct
+                          _category.value = _category.value;
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const ProUpgradeScreen(),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Open custom category creator
+                        final bool? added = await showModalBottomSheet<bool>(
+                          context: context,
+                          isScrollControlled: true,
+                          showDragHandle: true,
+                          builder: (BuildContext context) {
+                            return const AddCustomCategorySheet();
+                          },
+                        );
+
+                        if (added == true && context.mounted) {
+                          await _loadCategoryOptions();
+                          final newCat = CategoryService.instance.cachedCustomCategories.firstOrNull;
+                          if (newCat != null) {
+                            _category.value = newCat.name;
+                          }
+                        } else {
+                          // User cancelled sheet, revert selection to previous value
+                          _category.value = _category.value;
+                        }
+                      } else {
+                        _category.value = value;
+                      }
                     },
                   );
                 },

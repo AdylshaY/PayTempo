@@ -236,5 +236,21 @@
   "monthlyCycleLabel": "Monthly",
   "yearlyCycleLabel": "Yearly",
   "potentialSavingsTitle": "Optimize Savings",
-  "potentialSavingsDesc": "Consider switching monthly subscriptions to yearly billing to save up to 20% annually."
+  "potentialSavingsDesc": "Consider switching monthly subscriptions to yearly billing to save up to 20% annually.",
+  "manageCategories": "Custom Categories",
+  "manageCategoriesSubtitle": "Add or remove custom subscription categories.",
+  "addCategory": "Add Category",
+  "deleteCategory": "Delete Category",
+  "deleteCategoryConfirm": "Are you sure you want to delete this category? Subscriptions using it will keep their category name but will fall back to a default icon.",
+  "categoryNameLabel": "Category Name",
+  "categoryNameRequired": "Category name is required.",
+  "categoryNameMinLength": "Name must be at least 2 characters.",
+  "categoryNameExists": "A category with this name already exists.",
+  "addCategoryLabel": "Add Custom Category",
+  "categoryIconLabel": "Select Icon",
+  "categorySavedSuccess": "Category created successfully.",
+  "failedToSaveCategory": "Failed to create category.",
+  "categoryDeletedSuccess": "Category deleted.",
+  "noCustomCategoriesYet": "No custom categories created yet. Tap '+' to add one."
 }
+

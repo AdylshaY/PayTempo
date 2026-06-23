@@ -6,6 +6,7 @@ import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/navigation/app_shell_screen.dart';
 import 'package:pay_tempo/features/onboarding/onboarding_screen.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
+import 'package:pay_tempo/features/subscriptions/data/services/category_service.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
@@ -13,7 +14,9 @@ import 'package:pay_tempo/l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalDatabase.instance.open();
+  await CategoryService.instance.initialize();
   await UserSettingsService().initializeSettings();
+
 
   // Fetch exchange rates before UI loads so conversions are available.
   // Wrapped in a timeout to avoid blocking startup on slow/no internet.

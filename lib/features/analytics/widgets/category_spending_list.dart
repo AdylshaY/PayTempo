@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
+import 'package:pay_tempo/features/subscriptions/data/services/category_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 import 'donut_chart_painter.dart';
 
@@ -22,34 +23,12 @@ class CategorySpendingList extends StatelessWidget {
 
     final double totalAmount = dataList.fold(0.0, (sum, item) => sum + item.amount);
 
-    IconData getCategoryIcon(String category) {
-      switch (category.toLowerCase()) {
-        case 'streaming':
-          return Icons.movie_creation_outlined;
-        case 'music':
-          return Icons.music_note_rounded;
-        case 'video':
-          return Icons.play_circle_fill_rounded;
-        case 'cloud':
-          return Icons.cloud_outlined;
-        case 'ai':
-          return Icons.smart_toy_outlined;
-        case 'productivity':
-          return Icons.workspaces_outline;
-        case 'gaming':
-          return Icons.sports_esports_outlined;
-        case 'news':
-          return Icons.newspaper_outlined;
-        default:
-          return Icons.category_outlined;
-      }
-    }
-
     return Column(
       children: dataList.map((data) {
         final double percentage = totalAmount > 0 ? (data.amount / totalAmount) : 0.0;
         final String localizedName = getCategoryLabel(data.category, l10n);
-        final icon = getCategoryIcon(data.category);
+        final icon = CategoryService.instance.getIconForCategory(data.category);
+
         
         return Padding(
           padding: const EdgeInsets.only(bottom: AppSpacing.sm),

@@ -175,5 +175,21 @@
   "monthlyCycleLabel": "Aylık",
   "yearlyCycleLabel": "Yıllık",
   "potentialSavingsTitle": "Tasarruf Fırsatlarını Yakala",
-  "potentialSavingsDesc": "Aylık aboneliklerinizi yıllık ödemeye geçirerek yılda yaklaşık %20 tasarruf edebilirsiniz."
+  "potentialSavingsDesc": "Aylık aboneliklerinizi yıllık ödemeye geçirerek yılda yaklaşık %20 tasarruf edebilirsiniz.",
+  "manageCategories": "Özel Kategoriler",
+  "manageCategoriesSubtitle": "Özel abonelik kategorileri ekleyin veya silin.",
+  "addCategory": "Kategori Ekle",
+  "deleteCategory": "Kategoriyi Sil",
+  "deleteCategoryConfirm": "Bu kategoriyi silmek istediğinize emin misiniz? Bu kategoriyi kullanan abonelikler kategori ismini korur ancak varsayılan simgeye döner.",
+  "categoryNameLabel": "Kategori Adı",
+  "categoryNameRequired": "Kategori adı zorunludur.",
+  "categoryNameMinLength": "Kategori adı en az 2 karakter olmalıdır.",
+  "categoryNameExists": "Bu isimde bir kategori zaten mevcut.",
+  "addCategoryLabel": "Özel Kategori Ekle",
+  "categoryIconLabel": "Simge Seçin",
+  "categorySavedSuccess": "Kategori başarıyla oluşturuldu.",
+  "failedToSaveCategory": "Kategori oluşturulamadı.",
+  "categoryDeletedSuccess": "Kategori silindi.",
+  "noCustomCategoriesYet": "Henüz özel kategori eklenmedi. Eklemek için '+' simgesine dokunun."
 }
+

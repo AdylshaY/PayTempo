@@ -3,6 +3,8 @@ import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
+import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
+import 'package:pay_tempo/features/subscriptions/manage_categories_screen.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class SettingsWidget extends StatefulWidget {
@@ -292,6 +294,40 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   ],
                 );
               },
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Card(
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: 4,
+                ),
+                leading: const Icon(Icons.category_outlined),
+                title: Text(l10n.manageCategories),
+                subtitle: Text(
+                  l10n.manageCategoriesSubtitle,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () {
+                  final bool isPro = snapshot.data?.isPro ?? false;
+                  if (!isPro) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ProUpgradeScreen(),
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ManageCategoriesScreen(),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         );

@@ -570,4 +570,53 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get potentialSavingsDesc =>
       'Aylık aboneliklerinizi yıllık ödemeye geçirerek yılda yaklaşık %20 tasarruf edebilirsiniz.';
+
+  @override
+  String get manageCategories => 'Özel Kategoriler';
+
+  @override
+  String get manageCategoriesSubtitle =>
+      'Özel abonelik kategorileri ekleyin veya silin.';
+
+  @override
+  String get addCategory => 'Kategori Ekle';
+
+  @override
+  String get deleteCategory => 'Kategoriyi Sil';
+
+  @override
+  String get deleteCategoryConfirm =>
+      'Bu kategoriyi silmek istediğinize emin misiniz? Bu kategoriyi kullanan abonelikler kategori ismini korur ancak varsayılan simgeye döner.';
+
+  @override
+  String get categoryNameLabel => 'Kategori Adı';
+
+  @override
+  String get categoryNameRequired => 'Kategori adı zorunludur.';
+
+  @override
+  String get categoryNameMinLength =>
+      'Kategori adı en az 2 karakter olmalıdır.';
+
+  @override
+  String get categoryNameExists => 'Bu isimde bir kategori zaten mevcut.';
+
+  @override
+  String get addCategoryLabel => 'Özel Kategori Ekle';
+
+  @override
+  String get categoryIconLabel => 'Simge Seçin';
+
+  @override
+  String get categorySavedSuccess => 'Kategori başarıyla oluşturuldu.';
+
+  @override
+  String get failedToSaveCategory => 'Kategori oluşturulamadı.';
+
+  @override
+  String get categoryDeletedSuccess => 'Kategori silindi.';
+
+  @override
+  String get noCustomCategoriesYet =>
+      'Henüz özel kategori eklenmedi. Eklemek için \'+\' simgesine dokunun.';
 }
