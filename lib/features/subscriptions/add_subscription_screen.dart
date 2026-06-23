@@ -404,7 +404,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                   dropdownEntries.add(
                     DropdownMenuEntry<String>(
                       value: '_add_custom_',
-                      label: '+ ${l10n.addCategory}',
+                      label: l10n.addCategory,
                       leadingIcon: const Icon(Icons.add_rounded, size: 18),
                     ),
                   );
