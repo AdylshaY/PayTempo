@@ -231,4 +231,292 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noteHint => 'Example: Spouse\'s line, personal account';
+
+  @override
+  String get categoryStreaming => 'Streaming';
+
+  @override
+  String get categoryMusic => 'Music';
+
+  @override
+  String get categoryVideo => 'Video';
+
+  @override
+  String get categoryCloud => 'Cloud';
+
+  @override
+  String get categoryAi => 'AI';
+
+  @override
+  String get categoryProductivity => 'Productivity';
+
+  @override
+  String get categoryGaming => 'Gaming';
+
+  @override
+  String get categoryNews => 'News';
+
+  @override
+  String get currencyTRY => 'Turkish Lira';
+
+  @override
+  String get currencyUSD => 'US Dollar';
+
+  @override
+  String get currencyEUR => 'Euro';
+
+  @override
+  String get currencyGBP => 'British Pound';
+
+  @override
+  String get currencyJPY => 'Japanese Yen';
+
+  @override
+  String get currencyCNY => 'Chinese Yuan';
+
+  @override
+  String get currencyCAD => 'Canadian Dollar';
+
+  @override
+  String get currencyAUD => 'Australian Dollar';
+
+  @override
+  String get currencyCHF => 'Swiss Franc';
+
+  @override
+  String get presetServiceSettings => 'Preset Service Settings';
+
+  @override
+  String get newSubscription => 'New Subscription';
+
+  @override
+  String get avatarLabel => 'Avatar';
+
+  @override
+  String get presetAvatarDesc =>
+      'This is a preset avatar based on the selected service.';
+
+  @override
+  String get tapToSelectAvatarDesc => 'Tap to select an icon, emoji, or color.';
+
+  @override
+  String get categoryLabel => 'Category';
+
+  @override
+  String get priceLabel => 'Price';
+
+  @override
+  String get priceHint => 'Example: 9.99';
+
+  @override
+  String get priceRequired => 'Price is required.';
+
+  @override
+  String get currencyLabel => 'Currency';
+
+  @override
+  String get monthlyLabel => 'Monthly';
+
+  @override
+  String get yearlyLabel => 'Yearly';
+
+  @override
+  String get firstPaymentDateLabel => 'First Payment Date';
+
+  @override
+  String get saveSubscriptionLabel => 'Save Subscription';
+
+  @override
+  String get enterValidAmount => 'Please enter a valid amount.';
+
+  @override
+  String get failedToSaveSubscription =>
+      'Failed to save subscription. Please try again.';
+
+  @override
+  String get presetServicesTitle => 'Preset Services';
+
+  @override
+  String get pickServiceSubtitle =>
+      'Pick a service. You can enter the price on the next form screen.';
+
+  @override
+  String get addManuallyLabel => 'Add Manually';
+
+  @override
+  String get iconTabLabel => 'Icon';
+
+  @override
+  String get emojiTabLabel => 'Emoji';
+
+  @override
+  String get colorPaletteTitle => 'Color Palette';
+
+  @override
+  String get iconSelectionTitle => 'Icon Selection';
+
+  @override
+  String get selectEmojiTitle => 'Select Emoji';
+
+  @override
+  String get saveSelectionLabel => 'Save Selection';
+
+  @override
+  String get changeCurrencyTitle => 'Change currency';
+
+  @override
+  String get changeDisplayCurrencyTitle => 'Change display currency?';
+
+  @override
+  String confirmChangeCurrencyContent(String newCurrency) {
+    return 'Your base currency will change to $newCurrency. All past payments will be recalculated using the historical exchange rate from the date they were recorded.';
+  }
+
+  @override
+  String get cancelButtonLabel => 'Cancel';
+
+  @override
+  String get changeButtonLabel => 'Change';
+
+  @override
+  String currencyChangedSuccess(String newCurrency, int count) {
+    return 'Currency changed to $newCurrency. $count payments recalculated.';
+  }
+
+  @override
+  String get failedToChangeCurrency =>
+      'Failed to change currency. Please try again.';
+
+  @override
+  String get baseCurrencyTitle => 'Base Currency';
+
+  @override
+  String get selectBaseCurrencyDesc =>
+      'Please select your base currency. This will be used for all calculations and displays in the app.';
+
+  @override
+  String get failedToSaveBaseCurrency =>
+      'Base currency could not be saved. Please try again.';
+
+  @override
+  String get selectBaseCurrencyHint => 'Select base currency';
+
+  @override
+  String get warningBannerText =>
+      'Warning: This selection cannot be changed later. Please choose carefully.';
+
+  @override
+  String get continueButtonLabel => 'Continue';
+
+  @override
+  String get filterPaymentsTitle => 'Filter payments';
+
+  @override
+  String get fromDateLabel => 'From date';
+
+  @override
+  String get toDateLabel => 'To date';
+
+  @override
+  String get clearLabel => 'Clear';
+
+  @override
+  String get applyLabel => 'Apply';
+
+  @override
+  String get markAsPaid => 'Mark as paid';
+
+  @override
+  String get markPaidSuccess =>
+      'This subscription is already marked paid for this month.';
+
+  @override
+  String get markPaidFailed => 'Failed to record payment. Please try again.';
+
+  @override
+  String get paymentDateLabel => 'Payment date';
+
+  @override
+  String get amountLabel => 'Amount';
+
+  @override
+  String get savePaymentLabel => 'Save payment';
+
+  @override
+  String get equivalentLabel => 'Equivalent';
+
+  @override
+  String get billingCycleLabel => 'Billing cycle';
+
+  @override
+  String get nextPaymentLabel => 'Next payment';
+
+  @override
+  String get anchorDayLabel => 'Anchor day';
+
+  @override
+  String get alreadyPaidThisMonth => 'Already paid this month';
+
+  @override
+  String get recentPaymentsTitle => 'Recent payments';
+
+  @override
+  String countRecorded(int count) {
+    return '$count recorded';
+  }
+
+  @override
+  String get weeklyLabel => 'Weekly';
+
+  @override
+  String get quarterlyLabel => 'Quarterly';
+
+  @override
+  String get paymentsMadeTitle => 'Payments made';
+
+  @override
+  String get noPaymentsRecordedThisMonth =>
+      'No payments were recorded this month yet.';
+
+  @override
+  String get paymentsCompletedDesc =>
+      'Completed payments for the current month.';
+
+  @override
+  String get unknownSubscriptionLabel => 'Unknown subscription';
+
+  @override
+  String get upgradeToProTitle => 'Upgrade to Pro';
+
+  @override
+  String get proBenefitsTitle => 'Pro Benefits';
+
+  @override
+  String get proBenefit1 => 'Cloud backup for your local data';
+
+  @override
+  String get proBenefit2 => 'Sync across your devices';
+
+  @override
+  String get proBenefit3 => 'Safer recovery when switching phones';
+
+  @override
+  String get proOfflineDisclaimer =>
+      'Your current app keeps working fully offline. Pro only adds optional sync and backup.';
+
+  @override
+  String get proUpgradeSoon => 'Pro purchase flow will be available soon.';
+
+  @override
+  String get continueToProLabel => 'Continue to Pro';
+
+  @override
+  String get analyticsScreenPlaceholder => 'Analytics Screen';
+
+  @override
+  String get thisMonth => 'This Month';
+
+  @override
+  String get thisMonthSubtitle =>
+      'See what is expected and what has already been paid.';
 }

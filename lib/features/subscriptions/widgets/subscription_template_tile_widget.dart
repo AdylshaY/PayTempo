@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_templates.dart';
+import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class SubscriptionTemplateTile extends StatelessWidget {
   const SubscriptionTemplateTile({
@@ -15,6 +17,7 @@ class SubscriptionTemplateTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Material(
       color: Theme.of(context).cardColor,
@@ -62,7 +65,7 @@ class SubscriptionTemplateTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
-                  template.category,
+                  getCategoryLabel(template.category, l10n),
                   style: textTheme.bodySmall?.copyWith(
                     color: AppColors.textSecondary,
                   ),

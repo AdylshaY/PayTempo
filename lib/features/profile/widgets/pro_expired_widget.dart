@@ -16,7 +16,10 @@ class ProExpiredWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final price = settings?.proPriceDisplay ?? '\$29.99';
-    final planType = settings?.proPlanType ?? 'year';
+    final String rawPlanType = settings?.proPlanType ?? 'year';
+    final String planType = rawPlanType.toLowerCase() == 'monthly' || rawPlanType.toLowerCase() == 'month'
+        ? (l10n.localeName == 'tr' ? 'ay' : 'month')
+        : (l10n.localeName == 'tr' ? 'yıl' : 'year');
 
     return Card(
       child: Container(
@@ -91,7 +94,7 @@ class ProExpiredWidget extends StatelessWidget {
                             TextSpan(
                               text:
                                   settings?.proExpiryDate
-                                      ?.toMonthDayYearCommaLabel() ??
+                                      ?.toMonthDayYearCommaLabel(l10n.localeName) ??
                                   '—',
                               style: const TextStyle(
                                 color: AppColors.error,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class PaymentsFilterSheet extends StatefulWidget {
   const PaymentsFilterSheet({
@@ -73,6 +74,8 @@ class _PaymentsFilterSheetState extends State<PaymentsFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -86,24 +89,24 @@ class _PaymentsFilterSheetState extends State<PaymentsFilterSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Filter payments',
+              l10n.filterPaymentsTitle,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: AppSpacing.sm),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('From date'),
+              title: Text(l10n.fromDateLabel),
               subtitle: Text(
-                _fromDate == null ? 'Any time' : _fromDate!.toFullDateLabel(),
+                _fromDate == null ? l10n.anyTime : _fromDate!.toFullDateLabel(l10n.localeName),
               ),
               trailing: const Icon(Icons.calendar_month_outlined),
               onTap: _pickFromDate,
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('To date'),
+              title: Text(l10n.toDateLabel),
               subtitle: Text(
-                _toDate == null ? 'Any time' : _toDate!.toFullDateLabel(),
+                _toDate == null ? l10n.anyTime : _toDate!.toFullDateLabel(l10n.localeName),
               ),
               trailing: const Icon(Icons.calendar_month_outlined),
               onTap: _pickToDate,
@@ -116,7 +119,7 @@ class _PaymentsFilterSheetState extends State<PaymentsFilterSheet> {
                     onPressed: () => Navigator.of(
                       context,
                     ).pop((fromDate: null, toDate: null)),
-                    child: const Text('Clear'),
+                    child: Text(l10n.clearLabel),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
@@ -125,7 +128,7 @@ class _PaymentsFilterSheetState extends State<PaymentsFilterSheet> {
                     onPressed: () => Navigator.of(
                       context,
                     ).pop((fromDate: _fromDate, toDate: _toDate)),
-                    child: const Text('Apply'),
+                    child: Text(l10n.applyLabel),
                   ),
                 ),
               ],

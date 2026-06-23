@@ -4,6 +4,7 @@ import 'package:pay_tempo/features/subscriptions/add_subscription_screen.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_templates.dart';
 import 'package:pay_tempo/features/subscriptions/models/subscription_template_selection_model.dart';
 import 'package:pay_tempo/features/subscriptions/widgets/subscription_template_tile_widget.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 Future<bool?> showSubscriptionTemplateBottomSheet(BuildContext context) async {
   final TemplateSelection? selection =
@@ -48,6 +49,7 @@ class _SubscriptionTemplateBottomSheetState
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
       top: false,
@@ -62,10 +64,10 @@ class _SubscriptionTemplateBottomSheetState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Preset Services', style: textTheme.headlineMedium),
+            Text(l10n.presetServicesTitle, style: textTheme.headlineMedium),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              'Pick a service. You can enter the price on the next form screen.',
+              l10n.pickServiceSubtitle,
               style: textTheme.bodyMedium?.copyWith(
                 color: AppColors.textSecondary,
               ),
@@ -104,7 +106,7 @@ class _SubscriptionTemplateBottomSheetState
                   Navigator.of(context).pop(const TemplateSelection.manual());
                 },
                 icon: const Icon(Icons.edit_outlined),
-                label: const Text('Add Manually'),
+                label: Text(l10n.addManuallyLabel),
               ),
             ),
           ],

@@ -55,15 +55,16 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Change currency',
+                  AppLocalizations.of(sheetContext)!.changeCurrencyTitle,
                   style: Theme.of(sheetContext).textTheme.headlineMedium,
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 ...onboardingCurrencies.map((OnboardingCurrency currency) {
+                  final l10n = AppLocalizations.of(sheetContext)!;
                   final bool isSelected =
                       currency.code.toUpperCase() == currentCurrency;
                   return ListTile(
-                    title: Text(currency.label),
+                    title: Text(getCurrencyLabel(currency.code, l10n)),
                     trailing: Text(
                       currency.code,
                       style:
@@ -100,24 +101,23 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   }
 
   Future<void> _confirmAndChangeCurrency(String newCurrency) async {
+    final l10n = AppLocalizations.of(context)!;
     final bool? confirmed = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: const Text('Change display currency?'),
+          title: Text(l10n.changeDisplayCurrencyTitle),
           content: Text(
-            'Your base currency will change to $newCurrency. '
-            'All past payments will be recalculated using the '
-            'historical exchange rate from the date they were recorded.',
+            l10n.confirmChangeCurrencyContent(newCurrency),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancelButtonLabel),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Change'),
+              child: Text(l10n.changeButtonLabel),
             ),
           ],
         );
@@ -143,8 +143,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Currency changed to $newCurrency. '
-            '$count payment${count == 1 ? '' : 's'} recalculated.',
+            l10n.currencyChangedSuccess(newCurrency, count),
           ),
         ),
       );
@@ -154,8 +153,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to change currency. Please try again.'),
+        SnackBar(
+          content: Text(l10n.failedToChangeCurrency),
         ),
       );
     } finally {

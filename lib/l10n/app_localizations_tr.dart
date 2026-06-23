@@ -233,4 +233,291 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get noteHint => 'Örnek: Eşimin hattı, kişisel hesap';
+
+  @override
+  String get categoryStreaming => 'Akış';
+
+  @override
+  String get categoryMusic => 'Müzik';
+
+  @override
+  String get categoryVideo => 'Video';
+
+  @override
+  String get categoryCloud => 'Bulut';
+
+  @override
+  String get categoryAi => 'Yapay Zeka';
+
+  @override
+  String get categoryProductivity => 'Verimlilik';
+
+  @override
+  String get categoryGaming => 'Oyun';
+
+  @override
+  String get categoryNews => 'Haber';
+
+  @override
+  String get currencyTRY => 'Türk Lirası';
+
+  @override
+  String get currencyUSD => 'Amerikan Doları';
+
+  @override
+  String get currencyEUR => 'Euro';
+
+  @override
+  String get currencyGBP => 'İngiliz Sterlini';
+
+  @override
+  String get currencyJPY => 'Japon Yeni';
+
+  @override
+  String get currencyCNY => 'Çin Yuanı';
+
+  @override
+  String get currencyCAD => 'Kanada Doları';
+
+  @override
+  String get currencyAUD => 'Avustralya Doları';
+
+  @override
+  String get currencyCHF => 'İsviçre Frangı';
+
+  @override
+  String get presetServiceSettings => 'Hazır Servis Ayarları';
+
+  @override
+  String get newSubscription => 'Yeni Abonelik';
+
+  @override
+  String get avatarLabel => 'Profil Resmi';
+
+  @override
+  String get presetAvatarDesc =>
+      'Bu, seçilen servise dayalı hazır bir profil resmidir.';
+
+  @override
+  String get tapToSelectAvatarDesc =>
+      'Bir simge, emoji veya renk seçmek için dokunun.';
+
+  @override
+  String get categoryLabel => 'Kategori';
+
+  @override
+  String get priceLabel => 'Fiyat';
+
+  @override
+  String get priceHint => 'Örnek: 9.99';
+
+  @override
+  String get priceRequired => 'Fiyat alanı zorunludur.';
+
+  @override
+  String get currencyLabel => 'Para Birimi';
+
+  @override
+  String get monthlyLabel => 'Aylık';
+
+  @override
+  String get yearlyLabel => 'Yıllık';
+
+  @override
+  String get firstPaymentDateLabel => 'İlk Ödeme Tarihi';
+
+  @override
+  String get saveSubscriptionLabel => 'Aboneliği Kaydet';
+
+  @override
+  String get enterValidAmount => 'Lütfen geçerli bir tutar girin.';
+
+  @override
+  String get failedToSaveSubscription =>
+      'Abonelik kaydedilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get presetServicesTitle => 'Hazır Servisler';
+
+  @override
+  String get pickServiceSubtitle =>
+      'Bir servis seçin. Fiyatı bir sonraki ekranda girebilirsiniz.';
+
+  @override
+  String get addManuallyLabel => 'Manuel Ekle';
+
+  @override
+  String get iconTabLabel => 'Simge';
+
+  @override
+  String get emojiTabLabel => 'Emoji';
+
+  @override
+  String get colorPaletteTitle => 'Renk Paleti';
+
+  @override
+  String get iconSelectionTitle => 'Simge Seçimi';
+
+  @override
+  String get selectEmojiTitle => 'Emoji Seçin';
+
+  @override
+  String get saveSelectionLabel => 'Seçimi Kaydet';
+
+  @override
+  String get changeCurrencyTitle => 'Para birimini değiştir';
+
+  @override
+  String get changeDisplayCurrencyTitle =>
+      'Görüntüleme para birimi değiştirilsin mi?';
+
+  @override
+  String confirmChangeCurrencyContent(String newCurrency) {
+    return 'Temel para biriminiz $newCurrency olarak değiştirilecek. Tüm geçmiş ödemeler, kaydedildikleri tarihteki geçmiş döviz kuru kullanılarak yeniden hesaplanacaktır.';
+  }
+
+  @override
+  String get cancelButtonLabel => 'İptal';
+
+  @override
+  String get changeButtonLabel => 'Değiştir';
+
+  @override
+  String currencyChangedSuccess(String newCurrency, int count) {
+    return 'Para birimi $newCurrency olarak değiştirildi. $count ödeme yeniden hesaplandı.';
+  }
+
+  @override
+  String get failedToChangeCurrency =>
+      'Para birimi değiştirilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get baseCurrencyTitle => 'Ana Para Birimi';
+
+  @override
+  String get selectBaseCurrencyDesc =>
+      'Lütfen ana para biriminizi seçin. Bu, uygulamadaki tüm hesaplamalar ve gösterimler için kullanılacaktır.';
+
+  @override
+  String get failedToSaveBaseCurrency =>
+      'Ana para birimi kaydedilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get selectBaseCurrencyHint => 'Ana para birimi seçin';
+
+  @override
+  String get warningBannerText =>
+      'Uyarı: Bu seçim daha sonra değiştirilemez. Lütfen dikkatli seçin.';
+
+  @override
+  String get continueButtonLabel => 'Devam Et';
+
+  @override
+  String get filterPaymentsTitle => 'Ödemeleri Filtrele';
+
+  @override
+  String get fromDateLabel => 'Başlangıç Tarihi';
+
+  @override
+  String get toDateLabel => 'Bitiş Tarihi';
+
+  @override
+  String get clearLabel => 'Temizle';
+
+  @override
+  String get applyLabel => 'Uygula';
+
+  @override
+  String get markAsPaid => 'Ödendi olarak işaretle';
+
+  @override
+  String get markPaidSuccess =>
+      'Bu abonelik bu ay için zaten ödendi olarak işaretlenmiş.';
+
+  @override
+  String get markPaidFailed => 'Ödeme kaydedilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get paymentDateLabel => 'Ödeme Tarihi';
+
+  @override
+  String get amountLabel => 'Tutar';
+
+  @override
+  String get savePaymentLabel => 'Ödemeyi Kaydet';
+
+  @override
+  String get equivalentLabel => 'Karşılığı';
+
+  @override
+  String get billingCycleLabel => 'Ödeme Periyodu';
+
+  @override
+  String get nextPaymentLabel => 'Sonraki Ödeme';
+
+  @override
+  String get anchorDayLabel => 'Hesap Günü';
+
+  @override
+  String get alreadyPaidThisMonth => 'Bu ay için zaten bir ödeme kaydettiniz.';
+
+  @override
+  String get recentPaymentsTitle => 'Son Ödemeler';
+
+  @override
+  String countRecorded(int count) {
+    return '$count kaydedildi';
+  }
+
+  @override
+  String get weeklyLabel => 'Haftalık';
+
+  @override
+  String get quarterlyLabel => 'Üç Aylık';
+
+  @override
+  String get paymentsMadeTitle => 'Yapılan Ödemeler';
+
+  @override
+  String get noPaymentsRecordedThisMonth => 'Bu ay henüz ödeme kaydedilmedi.';
+
+  @override
+  String get paymentsCompletedDesc => 'Mevcut ay için tamamlanan ödemeler.';
+
+  @override
+  String get unknownSubscriptionLabel => 'Bilinmeyen Abonelik';
+
+  @override
+  String get upgradeToProTitle => 'Pro\'ya Yükselt';
+
+  @override
+  String get proBenefitsTitle => 'Pro Özellikleri';
+
+  @override
+  String get proBenefit1 => 'Yerel verileriniz için bulut yedekleme';
+
+  @override
+  String get proBenefit2 => 'Cihazlarınız arasında senkronizasyon';
+
+  @override
+  String get proBenefit3 => 'Telefon değiştirirken daha güvenli kurtarma';
+
+  @override
+  String get proOfflineDisclaimer =>
+      'Mevcut uygulamanız tamamen çevrimdışı çalışmaya devam eder. Pro yalnızca isteğe bağlı senkronizasyon ve yedekleme ekler.';
+
+  @override
+  String get proUpgradeSoon => 'Pro satın alma akışı yakında sunulacaktır.';
+
+  @override
+  String get continueToProLabel => 'Pro\'ya Devam Et';
+
+  @override
+  String get analyticsScreenPlaceholder => 'Analiz Ekranı';
+
+  @override
+  String get thisMonth => 'Bu Ay';
+
+  @override
+  String get thisMonthSubtitle => 'Beklenen ve ödenmiş olanları görün.';
 }

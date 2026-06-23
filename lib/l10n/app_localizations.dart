@@ -517,6 +517,546 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Example: Spouse\'s line, personal account'**
   String get noteHint;
+
+  /// No description provided for @categoryStreaming.
+  ///
+  /// In en, this message translates to:
+  /// **'Streaming'**
+  String get categoryStreaming;
+
+  /// No description provided for @categoryMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get categoryMusic;
+
+  /// No description provided for @categoryVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get categoryVideo;
+
+  /// No description provided for @categoryCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud'**
+  String get categoryCloud;
+
+  /// No description provided for @categoryAi.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get categoryAi;
+
+  /// No description provided for @categoryProductivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Productivity'**
+  String get categoryProductivity;
+
+  /// No description provided for @categoryGaming.
+  ///
+  /// In en, this message translates to:
+  /// **'Gaming'**
+  String get categoryGaming;
+
+  /// No description provided for @categoryNews.
+  ///
+  /// In en, this message translates to:
+  /// **'News'**
+  String get categoryNews;
+
+  /// No description provided for @currencyTRY.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish Lira'**
+  String get currencyTRY;
+
+  /// No description provided for @currencyUSD.
+  ///
+  /// In en, this message translates to:
+  /// **'US Dollar'**
+  String get currencyUSD;
+
+  /// No description provided for @currencyEUR.
+  ///
+  /// In en, this message translates to:
+  /// **'Euro'**
+  String get currencyEUR;
+
+  /// No description provided for @currencyGBP.
+  ///
+  /// In en, this message translates to:
+  /// **'British Pound'**
+  String get currencyGBP;
+
+  /// No description provided for @currencyJPY.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese Yen'**
+  String get currencyJPY;
+
+  /// No description provided for @currencyCNY.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese Yuan'**
+  String get currencyCNY;
+
+  /// No description provided for @currencyCAD.
+  ///
+  /// In en, this message translates to:
+  /// **'Canadian Dollar'**
+  String get currencyCAD;
+
+  /// No description provided for @currencyAUD.
+  ///
+  /// In en, this message translates to:
+  /// **'Australian Dollar'**
+  String get currencyAUD;
+
+  /// No description provided for @currencyCHF.
+  ///
+  /// In en, this message translates to:
+  /// **'Swiss Franc'**
+  String get currencyCHF;
+
+  /// No description provided for @presetServiceSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Preset Service Settings'**
+  String get presetServiceSettings;
+
+  /// No description provided for @newSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'New Subscription'**
+  String get newSubscription;
+
+  /// No description provided for @avatarLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar'**
+  String get avatarLabel;
+
+  /// No description provided for @presetAvatarDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a preset avatar based on the selected service.'**
+  String get presetAvatarDesc;
+
+  /// No description provided for @tapToSelectAvatarDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select an icon, emoji, or color.'**
+  String get tapToSelectAvatarDesc;
+
+  /// No description provided for @categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryLabel;
+
+  /// No description provided for @priceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get priceLabel;
+
+  /// No description provided for @priceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: 9.99'**
+  String get priceHint;
+
+  /// No description provided for @priceRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Price is required.'**
+  String get priceRequired;
+
+  /// No description provided for @currencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currencyLabel;
+
+  /// No description provided for @monthlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get monthlyLabel;
+
+  /// No description provided for @yearlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get yearlyLabel;
+
+  /// No description provided for @firstPaymentDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'First Payment Date'**
+  String get firstPaymentDateLabel;
+
+  /// No description provided for @saveSubscriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Subscription'**
+  String get saveSubscriptionLabel;
+
+  /// No description provided for @enterValidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid amount.'**
+  String get enterValidAmount;
+
+  /// No description provided for @failedToSaveSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save subscription. Please try again.'**
+  String get failedToSaveSubscription;
+
+  /// No description provided for @presetServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preset Services'**
+  String get presetServicesTitle;
+
+  /// No description provided for @pickServiceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a service. You can enter the price on the next form screen.'**
+  String get pickServiceSubtitle;
+
+  /// No description provided for @addManuallyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Manually'**
+  String get addManuallyLabel;
+
+  /// No description provided for @iconTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get iconTabLabel;
+
+  /// No description provided for @emojiTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji'**
+  String get emojiTabLabel;
+
+  /// No description provided for @colorPaletteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Palette'**
+  String get colorPaletteTitle;
+
+  /// No description provided for @iconSelectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon Selection'**
+  String get iconSelectionTitle;
+
+  /// No description provided for @selectEmojiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Emoji'**
+  String get selectEmojiTitle;
+
+  /// No description provided for @saveSelectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Selection'**
+  String get saveSelectionLabel;
+
+  /// No description provided for @changeCurrencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change currency'**
+  String get changeCurrencyTitle;
+
+  /// No description provided for @changeDisplayCurrencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change display currency?'**
+  String get changeDisplayCurrencyTitle;
+
+  /// No description provided for @confirmChangeCurrencyContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Your base currency will change to {newCurrency}. All past payments will be recalculated using the historical exchange rate from the date they were recorded.'**
+  String confirmChangeCurrencyContent(String newCurrency);
+
+  /// No description provided for @cancelButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelButtonLabel;
+
+  /// No description provided for @changeButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get changeButtonLabel;
+
+  /// No description provided for @currencyChangedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency changed to {newCurrency}. {count} payments recalculated.'**
+  String currencyChangedSuccess(String newCurrency, int count);
+
+  /// No description provided for @failedToChangeCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to change currency. Please try again.'**
+  String get failedToChangeCurrency;
+
+  /// No description provided for @baseCurrencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Base Currency'**
+  String get baseCurrencyTitle;
+
+  /// No description provided for @selectBaseCurrencyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your base currency. This will be used for all calculations and displays in the app.'**
+  String get selectBaseCurrencyDesc;
+
+  /// No description provided for @failedToSaveBaseCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Base currency could not be saved. Please try again.'**
+  String get failedToSaveBaseCurrency;
+
+  /// No description provided for @selectBaseCurrencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select base currency'**
+  String get selectBaseCurrencyHint;
+
+  /// No description provided for @warningBannerText.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: This selection cannot be changed later. Please choose carefully.'**
+  String get warningBannerText;
+
+  /// No description provided for @continueButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButtonLabel;
+
+  /// No description provided for @filterPaymentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter payments'**
+  String get filterPaymentsTitle;
+
+  /// No description provided for @fromDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From date'**
+  String get fromDateLabel;
+
+  /// No description provided for @toDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'To date'**
+  String get toDateLabel;
+
+  /// No description provided for @clearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearLabel;
+
+  /// No description provided for @applyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get applyLabel;
+
+  /// No description provided for @markAsPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as paid'**
+  String get markAsPaid;
+
+  /// No description provided for @markPaidSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'This subscription is already marked paid for this month.'**
+  String get markPaidSuccess;
+
+  /// No description provided for @markPaidFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to record payment. Please try again.'**
+  String get markPaidFailed;
+
+  /// No description provided for @paymentDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment date'**
+  String get paymentDateLabel;
+
+  /// No description provided for @amountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get amountLabel;
+
+  /// No description provided for @savePaymentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save payment'**
+  String get savePaymentLabel;
+
+  /// No description provided for @equivalentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Equivalent'**
+  String get equivalentLabel;
+
+  /// No description provided for @billingCycleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Billing cycle'**
+  String get billingCycleLabel;
+
+  /// No description provided for @nextPaymentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Next payment'**
+  String get nextPaymentLabel;
+
+  /// No description provided for @anchorDayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Anchor day'**
+  String get anchorDayLabel;
+
+  /// No description provided for @alreadyPaidThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Already paid this month'**
+  String get alreadyPaidThisMonth;
+
+  /// No description provided for @recentPaymentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent payments'**
+  String get recentPaymentsTitle;
+
+  /// No description provided for @countRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} recorded'**
+  String countRecorded(int count);
+
+  /// No description provided for @weeklyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get weeklyLabel;
+
+  /// No description provided for @quarterlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarterly'**
+  String get quarterlyLabel;
+
+  /// No description provided for @paymentsMadeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments made'**
+  String get paymentsMadeTitle;
+
+  /// No description provided for @noPaymentsRecordedThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'No payments were recorded this month yet.'**
+  String get noPaymentsRecordedThisMonth;
+
+  /// No description provided for @paymentsCompletedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed payments for the current month.'**
+  String get paymentsCompletedDesc;
+
+  /// No description provided for @unknownSubscriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown subscription'**
+  String get unknownSubscriptionLabel;
+
+  /// No description provided for @upgradeToProTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get upgradeToProTitle;
+
+  /// No description provided for @proBenefitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Benefits'**
+  String get proBenefitsTitle;
+
+  /// No description provided for @proBenefit1.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud backup for your local data'**
+  String get proBenefit1;
+
+  /// No description provided for @proBenefit2.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync across your devices'**
+  String get proBenefit2;
+
+  /// No description provided for @proBenefit3.
+  ///
+  /// In en, this message translates to:
+  /// **'Safer recovery when switching phones'**
+  String get proBenefit3;
+
+  /// No description provided for @proOfflineDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current app keeps working fully offline. Pro only adds optional sync and backup.'**
+  String get proOfflineDisclaimer;
+
+  /// No description provided for @proUpgradeSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro purchase flow will be available soon.'**
+  String get proUpgradeSoon;
+
+  /// No description provided for @continueToProLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Pro'**
+  String get continueToProLabel;
+
+  /// No description provided for @analyticsScreenPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics Screen'**
+  String get analyticsScreenPlaceholder;
+
+  /// No description provided for @thisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month'**
+  String get thisMonth;
+
+  /// No description provided for @thisMonthSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See what is expected and what has already been paid.'**
+  String get thisMonthSubtitle;
 }
 
 class _AppLocalizationsDelegate

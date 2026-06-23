@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class DashboardHeaderWidget extends StatelessWidget {
   const DashboardHeaderWidget({
@@ -12,6 +13,7 @@ class DashboardHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,10 +22,10 @@ class DashboardHeaderWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('This month', style: textTheme.headlineMedium),
+              Text(l10n.thisMonth, style: textTheme.headlineMedium),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                'See what is expected and what has already been paid.',
+                l10n.thisMonthSubtitle,
                 style: textTheme.bodyMedium?.copyWith(
                   color: AppColors.textSecondary,
                 ),

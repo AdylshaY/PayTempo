@@ -4,6 +4,7 @@ import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class MarkSubscriptionPaidSheet extends StatefulWidget {
   const MarkSubscriptionPaidSheet({
@@ -82,10 +83,11 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
         _saving = false;
       });
 
+      final l10n = AppLocalizations.of(context)!;
       final String message = _selectedDate.month == DateTime.now().month &&
               _selectedDate.year == DateTime.now().year
-          ? 'This subscription is already marked paid for this month.'
-          : 'Failed to record payment. Please try again.';
+          ? l10n.markPaidSuccess
+          : l10n.markPaidFailed;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -98,6 +100,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Padding(
@@ -111,7 +114,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Mark as paid', style: textTheme.headlineMedium),
+            Text(l10n.markAsPaid, style: textTheme.headlineMedium),
             const SizedBox(height: AppSpacing.xs),
             Text(
               widget.subscription.name,
@@ -122,8 +125,8 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
             const SizedBox(height: AppSpacing.md),
             Card(
               child: ListTile(
-                title: const Text('Payment date'),
-                subtitle: Text(_selectedDate.toMonthDayYearCommaLabel()),
+                title: Text(l10n.paymentDateLabel),
+                subtitle: Text(_selectedDate.toMonthDayYearCommaLabel(l10n.localeName)),
                 trailing: const Icon(Icons.calendar_today_outlined),
                 onTap: _saving ? null : _pickDate,
               ),
@@ -136,7 +139,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Amount',
+                      l10n.amountLabel,
                       style: textTheme.bodyMedium?.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -176,7 +179,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: _saving ? null : () => Navigator.of(context).pop(false),
-                    child: const Text('Cancel'),
+                    child: Text(l10n.cancelButtonLabel),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
@@ -189,7 +192,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
                             height: 18,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Save payment'),
+                        : Text(l10n.savePaymentLabel),
                   ),
                 ),
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class WarningBanner extends StatelessWidget {
   const WarningBanner({super.key});
@@ -7,6 +8,7 @@ class WarningBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
@@ -26,7 +28,7 @@ class WarningBanner extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              'Warning: This selection cannot be changed later. Please choose carefully.',
+              l10n.warningBannerText,
               style: textTheme.bodySmall?.copyWith(
                 color: AppColors.textPrimary,
                 fontWeight: FontWeight.w500,

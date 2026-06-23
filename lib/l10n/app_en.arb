@@ -106,5 +106,119 @@
   "subscriptionNameRequired": "Subscription name is required.",
   "subscriptionNameMinLength": "Please enter at least 2 characters.",
   "noteLabel": "Note / Description (Optional)",
-  "noteHint": "Example: Spouse's line, personal account"
+  "noteHint": "Example: Spouse's line, personal account",
+  "categoryStreaming": "Streaming",
+  "categoryMusic": "Music",
+  "categoryVideo": "Video",
+  "categoryCloud": "Cloud",
+  "categoryAi": "AI",
+  "categoryProductivity": "Productivity",
+  "categoryGaming": "Gaming",
+  "categoryNews": "News",
+  "currencyTRY": "Turkish Lira",
+  "currencyUSD": "US Dollar",
+  "currencyEUR": "Euro",
+  "currencyGBP": "British Pound",
+  "currencyJPY": "Japanese Yen",
+  "currencyCNY": "Chinese Yuan",
+  "currencyCAD": "Canadian Dollar",
+  "currencyAUD": "Australian Dollar",
+  "currencyCHF": "Swiss Franc",
+  "presetServiceSettings": "Preset Service Settings",
+  "newSubscription": "New Subscription",
+  "avatarLabel": "Avatar",
+  "presetAvatarDesc": "This is a preset avatar based on the selected service.",
+  "tapToSelectAvatarDesc": "Tap to select an icon, emoji, or color.",
+  "categoryLabel": "Category",
+  "priceLabel": "Price",
+  "priceHint": "Example: 9.99",
+  "priceRequired": "Price is required.",
+  "currencyLabel": "Currency",
+  "monthlyLabel": "Monthly",
+  "yearlyLabel": "Yearly",
+  "firstPaymentDateLabel": "First Payment Date",
+  "saveSubscriptionLabel": "Save Subscription",
+  "enterValidAmount": "Please enter a valid amount.",
+  "failedToSaveSubscription": "Failed to save subscription. Please try again.",
+  "presetServicesTitle": "Preset Services",
+  "pickServiceSubtitle": "Pick a service. You can enter the price on the next form screen.",
+  "addManuallyLabel": "Add Manually",
+  "iconTabLabel": "Icon",
+  "emojiTabLabel": "Emoji",
+  "colorPaletteTitle": "Color Palette",
+  "iconSelectionTitle": "Icon Selection",
+  "selectEmojiTitle": "Select Emoji",
+  "saveSelectionLabel": "Save Selection",
+  "changeCurrencyTitle": "Change currency",
+  "changeDisplayCurrencyTitle": "Change display currency?",
+  "confirmChangeCurrencyContent": "Your base currency will change to {newCurrency}. All past payments will be recalculated using the historical exchange rate from the date they were recorded.",
+  "@confirmChangeCurrencyContent": {
+    "placeholders": {
+      "newCurrency": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelButtonLabel": "Cancel",
+  "changeButtonLabel": "Change",
+  "currencyChangedSuccess": "Currency changed to {newCurrency}. {count} payments recalculated.",
+  "@currencyChangedSuccess": {
+    "placeholders": {
+      "newCurrency": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "failedToChangeCurrency": "Failed to change currency. Please try again.",
+  "baseCurrencyTitle": "Base Currency",
+  "selectBaseCurrencyDesc": "Please select your base currency. This will be used for all calculations and displays in the app.",
+  "failedToSaveBaseCurrency": "Base currency could not be saved. Please try again.",
+  "selectBaseCurrencyHint": "Select base currency",
+  "warningBannerText": "Warning: This selection cannot be changed later. Please choose carefully.",
+  "continueButtonLabel": "Continue",
+  "filterPaymentsTitle": "Filter payments",
+  "fromDateLabel": "From date",
+  "toDateLabel": "To date",
+  "clearLabel": "Clear",
+  "applyLabel": "Apply",
+  "markAsPaid": "Mark as paid",
+  "markPaidSuccess": "This subscription is already marked paid for this month.",
+  "markPaidFailed": "Failed to record payment. Please try again.",
+  "paymentDateLabel": "Payment date",
+  "amountLabel": "Amount",
+  "savePaymentLabel": "Save payment",
+  "equivalentLabel": "Equivalent",
+  "billingCycleLabel": "Billing cycle",
+  "nextPaymentLabel": "Next payment",
+  "anchorDayLabel": "Anchor day",
+  "alreadyPaidThisMonth": "Already paid this month",
+  "recentPaymentsTitle": "Recent payments",
+  "countRecorded": "{count} recorded",
+  "@countRecorded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyLabel": "Weekly",
+  "quarterlyLabel": "Quarterly",
+  "paymentsMadeTitle": "Payments made",
+  "noPaymentsRecordedThisMonth": "No payments were recorded this month yet.",
+  "paymentsCompletedDesc": "Completed payments for the current month.",
+  "unknownSubscriptionLabel": "Unknown subscription",
+  "upgradeToProTitle": "Upgrade to Pro",
+  "proBenefitsTitle": "Pro Benefits",
+  "proBenefit1": "Cloud backup for your local data",
+  "proBenefit2": "Sync across your devices",
+  "proBenefit3": "Safer recovery when switching phones",
+  "proOfflineDisclaimer": "Your current app keeps working fully offline. Pro only adds optional sync and backup.",
+  "proUpgradeSoon": "Pro purchase flow will be available soon.",
+  "continueToProLabel": "Continue to Pro",
+  "analyticsScreenPlaceholder": "Analytics Screen",
+  "thisMonth": "This Month",
+  "thisMonthSubtitle": "See what is expected and what has already been paid."
 }

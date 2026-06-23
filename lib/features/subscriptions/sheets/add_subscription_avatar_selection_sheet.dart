@@ -3,6 +3,7 @@ import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_emojis.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_options.dart';
 import 'package:pay_tempo/features/subscriptions/models/add_subscription_avatar_selection_model.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class AvatarSelectionSheet extends StatefulWidget {
   const AvatarSelectionSheet({
@@ -71,6 +72,7 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Padding(
@@ -88,16 +90,16 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
             const SizedBox(height: AppSpacing.sm),
             Center(
               child: SegmentedButton<String>(
-                segments: const <ButtonSegment<String>>[
+                segments: <ButtonSegment<String>>[
                   ButtonSegment<String>(
                     value: 'icon',
-                    icon: Icon(Icons.apps_rounded),
-                    label: Text('Icon'),
+                    icon: const Icon(Icons.apps_rounded),
+                    label: Text(l10n.iconTabLabel),
                   ),
                   ButtonSegment<String>(
                     value: 'emoji',
-                    icon: Icon(Icons.emoji_emotions_outlined),
-                    label: Text('Emoji'),
+                    icon: const Icon(Icons.emoji_emotions_outlined),
+                    label: Text(l10n.emojiTabLabel),
                   ),
                 ],
                 selected: <String>{_type},
@@ -112,7 +114,7 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
-            Text('Color Palette', style: textTheme.titleMedium),
+            Text(l10n.colorPaletteTitle, style: textTheme.titleMedium),
             const SizedBox(height: AppSpacing.xs),
             Wrap(
               spacing: AppSpacing.xs,
@@ -156,7 +158,7 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
             ),
             const SizedBox(height: AppSpacing.sm),
             if (_type == 'icon') ...[
-              Text('Icon Selection', style: textTheme.titleMedium),
+              Text(l10n.iconSelectionTitle, style: textTheme.titleMedium),
               const SizedBox(height: AppSpacing.xs),
               GridView.builder(
                 shrinkWrap: true,
@@ -188,7 +190,7 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
                 },
               ),
             ] else ...[
-              Text('Select Emoji', style: textTheme.titleMedium),
+              Text(l10n.selectEmojiTitle, style: textTheme.titleMedium),
               const SizedBox(height: AppSpacing.xs),
               GridView.builder(
                 shrinkWrap: true,
@@ -237,7 +239,7 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
                     ),
                   );
                 },
-                child: const Text('Save Selection'),
+                child: Text(l10n.saveSelectionLabel),
               ),
             ),
           ],

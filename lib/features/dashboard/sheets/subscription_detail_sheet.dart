@@ -7,6 +7,8 @@ import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
+import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 /// A bottom sheet that displays full details for a subscription,
 /// including recent payment history and a converted price equivalent.
@@ -82,16 +84,16 @@ class SubscriptionDetailSheet extends StatelessWidget {
     );
   }
 
-  String _billingCycleLabel(String cycle) {
+  String _billingCycleLabel(String cycle, AppLocalizations l10n) {
     switch (cycle.toLowerCase()) {
       case 'monthly':
-        return 'Monthly';
+        return l10n.monthlyLabel;
       case 'yearly':
-        return 'Yearly';
+        return l10n.yearlyLabel;
       case 'weekly':
-        return 'Weekly';
+        return l10n.weeklyLabel;
       case 'quarterly':
-        return 'Quarterly';
+        return l10n.quarterlyLabel;
       default:
         return cycle;
     }
@@ -100,6 +102,7 @@ class SubscriptionDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
     final bool showConversion =
         subscription.currency.toUpperCase() != baseCurrency.toUpperCase();
 
@@ -135,7 +138,7 @@ class SubscriptionDetailSheet extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            subscription.category,
+                            getCategoryLabel(subscription.category, l10n),
                             style: textTheme.bodySmall?.copyWith(
                               color: AppColors.textSecondary,
                             ),
@@ -178,7 +181,7 @@ class SubscriptionDetailSheet extends StatelessWidget {
                   children: [
                     _InfoRow(
                       icon: Icons.payments_outlined,
-                      label: 'Price',
+                      label: l10n.priceLabel,
                       value:
                           '${subscription.price.toStringAsFixed(2)} ${subscription.currency}',
                     ),
@@ -186,7 +189,7 @@ class SubscriptionDetailSheet extends StatelessWidget {
                       const SizedBox(height: AppSpacing.xs),
                       _InfoRow(
                         icon: Icons.currency_exchange,
-                        label: 'Equivalent',
+                        label: l10n.equivalentLabel,
                         value:
                             '≈ ${ExchangeRateService.instance.convert(subscription.price, subscription.currency, baseCurrency).toStringAsFixed(2)} $baseCurrency',
                       ),
@@ -194,20 +197,20 @@ class SubscriptionDetailSheet extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xs),
                     _InfoRow(
                       icon: Icons.repeat,
-                      label: 'Billing cycle',
-                      value: _billingCycleLabel(subscription.billingCycle),
+                      label: l10n.billingCycleLabel,
+                      value: _billingCycleLabel(subscription.billingCycle, l10n),
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     _InfoRow(
                       icon: Icons.calendar_today_outlined,
-                      label: 'Next payment',
+                      label: l10n.nextPaymentLabel,
                       value: subscription.nextPaymentDate
-                          .toMonthDayYearCommaLabel(),
+                          .toMonthDayYearCommaLabel(l10n.localeName),
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     _InfoRow(
                       icon: Icons.pin_outlined,
-                      label: 'Anchor day',
+                      label: l10n.anchorDayLabel,
                       value: '${subscription.anchorDay}',
                     ),
                   ],
@@ -238,7 +241,7 @@ class SubscriptionDetailSheet extends StatelessWidget {
                       : Icons.check_circle_outline,
                 ),
                 label: Text(
-                  isPaidThisMonth ? 'Already paid this month' : 'Mark as paid',
+                  isPaidThisMonth ? l10n.alreadyPaidThisMonth : l10n.markAsPaid,
                 ),
               ),
             ),
@@ -298,6 +301,7 @@ class _RecentPaymentsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
     final isar = LocalDatabase.instance.isar;
     final String baseCurrency =
         UserSettingsService.baseCurrencyNotifier.value;
@@ -330,7 +334,7 @@ class _RecentPaymentsSection extends StatelessWidget {
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
-                    'No payments recorded yet',
+                    l10n.noPaymentsRecordedYet,
                     style: textTheme.bodySmall?.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -351,14 +355,14 @@ class _RecentPaymentsSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Recent payments',
+                      l10n.recentPaymentsTitle,
                       style: textTheme.bodySmall?.copyWith(
                         color: AppColors.textSecondary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
-                      '${payments.length} recorded',
+                      l10n.countRecorded(payments.length),
                       style: textTheme.bodySmall?.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -382,7 +386,7 @@ class _RecentPaymentsSection extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         Text(
-                          tx.paidAt.toMonthDayYearCommaLabel(),
+                          tx.paidAt.toMonthDayYearCommaLabel(l10n.localeName),
                           style: textTheme.bodySmall,
                         ),
                         const Spacer(),

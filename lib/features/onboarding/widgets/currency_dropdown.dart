@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class CurrencyDropdown extends StatelessWidget {
   const CurrencyDropdown({
@@ -14,19 +15,21 @@ class CurrencyDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ListenableBuilder(
       listenable: Listenable.merge([selectedCurrency, saving]),
       builder: (BuildContext context, _) {
         return AppDropdownFieldWidget<String>(
           initialSelection: selectedCurrency.value,
-          hintText: 'Select base currency',
+          hintText: l10n.selectBaseCurrencyHint,
           enabled: !saving.value,
           onSelected: (String? value) => selectedCurrency.value = value,
           entries: onboardingCurrencies
               .map(
                 (OnboardingCurrency currency) => DropdownMenuEntry<String>(
                   value: currency.code,
-                  label: '${currency.code} - ${currency.label}',
+                  label: '${currency.code} - ${getCurrencyLabel(currency.code, l10n)}',
                 ),
               )
               .toList(growable: false),

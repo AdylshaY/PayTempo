@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class ProUpgradeScreen extends StatelessWidget {
   const ProUpgradeScreen({super.key});
@@ -7,9 +8,10 @@ class ProUpgradeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Upgrade to Pro')),
+      appBar: AppBar(title: Text(l10n.upgradeToProTitle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.sm),
@@ -38,23 +40,23 @@ class ProUpgradeScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: AppSpacing.xs),
-                          Text('Pro Benefits', style: textTheme.titleMedium),
+                          Text(l10n.proBenefitsTitle, style: textTheme.titleMedium),
                         ],
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       _BenefitRow(
                         icon: Icons.cloud_sync_outlined,
-                        label: 'Cloud backup for your local data',
+                        label: l10n.proBenefit1,
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       _BenefitRow(
                         icon: Icons.devices_outlined,
-                        label: 'Sync across your devices',
+                        label: l10n.proBenefit2,
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       _BenefitRow(
                         icon: Icons.shield_outlined,
-                        label: 'Safer recovery when switching phones',
+                        label: l10n.proBenefit3,
                       ),
                     ],
                   ),
@@ -62,7 +64,7 @@ class ProUpgradeScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                'Your current app keeps working fully offline. Pro only adds optional sync and backup.',
+                l10n.proOfflineDisclaimer,
                 style: textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
               ),
               const Spacer(),
@@ -71,12 +73,12 @@ class ProUpgradeScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Pro purchase flow will be available soon.'),
+                      SnackBar(
+                        content: Text(l10n.proUpgradeSoon),
                       ),
                     );
                   },
-                  child: const Text('Continue to Pro'),
+                  child: Text(l10n.continueToProLabel),
                 ),
               ),
             ],

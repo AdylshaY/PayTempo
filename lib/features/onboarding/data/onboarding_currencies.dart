@@ -1,3 +1,5 @@
+import 'package:pay_tempo/l10n/app_localizations.dart';
+
 class OnboardingCurrency {
   const OnboardingCurrency({
     required this.code,
@@ -6,6 +8,31 @@ class OnboardingCurrency {
 
   final String code;
   final String label;
+}
+
+String getCurrencyLabel(String code, AppLocalizations l10n) {
+  switch (code.toUpperCase()) {
+    case 'TRY':
+      return l10n.currencyTRY;
+    case 'USD':
+      return l10n.currencyUSD;
+    case 'EUR':
+      return l10n.currencyEUR;
+    case 'GBP':
+      return l10n.currencyGBP;
+    case 'JPY':
+      return l10n.currencyJPY;
+    case 'CNY':
+      return l10n.currencyCNY;
+    case 'CAD':
+      return l10n.currencyCAD;
+    case 'AUD':
+      return l10n.currencyAUD;
+    case 'CHF':
+      return l10n.currencyCHF;
+    default:
+      return code;
+  }
 }
 
 const List<OnboardingCurrency> onboardingCurrencies = <OnboardingCurrency>[

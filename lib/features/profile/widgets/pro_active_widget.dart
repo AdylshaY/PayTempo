@@ -16,10 +16,10 @@ class ProActiveWidget extends StatelessWidget {
   final UserSettings? settings;
   final VoidCallback? onManageSubscription;
 
-  String _planLabel() {
+  String _planLabel(AppLocalizations l10n) {
     final type = settings?.proPlanType ?? 'yearly';
     final price = settings?.proPriceDisplay ?? '';
-    final label = type == 'monthly' ? 'Monthly' : 'Yearly';
+    final label = type == 'monthly' ? l10n.monthlyLabel : l10n.yearlyLabel;
     return price.isNotEmpty ? '$label · $price' : label;
   }
 
@@ -121,7 +121,7 @@ class ProActiveWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _planLabel(),
+                      _planLabel(l10n),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

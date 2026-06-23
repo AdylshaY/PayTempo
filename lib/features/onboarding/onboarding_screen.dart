@@ -6,6 +6,7 @@ import 'package:pay_tempo/features/onboarding/widgets/continue_button.dart';
 import 'package:pay_tempo/features/onboarding/widgets/currency_dropdown.dart';
 import 'package:pay_tempo/features/onboarding/widgets/onboarding_animated_icon.dart';
 import 'package:pay_tempo/features/onboarding/widgets/warning_banner.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({required this.onCompleted, super.key});
@@ -43,8 +44,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Base currency could not be saved. Please try again.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.failedToSaveBaseCurrency),
         ),
       );
       _saving.value = false;
@@ -54,6 +55,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: SafeArea(
@@ -65,10 +67,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(height: AppSpacing.md),
               const Center(child: OnboardingAnimatedIcon()),
               const SizedBox(height: AppSpacing.md),
-              Text('Base Currency', style: textTheme.headlineMedium),
+              Text(l10n.baseCurrencyTitle, style: textTheme.headlineMedium),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                'Please select your base currency. This will be used for all calculations and displays in the app.',
+                l10n.selectBaseCurrencyDesc,
                 style: textTheme.bodyMedium?.copyWith(
                   color: AppColors.textSecondary,
                 ),

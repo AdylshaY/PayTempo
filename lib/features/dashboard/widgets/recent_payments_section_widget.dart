@@ -5,6 +5,7 @@ import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class RecentPaymentsSectionWidget extends StatelessWidget {
   const RecentPaymentsSectionWidget({super.key});
@@ -44,7 +45,7 @@ class RecentPaymentsSectionWidget extends StatelessWidget {
                         if (subscriptionsSnapshot.hasError ||
                             paymentsSnapshot.hasError) {
                           return Text(
-                            'Payments failed to load.',
+                            AppLocalizations.of(context)!.paymentsFailedToLoad,
                             style: textTheme.bodyMedium?.copyWith(
                               color: AppColors.textSecondary,
                             ),
@@ -79,12 +80,12 @@ class RecentPaymentsSectionWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Payments made',
+                                AppLocalizations.of(context)!.paymentsMadeTitle,
                                 style: textTheme.titleMedium,
                               ),
                               const SizedBox(height: AppSpacing.xs),
                               Text(
-                                'No payments were recorded this month yet.',
+                                AppLocalizations.of(context)!.noPaymentsRecordedThisMonth,
                                 style: textTheme.bodyMedium?.copyWith(
                                   color: AppColors.textSecondary,
                                 ),
@@ -100,11 +101,11 @@ class RecentPaymentsSectionWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Payments made',
+                                  AppLocalizations.of(context)!.paymentsMadeTitle,
                                   style: textTheme.titleMedium,
                                 ),
                                 Text(
-                                  '${items.length} recorded',
+                                  AppLocalizations.of(context)!.countRecorded(items.length),
                                   style: textTheme.bodySmall?.copyWith(
                                     color: AppColors.textSecondary,
                                   ),
@@ -113,7 +114,7 @@ class RecentPaymentsSectionWidget extends StatelessWidget {
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             Text(
-                              'Completed payments for the current month.',
+                              AppLocalizations.of(context)!.paymentsCompletedDesc,
                               style: textTheme.bodyMedium?.copyWith(
                                 color: AppColors.textSecondary,
                               ),
@@ -133,7 +134,7 @@ class RecentPaymentsSectionWidget extends StatelessWidget {
                                 return _RecentPaymentListItem(
                                   subscriptionName:
                                       subscription?.name ??
-                                      'Unknown subscription',
+                                      AppLocalizations.of(context)!.unknownSubscriptionLabel,
                                   paidAmount: item.paidAmount,
                                   paidCurrency: item.paidCurrency,
                                   snapshotBaseAmount: item.snapshotBaseAmount,
@@ -174,6 +175,7 @@ class _RecentPaymentListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context)!;
     final String label = subscriptionName.trim().isEmpty
         ? '?'
         : subscriptionName.trim()[0].toUpperCase();
@@ -210,7 +212,7 @@ class _RecentPaymentListItem extends StatelessWidget {
                 Text(subscriptionName, style: textTheme.bodyMedium),
                 const SizedBox(height: 2),
                 Text(
-                  '${paidAmount.toStringAsFixed(2)} $paidCurrency • ${paidAt.toMonthDayLabel()}',
+                  '${paidAmount.toStringAsFixed(2)} $paidCurrency • ${paidAt.toMonthDayLabel(l10n.localeName)}',
                   style: textTheme.bodySmall?.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -231,7 +233,7 @@ class _RecentPaymentListItem extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                'Recorded',
+                l10n.recordedLabel,
                 style: textTheme.bodySmall?.copyWith(
                   color: AppColors.textSecondary,
                 ),

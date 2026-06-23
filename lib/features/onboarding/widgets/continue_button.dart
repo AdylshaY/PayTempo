@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class ContinueButton extends StatelessWidget {
   const ContinueButton({
@@ -14,6 +15,8 @@ class ContinueButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ListenableBuilder(
       listenable: Listenable.merge([selectedCurrency, saving]),
       builder: (BuildContext context, _) {
@@ -29,7 +32,7 @@ class ContinueButton extends StatelessWidget {
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Continue'),
+                : Text(l10n.continueButtonLabel),
           ),
         );
       },

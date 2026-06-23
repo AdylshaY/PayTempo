@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class SubscriptionCategoryOption {
   const SubscriptionCategoryOption({
@@ -10,6 +11,29 @@ class SubscriptionCategoryOption {
   final String value;
   final String label;
   final IconData icon;
+}
+
+String getCategoryLabel(String valueOrLabel, AppLocalizations l10n) {
+  switch (valueOrLabel.toLowerCase()) {
+    case 'streaming':
+      return l10n.categoryStreaming;
+    case 'music':
+      return l10n.categoryMusic;
+    case 'video':
+      return l10n.categoryVideo;
+    case 'cloud':
+      return l10n.categoryCloud;
+    case 'ai':
+      return l10n.categoryAi;
+    case 'productivity':
+      return l10n.categoryProductivity;
+    case 'gaming':
+      return l10n.categoryGaming;
+    case 'news':
+      return l10n.categoryNews;
+    default:
+      return valueOrLabel;
+  }
 }
 
 const List<SubscriptionCategoryOption> subscriptionCategories = <SubscriptionCategoryOption>[

@@ -11,6 +11,7 @@ import 'package:pay_tempo/features/subscriptions/data/subscription_categories.da
 import 'package:pay_tempo/features/subscriptions/data/subscription_templates.dart';
 import 'package:pay_tempo/features/subscriptions/models/add_subscription_avatar_selection_model.dart';
 import 'package:pay_tempo/features/subscriptions/sheets/add_subscription_avatar_selection_sheet.dart';
+import 'package:pay_tempo/app/utils/date_formatter.dart';
 
 class AddSubscriptionScreen extends StatefulWidget {
   const AddSubscriptionScreen({
@@ -219,6 +220,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context)!;
     final FormState? state = _formKey.currentState;
     if (state == null || !state.validate()) {
       return;
@@ -230,7 +232,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
 
     if (parsedPrice == null || parsedPrice <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount.')),
+        SnackBar(content: Text(l10n.enterValidAmount)),
       );
       return;
     }
@@ -284,8 +286,8 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to save subscription. Please try again.'),
+        SnackBar(
+          content: Text(l10n.failedToSaveSubscription),
         ),
       );
       _saving.value = false;
@@ -300,7 +302,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isTemplateFlow ? 'Preset Service Settings' : 'New Subscription',
+          _isTemplateFlow ? l10n.presetServiceSettings : l10n.newSubscription,
         ),
       ),
       body: SafeArea(
@@ -323,12 +325,12 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Avatar', style: textTheme.titleMedium),
+                              Text(l10n.avatarLabel, style: textTheme.titleMedium),
                               const SizedBox(height: 4),
                               Text(
                                 _isTemplateFlow
-                                    ? 'This is a preset avatar based on the selected service.'
-                                    : 'Tap to select an icon, emoji, or color.',
+                                    ? l10n.presetAvatarDesc
+                                    : l10n.tapToSelectAvatarDesc,
                                 style: textTheme.bodySmall?.copyWith(
                                   color: AppColors.textSecondary,
                                 ),
@@ -376,12 +378,12 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                 builder: (BuildContext context, String selectedCategory, _) {
                   return AppDropdownFieldWidget<String>(
                     initialSelection: selectedCategory,
-                    labelText: 'Category',
+                    labelText: l10n.categoryLabel,
                     entries: subscriptionCategories
                         .map(
                           (item) => DropdownMenuEntry<String>(
                             value: item.value,
-                            label: item.label,
+                            label: getCategoryLabel(item.value, l10n),
                             leadingIcon: Icon(item.icon, size: 18),
                           ),
                         )
@@ -402,14 +404,14 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                decoration: const InputDecoration(
-                  labelText: 'Price',
-                  hintText: 'Example: 9.99',
+                decoration: InputDecoration(
+                  labelText: l10n.priceLabel,
+                  hintText: l10n.priceHint,
                 ),
                 validator: (String? value) {
                   final String text = value?.trim() ?? '';
                   if (text.isEmpty) {
-                    return 'Price is required.';
+                    return l10n.priceRequired;
                   }
                   return null;
                 },
@@ -420,12 +422,12 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                 builder: (BuildContext context, String selectedCurrency, _) {
                   return AppDropdownFieldWidget<String>(
                     initialSelection: selectedCurrency,
-                    labelText: 'Currency',
+                    labelText: l10n.currencyLabel,
                     entries: onboardingCurrencies
                         .map(
                           (item) => DropdownMenuEntry<String>(
                             value: item.code,
-                            label: '${item.code} - ${item.label}',
+                            label: '${item.code} - ${getCurrencyLabel(item.code, l10n)}',
                           ),
                         )
                         .toList(growable: false),
@@ -443,14 +445,14 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                 valueListenable: _billingCycle,
                 builder: (BuildContext context, String cycle, _) {
                   return SegmentedButton<String>(
-                    segments: const <ButtonSegment<String>>[
+                    segments: <ButtonSegment<String>>[
                       ButtonSegment<String>(
                         value: 'monthly',
-                        label: Text('Monthly'),
+                        label: Text(l10n.monthlyLabel),
                       ),
                       ButtonSegment<String>(
                         value: 'yearly',
-                        label: Text('Yearly'),
+                        label: Text(l10n.yearlyLabel),
                       ),
                     ],
                     selected: <String>{cycle},
@@ -467,15 +469,14 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
               ValueListenableBuilder<DateTime>(
                 valueListenable: _firstPaymentDate,
                 builder: (BuildContext context, DateTime date, _) {
-                  final String formatted =
-                      '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}';
+                  final String formatted = date.toFullDateLabel(l10n.localeName);
                   return Card(
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.sm,
                         vertical: AppSpacing.xs,
                       ),
-                      title: const Text('First Payment Date'),
+                      title: Text(l10n.firstPaymentDateLabel),
                       subtitle: Text(formatted),
                       trailing: IconButton(
                         onPressed: _pickDate,
@@ -500,7 +501,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text('Save Subscription'),
+                        : Text(l10n.saveSubscriptionLabel),
                   );
                 },
               ),
