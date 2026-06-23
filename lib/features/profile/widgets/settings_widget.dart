@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
+import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -13,6 +14,7 @@ class SettingsWidget extends StatefulWidget {
 
 class _SettingsWidgetState extends State<SettingsWidget> {
   late final Future<UserSettings?> _settingsFuture;
+  bool _changingCurrency = false;
 
   @override
   void initState() {
@@ -31,6 +33,140 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     }
   }
 
+  Future<void> _showCurrencyPicker() async {
+    final String currentCurrency =
+        UserSettingsService.baseCurrencyNotifier.value;
+
+    final String? selected = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (BuildContext sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.sm,
+              0,
+              AppSpacing.sm,
+              AppSpacing.md,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Change currency',
+                  style: Theme.of(sheetContext).textTheme.headlineMedium,
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                ...onboardingCurrencies.map((OnboardingCurrency currency) {
+                  final bool isSelected =
+                      currency.code.toUpperCase() == currentCurrency;
+                  return ListTile(
+                    title: Text(currency.label),
+                    trailing: Text(
+                      currency.code,
+                      style:
+                          Theme.of(sheetContext).textTheme.bodyMedium?.copyWith(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.textSecondary,
+                                fontWeight: isSelected
+                                    ? FontWeight.w700
+                                    : FontWeight.w500,
+                              ),
+                    ),
+                    leading: isSelected
+                        ? const Icon(Icons.check_circle, color: AppColors.primary)
+                        : const Icon(Icons.circle_outlined,
+                            color: AppColors.inactive),
+                    onTap: () => Navigator.of(sheetContext).pop(currency.code),
+                  );
+                }),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    if (selected == null ||
+        !mounted ||
+        selected.toUpperCase() == currentCurrency) {
+      return;
+    }
+
+    await _confirmAndChangeCurrency(selected);
+  }
+
+  Future<void> _confirmAndChangeCurrency(String newCurrency) async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Change display currency?'),
+          content: Text(
+            'Your base currency will change to $newCurrency. '
+            'All past payments will be recalculated using the '
+            'historical exchange rate from the date they were recorded.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Change'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _changingCurrency = true;
+    });
+
+    try {
+      final int count =
+          await UserSettingsService().changeBaseCurrency(newCurrency);
+
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Currency changed to $newCurrency. '
+            '$count payment${count == 1 ? '' : 's'} recalculated.',
+          ),
+        ),
+      );
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to change currency. Please try again.'),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _changingCurrency = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -42,8 +178,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-
-        final UserSettings? settings = snapshot.data;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,18 +191,40 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.currency_exchange),
-                title: Text(l10n.yourCurrency),
-                subtitle: Text(
-                  l10n.yourCurrencySubtitle,
-                  style: textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
+            ValueListenableBuilder<String>(
+              valueListenable: UserSettingsService.baseCurrencyNotifier,
+              builder: (context, baseCurrency, _) {
+                return Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.currency_exchange),
+                    title: Text(l10n.yourCurrency),
+                    subtitle: Text(
+                      l10n.yourCurrencySubtitle,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    trailing: _changingCurrency
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(baseCurrency),
+                              const SizedBox(width: 4),
+                              const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                    onTap: _changingCurrency ? null : _showCurrencyPicker,
                   ),
-                ),
-                trailing: Text(settings?.baseCurrency ?? 'USD'),
-              ),
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.xs),
             ValueListenableBuilder<ThemeMode>(

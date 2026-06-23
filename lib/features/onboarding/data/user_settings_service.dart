@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
+import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
+import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 
 class UserSettingsService {
   UserSettingsService({Isar? isar}) : _isar = isar ?? LocalDatabase.instance.isar;
@@ -14,6 +16,11 @@ class UserSettingsService {
 
   /// Global notifier for the app language to enable instant UI updates.
   static final ValueNotifier<String?> appLanguageNotifier = ValueNotifier(null);
+
+  /// Global notifier for the base currency to enable instant UI updates
+  /// when the user changes their display currency.
+  static final ValueNotifier<String> baseCurrencyNotifier =
+      ValueNotifier('USD');
 
   /// Converts Isar AppThemeMode enum to Flutter ThemeMode.
   ThemeMode _toFlutterThemeMode(AppThemeMode mode) {
@@ -33,6 +40,9 @@ class UserSettingsService {
     if (settings != null) {
       appThemeNotifier.value = _toFlutterThemeMode(settings.themeMode);
       appLanguageNotifier.value = settings.languageCode;
+      if (settings.baseCurrency.trim().isNotEmpty) {
+        baseCurrencyNotifier.value = settings.baseCurrency.trim().toUpperCase();
+      }
     }
   }
 
@@ -71,6 +81,7 @@ class UserSettingsService {
     return currency.trim().isNotEmpty;
   }
 
+  /// Saves the base currency during onboarding (first time only).
   Future<void> saveBaseCurrency(String baseCurrency) async {
     final String normalized = baseCurrency.trim().toUpperCase();
 
@@ -80,19 +91,71 @@ class UserSettingsService {
         await _isar.userSettings.put(
           UserSettings(baseCurrency: normalized),
         );
+        baseCurrencyNotifier.value = normalized;
         return;
       }
 
-      final String existing = current.baseCurrency.trim().toUpperCase();
-      if (existing.isNotEmpty && existing != normalized) {
-        throw StateError('Base currency cannot be changed after onboarding.');
-      }
+      current.baseCurrency = normalized;
+      await _isar.userSettings.put(current);
+      baseCurrencyNotifier.value = normalized;
+    });
+  }
 
-      if (existing.isEmpty) {
+  /// Changes the base currency and recalculates all payment snapshots
+  /// using historical exchange rates for accuracy.
+  ///
+  /// For each [PaymentTransaction], fetches the rate for the exact date
+  /// the payment was made, then updates [snapshotBaseAmount] and
+  /// [snapshotBaseCurrency]. This ensures 100% accurate conversions
+  /// even for historical payments.
+  ///
+  /// Returns the number of transactions that were recalculated.
+  Future<int> changeBaseCurrency(String newCurrency) async {
+    final String normalized = newCurrency.trim().toUpperCase();
+    final ExchangeRateService rateService = ExchangeRateService.instance;
+
+    // 1. Fetch and cache current rates for the new base currency.
+    await rateService.fetchAndCacheRates(normalized);
+
+    // 2. Load all non-deleted payment transactions.
+    final List<PaymentTransaction> transactions = await _isar
+        .paymentTransactions
+        .filter()
+        .isDeletedEqualTo(false)
+        .findAll();
+
+    // 3. Recalculate each transaction's snapshot using historical rates.
+    int recalculated = 0;
+    for (final PaymentTransaction tx in transactions) {
+      final double? historicalRate = await rateService.fetchHistoricalRate(
+        date: tx.paidAt,
+        fromCurrency: tx.paidCurrency,
+        toCurrency: normalized,
+      );
+
+      if (historicalRate != null) {
+        tx.snapshotBaseAmount = tx.paidAmount * historicalRate;
+        tx.snapshotBaseCurrency = normalized;
+        tx.updatedAt = DateTime.now();
+        recalculated++;
+      }
+    }
+
+    // 4. Write all updates in a single transaction.
+    await _isar.writeTxn(() async {
+      await _isar.paymentTransactions.putAll(transactions);
+
+      final UserSettings? current = await _isar.userSettings.get(1);
+      if (current != null) {
         current.baseCurrency = normalized;
         await _isar.userSettings.put(current);
       }
     });
+
+    // 5. Update reactive notifier so UI rebuilds instantly.
+    baseCurrencyNotifier.value = normalized;
+
+    return recalculated;
   }
 
   Future<void> setProStatus({

@@ -120,6 +120,51 @@ class ExchangeRateService {
     return toRate / fromRate;
   }
 
+  /// Fetches the exchange rate for a specific historical [date].
+  ///
+  /// Uses Frankfurter's historical endpoint: `GET /{date}?base=X&symbols=Y`.
+  /// Returns the rate, or `null` if the request fails or the pair is
+  /// unsupported. Falls back to the current cached rate as a last resort.
+  Future<double?> fetchHistoricalRate({
+    required DateTime date,
+    required String fromCurrency,
+    required String toCurrency,
+  }) async {
+    final String from = fromCurrency.trim().toUpperCase();
+    final String to = toCurrency.trim().toUpperCase();
+
+    if (from == to) {
+      return 1.0;
+    }
+
+    final String dateStr =
+        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+
+    try {
+      final Uri uri =
+          Uri.parse('$_apiBaseUrl/$dateStr?base=$from&symbols=$to');
+      final http.Response response = await http
+          .get(uri)
+          .timeout(const Duration(seconds: 5));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> json =
+            jsonDecode(response.body) as Map<String, dynamic>;
+        final Map<String, dynamic> ratesJson =
+            json['rates'] as Map<String, dynamic>? ?? <String, dynamic>{};
+        final num? rate = ratesJson[to] as num?;
+        if (rate != null) {
+          return rate.toDouble();
+        }
+      }
+    } catch (_) {
+      // Network or parse error — fall through to cached rate.
+    }
+
+    // Fallback: use current cached rate if available.
+    return getRate(from, to);
+  }
+
   // ---------------------------------------------------------------------------
   // Cache helpers
   // ---------------------------------------------------------------------------

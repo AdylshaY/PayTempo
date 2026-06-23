@@ -118,24 +118,7 @@ class _AppBootstrapScreenState extends State<_AppBootstrapScreen> {
           );
         }
 
-        return FutureBuilder<String>(
-          future: _settingsService
-              .getSettings()
-              .then((settings) => settings?.baseCurrency ?? 'USD'),
-          builder: (BuildContext context, AsyncSnapshot<String> currencySnap) {
-            if (currencySnap.connectionState != ConnectionState.done) {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-
-            return AppShellScreen(
-              baseCurrency: currencySnap.data ?? 'USD',
-            );
-          },
-        );
+        return const AppShellScreen();
       },
     );
   }
