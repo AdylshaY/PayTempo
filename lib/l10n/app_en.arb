@@ -253,6 +253,36 @@
   "categoryDeletedSuccess": "Category deleted.",
   "noCustomCategoriesYet": "No custom categories created yet. Tap '+' to add one.",
   "searchTemplates": "Search services...",
-  "allLabel": "All"
+  "allLabel": "All",
+  "notification1DayBeforeTitle": "Upcoming Payment",
+  "notification1DayBeforeBody": "Your subscription for {name} ({price} {currency}) is due tomorrow.",
+  "@notification1DayBeforeBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationDueTodayTitle": "Subscription Due Today",
+  "notificationDueTodayBody": "Your subscription for {name} ({price} {currency}) is due today.",
+  "@notificationDueTodayBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  }
 }
 

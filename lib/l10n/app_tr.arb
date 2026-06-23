@@ -192,6 +192,10 @@
   "categoryDeletedSuccess": "Kategori silindi.",
   "noCustomCategoriesYet": "Henüz özel kategori eklenmedi. Eklemek için '+' simgesine dokunun.",
   "searchTemplates": "Servislerde ara...",
-  "allLabel": "Tümü"
+  "allLabel": "Tümü",
+  "notification1DayBeforeTitle": "Yaklaşan Ödeme",
+  "notification1DayBeforeBody": "{name} aboneliğinizin ödemesi yarın yapılacak ({price} {currency}).",
+  "notificationDueTodayTitle": "Ödeme Günü",
+  "notificationDueTodayBody": "{name} aboneliğinizin ödemesi bugün yapılacak ({price} {currency})."
 }
 

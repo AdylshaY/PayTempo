@@ -7,6 +7,7 @@ import 'package:pay_tempo/features/navigation/app_shell_screen.dart';
 import 'package:pay_tempo/features/onboarding/onboarding_screen.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/category_service.dart';
+import 'package:pay_tempo/data/local/services/notification_service.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
@@ -15,6 +16,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalDatabase.instance.open();
   await CategoryService.instance.initialize();
+  await NotificationService.instance.initialize();
+  await NotificationService.instance.requestPermissions();
   await UserSettingsService().initializeSettings();
 
 

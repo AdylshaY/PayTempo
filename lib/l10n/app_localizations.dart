@@ -1255,6 +1255,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get allLabel;
+
+  /// No description provided for @notification1DayBeforeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Payment'**
+  String get notification1DayBeforeTitle;
+
+  /// No description provided for @notification1DayBeforeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your subscription for {name} ({price} {currency}) is due tomorrow.'**
+  String notification1DayBeforeBody(String name, String price, String currency);
+
+  /// No description provided for @notificationDueTodayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription Due Today'**
+  String get notificationDueTodayTitle;
+
+  /// No description provided for @notificationDueTodayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your subscription for {name} ({price} {currency}) is due today.'**
+  String notificationDueTodayBody(String name, String price, String currency);
 }
 
 class _AppLocalizationsDelegate

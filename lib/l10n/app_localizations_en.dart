@@ -623,4 +623,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allLabel => 'All';
+
+  @override
+  String get notification1DayBeforeTitle => 'Upcoming Payment';
+
+  @override
+  String notification1DayBeforeBody(
+    String name,
+    String price,
+    String currency,
+  ) {
+    return 'Your subscription for $name ($price $currency) is due tomorrow.';
+  }
+
+  @override
+  String get notificationDueTodayTitle => 'Subscription Due Today';
+
+  @override
+  String notificationDueTodayBody(String name, String price, String currency) {
+    return 'Your subscription for $name ($price $currency) is due today.';
+  }
 }

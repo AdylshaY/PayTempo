@@ -625,4 +625,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get allLabel => 'Tümü';
+
+  @override
+  String get notification1DayBeforeTitle => 'Yaklaşan Ödeme';
+
+  @override
+  String notification1DayBeforeBody(
+    String name,
+    String price,
+    String currency,
+  ) {
+    return '$name aboneliğinizin ödemesi yarın yapılacak ($price $currency).';
+  }
+
+  @override
+  String get notificationDueTodayTitle => 'Ödeme Günü';
+
+  @override
+  String notificationDueTodayBody(String name, String price, String currency) {
+    return '$name aboneliğinizin ödemesi bugün yapılacak ($price $currency).';
+  }
 }

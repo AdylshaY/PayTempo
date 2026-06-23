@@ -5,6 +5,7 @@ import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
+import 'package:pay_tempo/data/local/services/notification_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 
 class SubscriptionService {
@@ -48,6 +49,8 @@ class SubscriptionService {
     await _isar.writeTxn(() async {
       await _isar.subscriptionRecords.put(record);
     });
+
+    await NotificationService.instance.scheduleSubscriptionNotifications(record);
   }
 
   Future<void> markSubscriptionAsPaid({
@@ -83,6 +86,9 @@ class SubscriptionService {
       isDeleted: false,
     );
 
+    // Cancel old notifications before modifying payment date
+    await NotificationService.instance.cancelSubscriptionNotifications(subscription);
+
     await _isar.writeTxn(() async {
       final DateTime monthStart = DateTime(normalizedPaidAt.year, normalizedPaidAt.month);
       final DateTime nextMonthStart = DateTime(
@@ -110,6 +116,18 @@ class SubscriptionService {
 
       subscription.nextPaymentDate = nextPaymentDate;
       subscription.updatedAt = now;
+      await _isar.subscriptionRecords.put(subscription);
+    });
+
+    // Schedule new notifications for the advanced date
+    await NotificationService.instance.scheduleSubscriptionNotifications(subscription);
+  }
+
+  Future<void> deleteSubscription(SubscriptionRecord subscription) async {
+    await NotificationService.instance.cancelSubscriptionNotifications(subscription);
+    await _isar.writeTxn(() async {
+      subscription.isDeleted = true;
+      subscription.updatedAt = DateTime.now();
       await _isar.subscriptionRecords.put(subscription);
     });
   }
