@@ -4,6 +4,7 @@ import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/dashboard/utils/due_date_resolver.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -84,7 +85,11 @@ class MonthlySpendingCardWidget extends StatelessWidget {
                     return !paidThisMonthSubscriptionUids.contains(item.uid);
                   })
                   .fold<double>(0, (double total, SubscriptionRecord item) {
-                    return total + item.price;
+                    return total + ExchangeRateService.instance.convert(
+                      item.price,
+                      item.currency,
+                      baseCurrency,
+                    );
                   });
 
               return Padding(

@@ -4,6 +4,7 @@ import 'package:isar/isar.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 
 class SubscriptionService {
@@ -71,7 +72,11 @@ class SubscriptionService {
       paidAmount: subscription.price,
       paidCurrency: subscription.currency,
       snapshotBaseCurrency: baseCurrency.trim().toUpperCase(),
-      snapshotBaseAmount: subscription.price,
+      snapshotBaseAmount: ExchangeRateService.instance.convert(
+        subscription.price,
+        subscription.currency,
+        baseCurrency,
+      ),
       paidAt: normalizedPaidAt,
       updatedAt: now,
       isDeleted: false,

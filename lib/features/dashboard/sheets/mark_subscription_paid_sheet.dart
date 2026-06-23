@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
 
 class MarkSubscriptionPaidSheet extends StatefulWidget {
@@ -140,9 +141,30 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
                         color: AppColors.textSecondary,
                       ),
                     ),
-                    Text(
-                      '${widget.subscription.price.toStringAsFixed(2)} ${widget.subscription.currency}',
-                      style: textTheme.titleMedium,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${widget.subscription.price.toStringAsFixed(2)} ${widget.subscription.currency}',
+                          style: textTheme.titleMedium,
+                        ),
+                        if (widget.subscription.currency.toUpperCase() !=
+                            widget.baseCurrency.toUpperCase())
+                          Builder(builder: (BuildContext context) {
+                            final double converted =
+                                ExchangeRateService.instance.convert(
+                              widget.subscription.price,
+                              widget.subscription.currency,
+                              widget.baseCurrency,
+                            );
+                            return Text(
+                              '≈ ${converted.toStringAsFixed(2)} ${widget.baseCurrency}',
+                              style: textTheme.bodySmall?.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
+                            );
+                          }),
+                      ],
                     ),
                   ],
                 ),

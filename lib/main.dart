@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
+import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/navigation/app_shell_screen.dart';
 import 'package:pay_tempo/features/onboarding/onboarding_screen.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
@@ -13,6 +14,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalDatabase.instance.open();
   await UserSettingsService().initializeSettings();
+
+  // Fetch exchange rates before UI loads so conversions are available.
+  // Wrapped in a timeout to avoid blocking startup on slow/no internet.
+  // Cached rates load instantly; only the API call may take time.
+  final settings = await UserSettingsService().getSettings();
+  if (settings != null && settings.baseCurrency.isNotEmpty) {
+    await ExchangeRateService.instance
+        .fetchAndCacheRates(settings.baseCurrency);
+  }
+
   runApp(const MainApp());
 }
 
