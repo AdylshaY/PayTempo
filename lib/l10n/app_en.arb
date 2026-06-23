@@ -251,6 +251,8 @@
   "categorySavedSuccess": "Category created successfully.",
   "failedToSaveCategory": "Failed to create category.",
   "categoryDeletedSuccess": "Category deleted.",
-  "noCustomCategoriesYet": "No custom categories created yet. Tap '+' to add one."
+  "noCustomCategoriesYet": "No custom categories created yet. Tap '+' to add one.",
+  "searchTemplates": "Search services...",
+  "allLabel": "All"
 }
 

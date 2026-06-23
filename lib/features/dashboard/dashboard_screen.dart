@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
-import 'package:pay_tempo/features/subscriptions/sheets/subscription_template_picker_sheet.dart';
+import 'package:pay_tempo/features/subscriptions/subscription_template_picker_screen.dart';
 import 'package:pay_tempo/features/dashboard/widgets/monthly_spending_card_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_section_widget.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
@@ -16,7 +16,11 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _openAddSubscription() async {
-    final bool? created = await showSubscriptionTemplateBottomSheet(context);
+    final bool? created = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => const SubscriptionTemplatePickerScreen(),
+      ),
+    );
 
     if (created != true || !mounted) {
       return;

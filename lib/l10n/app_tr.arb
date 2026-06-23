@@ -190,6 +190,8 @@
   "categorySavedSuccess": "Kategori başarıyla oluşturuldu.",
   "failedToSaveCategory": "Kategori oluşturulamadı.",
   "categoryDeletedSuccess": "Kategori silindi.",
-  "noCustomCategoriesYet": "Henüz özel kategori eklenmedi. Eklemek için '+' simgesine dokunun."
+  "noCustomCategoriesYet": "Henüz özel kategori eklenmedi. Eklemek için '+' simgesine dokunun.",
+  "searchTemplates": "Servislerde ara...",
+  "allLabel": "Tümü"
 }
 

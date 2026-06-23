@@ -617,4 +617,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noCustomCategoriesYet =>
       'No custom categories created yet. Tap \'+\' to add one.';
+
+  @override
+  String get searchTemplates => 'Search services...';
+
+  @override
+  String get allLabel => 'All';
 }

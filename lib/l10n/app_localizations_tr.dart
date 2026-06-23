@@ -619,4 +619,10 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get noCustomCategoriesYet =>
       'Henüz özel kategori eklenmedi. Eklemek için \'+\' simgesine dokunun.';
+
+  @override
+  String get searchTemplates => 'Servislerde ara...';
+
+  @override
+  String get allLabel => 'Tümü';
 }

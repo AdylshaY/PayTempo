@@ -26,7 +26,10 @@ class SubscriptionTemplateTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadii.card),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xs,
+            vertical: 12,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -52,8 +55,13 @@ class SubscriptionTemplateTile extends StatelessWidget {
                   ),
                 ),
               ),
-              const Spacer(),
-              Text(template.title, style: textTheme.titleMedium),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                template.title,
+                style: textTheme.titleMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
               const SizedBox(height: 6),
               Container(
                 padding: const EdgeInsets.symmetric(

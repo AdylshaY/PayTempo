@@ -1243,6 +1243,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No custom categories created yet. Tap \'+\' to add one.'**
   String get noCustomCategoriesYet;
+
+  /// No description provided for @searchTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Search services...'**
+  String get searchTemplates;
+
+  /// No description provided for @allLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allLabel;
 }
 
 class _AppLocalizationsDelegate
