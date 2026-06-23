@@ -72,7 +72,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Text(
                 l10n.selectBaseCurrencyDesc,
                 style: textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textSecondary,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: AppSpacing.md),

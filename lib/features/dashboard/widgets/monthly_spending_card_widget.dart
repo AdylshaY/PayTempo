@@ -107,7 +107,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
                     Text(
                       l10n.paidThisMonth,
                       style: textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textSecondary,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -115,7 +115,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
                     Text(
                       l10n.remainingFromActive(remainingTotal.toStringAsFixed(2), baseCurrency),
                       style: textTheme.bodySmall?.copyWith(
-                        color: AppColors.textSecondary.withValues(alpha: 0.75),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.75),
                       ),
                     ),
                   ],

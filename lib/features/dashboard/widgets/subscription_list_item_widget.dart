@@ -111,93 +111,100 @@ class SubscriptionListItemWidget extends StatelessWidget {
         ? _status(dueDate, context)
         : (label: statusLabel!, color: statusColor!);
 
-    return Card(
-      child: InkWell(
-        onTap: onTap,
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final rowColor = isDark ? AppColors.backgroundDark : AppColors.background;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: rowColor,
         borderRadius: BorderRadius.circular(AppRadii.card),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.sm,
-          ),
-          child: Row(
-            children: [
-              _avatar(),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Row 1: Name + Price
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item.name,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.sm,
+              vertical: AppSpacing.sm,
+            ),
+            child: Row(
+              children: [
+                _avatar(),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Row 1: Name + Price
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              item.name,
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.xs),
+                          Text(
+                            '${item.price.toStringAsFixed(2)} ${item.currency}',
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
                           ),
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
+                        ],
+                      ),
+                      if (item.note != null && item.note!.isNotEmpty) ...[
+                        const SizedBox(height: 2),
                         Text(
-                          '${item.price.toStringAsFixed(2)} ${item.currency}',
-                          style: textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
+                          item.note!,
+                          style: textTheme.bodySmall?.copyWith(
+                            fontStyle: FontStyle.italic,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                    ),
-                    if (item.note != null && item.note!.isNotEmpty) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        item.note!,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                          fontStyle: FontStyle.italic,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                    const SizedBox(height: 4),
-                    // Row 2: Due date + Status badge
-                    Row(
-                      children: [
-                        Text(
-                          dueDate.toMonthDayLabel(),
-                          style: textTheme.bodySmall?.copyWith(
-                            color: AppColors.textSecondary,
+                      const SizedBox(height: 4),
+                      // Row 2: Due date + Status badge
+                      Row(
+                        children: [
+                          Text(
+                            dueDate.toMonthDayLabel(),
+                            style: textTheme.bodySmall,
                           ),
-                        ),
-                        const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.xs,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: status.color.withValues(alpha: 0.12),
-                            borderRadius:
-                                BorderRadius.circular(AppRadii.button),
-                          ),
-                          child: Text(
-                            status.label,
-                            style: textTheme.bodySmall?.copyWith(
-                              color: status.color,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 11,
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.xs,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: status.color.withValues(alpha: 0.12),
+                              borderRadius:
+                                  BorderRadius.circular(AppRadii.button),
+                            ),
+                            child: Text(
+                              status.label,
+                              style: textTheme.bodySmall?.copyWith(
+                                color: status.color,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 11,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -66,7 +66,7 @@ class ProUpgradeScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
               Text(
                 l10n.proOfflineDisclaimer,
-                style: textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
+                style: textTheme.bodySmall,
               ),
               const Spacer(),
               SizedBox(

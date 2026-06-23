@@ -250,9 +250,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                                       subscription.billingCycle == 'monthly'
                                           ? l10n.monthlyLabel
                                           : l10n.yearlyLabel,
-                                      style: textTheme.bodySmall?.copyWith(
-                                        color: AppColors.textSecondary,
-                                      ),
+                                      style: textTheme.bodySmall,
                                     ),
                                   ],
                                 ),
@@ -277,9 +275,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                               children: [
                                 Text(
                                   l10n.totalSpentLabel,
-                                  style: textTheme.bodySmall?.copyWith(
-                                    color: AppColors.textSecondary,
-                                  ),
+                                  style: textTheme.bodySmall,
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
@@ -295,9 +291,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                                   const SizedBox(height: 2),
                                   Text(
                                     '${totalSpentSubscriptionCurrency.toStringAsFixed(2)} ${subscription.currency}',
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: AppColors.textSecondary,
-                                    ),
+                                    style: textTheme.bodySmall,
                                   ),
                                 ],
                               ],
@@ -315,9 +309,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                               children: [
                                 Text(
                                   l10n.priceLabel,
-                                  style: textTheme.bodySmall?.copyWith(
-                                    color: AppColors.textSecondary,
-                                  ),
+                                  style: textTheme.bodySmall,
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
@@ -331,9 +323,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                                   subscription.billingCycle == 'monthly'
                                       ? l10n.monthlyLabel
                                       : l10n.yearlyLabel,
-                                  style: textTheme.bodySmall?.copyWith(
-                                    color: AppColors.textSecondary,
-                                  ),
+                                  style: textTheme.bodySmall,
                                 ),
                               ],
                             ),
@@ -354,7 +344,6 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                             Text(
                               l10n.noteLabel,
                               style: textTheme.bodySmall?.copyWith(
-                                color: AppColors.textSecondary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -388,12 +377,12 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                               child: Center(
-                                child: Text(
-                                  l10n.noPaymentsRecordedYet,
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.textSecondary,
+                                  child: Text(
+                                    l10n.noPaymentsRecordedYet,
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                    ),
                                   ),
-                                ),
                               ),
                             )
                           else
@@ -401,7 +390,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: payments.length,
-                              separatorBuilder: (context, index) => const Divider(height: 16),
+                              separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.xs),
                               itemBuilder: (context, index) {
                                 final tx = payments[index];
                                 return PaymentRow(

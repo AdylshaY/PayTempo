@@ -73,7 +73,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           Theme.of(sheetContext).textTheme.bodyMedium?.copyWith(
                                 color: isSelected
                                     ? AppColors.primary
-                                    : AppColors.textSecondary,
+                                    : Theme.of(sheetContext).colorScheme.onSurfaceVariant,
                                 fontWeight: isSelected
                                     ? FontWeight.w700
                                     : FontWeight.w500,
@@ -185,11 +185,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           children: [
             Text(l10n.settings, style: textTheme.titleMedium),
             const SizedBox(height: AppSpacing.xs),
-            Text(
+             Text(
               l10n.settingsSubtitle,
-              style: textTheme.bodySmall?.copyWith(
-                color: AppColors.textSecondary,
-              ),
+              style: textTheme.bodySmall,
             ),
             const SizedBox(height: AppSpacing.xs),
             ValueListenableBuilder<String>(
@@ -201,9 +199,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     title: Text(l10n.yourCurrency),
                     subtitle: Text(
                       l10n.yourCurrencySubtitle,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
+                      style: textTheme.bodySmall,
                     ),
                     trailing: _changingCurrency
                         ? const SizedBox(
@@ -311,9 +307,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     title: Text(l10n.notificationsLabel),
                     subtitle: Text(
                       l10n.notificationsSubtitle,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
+                      style: textTheme.bodySmall,
                     ),
                     value: notificationsEnabled,
                     onChanged: (bool value) {
@@ -334,9 +328,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 title: Text(l10n.manageCategories),
                 subtitle: Text(
                   l10n.manageCategoriesSubtitle,
-                  style: textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
+                  style: textTheme.bodySmall,
                 ),
                 trailing: const Icon(Icons.chevron_right_rounded),
                 onTap: () {
@@ -396,7 +388,7 @@ class SettingsDropdownTile<T> extends StatelessWidget {
         title: Text(title),
         subtitle: Text(
           subtitle,
-          style: textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
+          style: textTheme.bodySmall,
         ),
         trailing: DropdownButtonHideUnderline(
           child: DropdownButton<T>(

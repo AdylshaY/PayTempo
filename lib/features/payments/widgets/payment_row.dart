@@ -31,8 +31,8 @@ class PaymentRow extends StatelessWidget {
         subscription.avatarEmoji != null &&
         subscription.avatarEmoji!.isNotEmpty) {
       return Container(
-        width: 44,
-        height: 44,
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(AppRadii.button),
@@ -40,15 +40,15 @@ class PaymentRow extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           subscription.avatarEmoji!,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 18),
         ),
       );
     }
 
     if (subscription.avatarIconCodePoint != null) {
       return Container(
-        width: 44,
-        height: 44,
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(AppRadii.button),
@@ -60,18 +60,23 @@ class PaymentRow extends StatelessWidget {
             fontPackage: subscription.avatarIconFontPackage,
           ),
           color: Colors.white,
+          size: 20,
         ),
       );
     }
 
     return Container(
-      width: 44,
-      height: 44,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(AppRadii.button),
       ),
-      child: const Icon(Icons.subscriptions_outlined, color: Colors.white),
+      child: const Icon(
+        Icons.subscriptions_outlined,
+        color: Colors.white,
+        size: 20,
+      ),
     );
   }
 
@@ -91,16 +96,7 @@ class PaymentRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(AppRadii.button),
-            ),
-            alignment: Alignment.center,
-            child: _avatar(),
-          ),
+          _avatar(),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
@@ -110,9 +106,7 @@ class PaymentRow extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${paidAmount.toStringAsFixed(2)} $paidCurrency • ${paidAt.toMonthDayLabel()}',
-                  style: textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
+                  style: textTheme.bodySmall,
                 ),
               ],
             ),
@@ -131,9 +125,7 @@ class PaymentRow extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 l10n.recordedLabel,
-                style: textTheme.bodySmall?.copyWith(
-                  color: AppColors.textSecondary,
-                ),
+                style: textTheme.bodySmall,
               ),
             ],
           ),

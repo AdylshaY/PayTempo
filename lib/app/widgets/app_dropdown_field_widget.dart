@@ -27,7 +27,7 @@ class AppDropdownFieldWidget<T> extends StatelessWidget {
         theme.inputDecorationTheme;
 
     final TextStyle? dropdownTextStyle = textTheme.bodyMedium?.copyWith(
-      color: AppColors.textPrimary,
+      color: theme.colorScheme.onSurface,
     );
 
     return DropdownMenu<T>(
@@ -48,7 +48,7 @@ class AppDropdownFieldWidget<T> extends StatelessWidget {
       ),
       inputDecorationTheme: baseInputTheme.copyWith(
         hintStyle: textTheme.bodyMedium?.copyWith(
-          color: AppColors.textSecondary,
+          color: theme.colorScheme.onSurfaceVariant,
         ),
       ),
       dropdownMenuEntries: entries,

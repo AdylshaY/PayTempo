@@ -149,7 +149,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                             child: Text(
                               l10n.paymentsFailedToLoad,
                               style: textTheme.bodyMedium?.copyWith(
-                                color: AppColors.textSecondary,
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
                             ),
                           );
@@ -247,9 +247,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                         ),
                                         Text(
                                           l10n.paymentsCount(items.length),
-                                          style: textTheme.bodySmall?.copyWith(
-                                            color: AppColors.textSecondary,
-                                          ),
+                                          style: textTheme.bodySmall,
                                         ),
                                       ],
                                     ),
@@ -258,7 +256,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                       Text(
                                         l10n.noPaymentsForMonth,
                                         style: textTheme.bodyMedium?.copyWith(
-                                          color: AppColors.textSecondary,
+                                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                                         ),
                                       )
                                     else
@@ -342,9 +340,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                     _fromDate == null && _toDate == null
                                         ? l10n.showingLast3Months
                                         : l10n.showingFilteredRange,
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: AppColors.textSecondary,
-                                    ),
+                                    style: textTheme.bodySmall,
                                   ),
                                 ),
                                 if (_fromDate != null || _toDate != null)
@@ -357,9 +353,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                             if (_fromDate != null || _toDate != null)
                               Text(
                                 '${_fromDate == null ? l10n.anyTime : _fromDate!.toFullDateLabel()} - ${_toDate == null ? l10n.anyTime : _toDate!.toFullDateLabel()}',
-                                style: textTheme.bodySmall?.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
+                                style: textTheme.bodySmall,
                               ),
                             const SizedBox(height: AppSpacing.md),
                           ],
@@ -378,7 +372,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                         ? l10n.noPaymentsMatchFilter
                                         : l10n.noPaymentsRecordedYet,
                                     style: textTheme.bodyMedium?.copyWith(
-                                      color: AppColors.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                                     ),
                                   ),
                                 ),

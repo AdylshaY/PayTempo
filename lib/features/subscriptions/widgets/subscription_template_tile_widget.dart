@@ -69,14 +69,12 @@ class SubscriptionTemplateTile extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.background,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
                   getCategoryLabel(template.category, l10n),
-                  style: textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
+                  style: textTheme.bodySmall,
                 ),
               ),
             ],

@@ -110,6 +110,7 @@ class AppTheme {
       onSecondary: Colors.white,
       onSurface: AppColors.textPrimary,
       onError: Colors.white,
+      onSurfaceVariant: AppColors.textSecondary,
     );
 
     return _buildTheme(
@@ -134,6 +135,7 @@ class AppTheme {
       onSecondary: Colors.white,
       onSurface: AppColors.textPrimaryDark,
       onError: Colors.white,
+      onSurfaceVariant: AppColors.textSecondaryDark,
     );
 
     return _buildTheme(
@@ -163,10 +165,11 @@ class AppTheme {
       headlineMedium: AppTypography.h2,
       titleMedium: AppTypography.h3,
       bodyMedium: AppTypography.body1,
-      bodySmall: AppTypography.caption,
     ).apply(
       bodyColor: textPrimary,
       displayColor: textPrimary,
+    ).copyWith(
+      bodySmall: AppTypography.caption.copyWith(color: textSecondary),
     );
 
     return ThemeData(

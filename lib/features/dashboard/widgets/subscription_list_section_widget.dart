@@ -98,7 +98,7 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                   return Text(
                     l10n.activeSubscriptionsFailed,
                     style: textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textSecondary,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   );
                 }
@@ -142,7 +142,7 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                           Text(
                             l10n.noActiveSubscriptions,
                             style: textTheme.bodyMedium?.copyWith(
-                              color: AppColors.textSecondary,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
                           ),
                         ],
@@ -163,9 +163,7 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                             Text(l10n.activeSubscriptions, style: textTheme.titleMedium),
                             Text(
                               l10n.totalItems(items.length),
-                              style: textTheme.bodySmall?.copyWith(
-                                color: AppColors.textSecondary,
-                              ),
+                              style: textTheme.bodySmall,
                             ),
                           ],
                         ),
