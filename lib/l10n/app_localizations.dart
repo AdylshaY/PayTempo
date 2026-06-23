@@ -1279,6 +1279,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your subscription for {name} ({price} {currency}) is due today.'**
   String notificationDueTodayBody(String name, String price, String currency);
+
+  /// No description provided for @notificationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsLabel;
+
+  /// No description provided for @notificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable or disable reminders for upcoming bills.'**
+  String get notificationsSubtitle;
+
+  /// No description provided for @notificationsEnabledSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders are scheduled for this subscription.'**
+  String get notificationsEnabledSubtitle;
+
+  /// No description provided for @notificationsDisabledSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders are turned off for this subscription.'**
+  String get notificationsDisabledSubtitle;
 }
 
 class _AppLocalizationsDelegate

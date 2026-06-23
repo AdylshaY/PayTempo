@@ -645,4 +645,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String notificationDueTodayBody(String name, String price, String currency) {
     return '$name aboneliğinizin ödemesi bugün yapılacak ($price $currency).';
   }
+
+  @override
+  String get notificationsLabel => 'Bildirimler';
+
+  @override
+  String get notificationsSubtitle =>
+      'Yaklaşan ödemeler için hatırlatıcıları açın veya kapatın.';
+
+  @override
+  String get notificationsEnabledSubtitle =>
+      'Bu abonelik için hatırlatıcılar planlandı.';
+
+  @override
+  String get notificationsDisabledSubtitle =>
+      'Bu abonelik için hatırlatıcılar kapatıldı.';
 }

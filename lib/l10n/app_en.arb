@@ -283,6 +283,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "notificationsLabel": "Notifications",
+  "notificationsSubtitle": "Enable or disable reminders for upcoming bills.",
+  "notificationsEnabledSubtitle": "Reminders are scheduled for this subscription.",
+  "notificationsDisabledSubtitle": "Reminders are turned off for this subscription."
 }
 

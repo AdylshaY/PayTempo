@@ -47,29 +47,34 @@ const UserSettingsSchema = CollectionSchema(
       name: r'lastSyncTime',
       type: IsarType.dateTime,
     ),
-    r'proExpiryDate': PropertySchema(
+    r'notificationsEnabled': PropertySchema(
       id: 6,
+      name: r'notificationsEnabled',
+      type: IsarType.bool,
+    ),
+    r'proExpiryDate': PropertySchema(
+      id: 7,
       name: r'proExpiryDate',
       type: IsarType.dateTime,
     ),
     r'proPlanType': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'proPlanType',
       type: IsarType.string,
     ),
     r'proPriceDisplay': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'proPriceDisplay',
       type: IsarType.string,
     ),
     r'themeMode': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'themeMode',
       type: IsarType.byte,
       enumMap: _UserSettingsthemeModeEnumValueMap,
     ),
     r'userId': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'userId',
       type: IsarType.string,
     )
@@ -160,11 +165,12 @@ void _userSettingsSerialize(
   writer.writeBool(offsets[3], object.isPro);
   writer.writeString(offsets[4], object.languageCode);
   writer.writeDateTime(offsets[5], object.lastSyncTime);
-  writer.writeDateTime(offsets[6], object.proExpiryDate);
-  writer.writeString(offsets[7], object.proPlanType);
-  writer.writeString(offsets[8], object.proPriceDisplay);
-  writer.writeByte(offsets[9], object.themeMode.index);
-  writer.writeString(offsets[10], object.userId);
+  writer.writeBool(offsets[6], object.notificationsEnabled);
+  writer.writeDateTime(offsets[7], object.proExpiryDate);
+  writer.writeString(offsets[8], object.proPlanType);
+  writer.writeString(offsets[9], object.proPriceDisplay);
+  writer.writeByte(offsets[10], object.themeMode.index);
+  writer.writeString(offsets[11], object.userId);
 }
 
 UserSettings _userSettingsDeserialize(
@@ -181,13 +187,14 @@ UserSettings _userSettingsDeserialize(
     isPro: reader.readBoolOrNull(offsets[3]) ?? false,
     languageCode: reader.readStringOrNull(offsets[4]),
     lastSyncTime: reader.readDateTimeOrNull(offsets[5]),
-    proExpiryDate: reader.readDateTimeOrNull(offsets[6]),
-    proPlanType: reader.readStringOrNull(offsets[7]),
-    proPriceDisplay: reader.readStringOrNull(offsets[8]),
-    themeMode:
-        _UserSettingsthemeModeValueEnumMap[reader.readByteOrNull(offsets[9])] ??
-            AppThemeMode.system,
-    userId: reader.readStringOrNull(offsets[10]),
+    notificationsEnabled: reader.readBoolOrNull(offsets[6]) ?? true,
+    proExpiryDate: reader.readDateTimeOrNull(offsets[7]),
+    proPlanType: reader.readStringOrNull(offsets[8]),
+    proPriceDisplay: reader.readStringOrNull(offsets[9]),
+    themeMode: _UserSettingsthemeModeValueEnumMap[
+            reader.readByteOrNull(offsets[10])] ??
+        AppThemeMode.system,
+    userId: reader.readStringOrNull(offsets[11]),
   );
   return object;
 }
@@ -212,16 +219,18 @@ P _userSettingsDeserializeProp<P>(
     case 5:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 6:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? true) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
+      return (reader.readStringOrNull(offset)) as P;
+    case 10:
       return (_UserSettingsthemeModeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           AppThemeMode.system) as P;
-    case 10:
+    case 11:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1112,6 +1121,16 @@ extension UserSettingsQueryFilter
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationsEnabledEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'notificationsEnabled',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
       proExpiryDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1787,6 +1806,20 @@ extension UserSettingsQuerySortBy
     });
   }
 
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByNotificationsEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationsEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByNotificationsEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationsEnabled', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy> sortByProExpiryDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'proExpiryDate', Sort.asc);
@@ -1942,6 +1975,20 @@ extension UserSettingsQuerySortThenBy
     });
   }
 
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByNotificationsEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationsEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByNotificationsEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationsEnabled', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy> thenByProExpiryDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'proExpiryDate', Sort.asc);
@@ -2050,6 +2097,13 @@ extension UserSettingsQueryWhereDistinct
   }
 
   QueryBuilder<UserSettings, UserSettings, QDistinct>
+      distinctByNotificationsEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'notificationsEnabled');
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QDistinct>
       distinctByProExpiryDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'proExpiryDate');
@@ -2127,6 +2181,13 @@ extension UserSettingsQueryProperty
       lastSyncTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastSyncTime');
+    });
+  }
+
+  QueryBuilder<UserSettings, bool, QQueryOperations>
+      notificationsEnabledProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'notificationsEnabled');
     });
   }
 

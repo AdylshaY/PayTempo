@@ -87,11 +87,28 @@ class NotificationService {
   /// 1. One day before the next payment date at 09:00 AM local time.
   /// 2. On the next payment date at 09:00 AM local time.
   Future<void> scheduleSubscriptionNotifications(SubscriptionRecord subscription) async {
-    // Prevent scheduling if the subscription has been soft-deleted
-    if (subscription.isDeleted) return;
-
     // Ensure initialization is completed
     await initialize();
+
+    // Clean up if the subscription has been soft-deleted
+    if (subscription.isDeleted) {
+      await cancelSubscriptionNotifications(subscription);
+      return;
+    }
+
+    // Cancel if notifications are disabled for this specific subscription
+    if (!subscription.enableNotifications) {
+      await cancelSubscriptionNotifications(subscription);
+      return;
+    }
+
+    // Cancel if global notifications are disabled
+    final settings = await UserSettingsService().getSettings();
+    final bool globalEnabled = settings?.notificationsEnabled ?? true;
+    if (!globalEnabled) {
+      await cancelSubscriptionNotifications(subscription);
+      return;
+    }
 
     // Determine target locale and load localization keys programmatically without context
     final String localeCode = UserSettingsService.appLanguageNotifier.value ?? 'en';
@@ -188,5 +205,11 @@ class NotificationService {
 
     await _flutterLocalNotificationsPlugin.cancel(id1DayBefore);
     await _flutterLocalNotificationsPlugin.cancel(idDueToday);
+  }
+
+  /// Cancels all scheduled notifications across all subscriptions.
+  Future<void> cancelAllNotifications() async {
+    await initialize();
+    await _flutterLocalNotificationsPlugin.cancelAll();
   }
 }

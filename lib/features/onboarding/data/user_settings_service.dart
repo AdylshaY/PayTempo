@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
+import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
+import 'package:pay_tempo/data/local/services/notification_service.dart';
 
 class UserSettingsService {
   UserSettingsService({Isar? isar}) : _isar = isar ?? LocalDatabase.instance.isar;
@@ -21,6 +23,10 @@ class UserSettingsService {
   /// when the user changes their display currency.
   static final ValueNotifier<String> baseCurrencyNotifier =
       ValueNotifier('USD');
+
+  /// Global notifier for notifications configuration to enable instant UI updates.
+  static final ValueNotifier<bool> notificationsEnabledNotifier =
+      ValueNotifier(true);
 
   /// Converts Isar AppThemeMode enum to Flutter ThemeMode.
   ThemeMode _toFlutterThemeMode(AppThemeMode mode) {
@@ -40,6 +46,7 @@ class UserSettingsService {
     if (settings != null) {
       appThemeNotifier.value = _toFlutterThemeMode(settings.themeMode);
       appLanguageNotifier.value = settings.languageCode;
+      notificationsEnabledNotifier.value = settings.notificationsEnabled;
       if (settings.baseCurrency.trim().isNotEmpty) {
         baseCurrencyNotifier.value = settings.baseCurrency.trim().toUpperCase();
       }
@@ -173,5 +180,31 @@ class UserSettingsService {
       current.lastSyncTime = DateTime.now();
       await _isar.userSettings.put(current);
     });
+  }
+
+  Future<void> setNotificationsEnabled(bool enabled) async {
+    await _isar.writeTxn(() async {
+      final UserSettings? current = await _isar.userSettings.get(1);
+      if (current != null) {
+        current.notificationsEnabled = enabled;
+        await _isar.userSettings.put(current);
+        notificationsEnabledNotifier.value = enabled;
+      }
+    });
+
+    if (enabled) {
+      // Reschedule notifications for all active subscriptions that have reminders enabled
+      final subscriptions = await _isar.subscriptionRecords
+          .filter()
+          .isDeletedEqualTo(false)
+          .enableNotificationsEqualTo(true)
+          .findAll();
+      for (final SubscriptionRecord sub in subscriptions) {
+        await NotificationService.instance.scheduleSubscriptionNotifications(sub);
+      }
+    } else {
+      // Cancel all notifications
+      await NotificationService.instance.cancelAllNotifications();
+    }
   }
 }

@@ -24,6 +24,7 @@ class SubscriptionRecord {
     this.userId,
     this.isDeleted = false,
     this.note,
+    this.enableNotifications = true,
   });
 
   Id id;
@@ -69,4 +70,7 @@ class SubscriptionRecord {
   DateTime updatedAt;
 
   bool isDeleted;
+
+  @Index()
+  bool enableNotifications;
 }

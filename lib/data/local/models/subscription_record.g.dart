@@ -68,43 +68,48 @@ const SubscriptionRecordSchema = CollectionSchema(
       name: r'currency',
       type: IsarType.string,
     ),
-    r'isDeleted': PropertySchema(
+    r'enableNotifications': PropertySchema(
       id: 10,
+      name: r'enableNotifications',
+      type: IsarType.bool,
+    ),
+    r'isDeleted': PropertySchema(
+      id: 11,
       name: r'isDeleted',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'name',
       type: IsarType.string,
     ),
     r'nextPaymentDate': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'nextPaymentDate',
       type: IsarType.dateTime,
     ),
     r'note': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'note',
       type: IsarType.string,
     ),
     r'price': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'price',
       type: IsarType.double,
     ),
     r'uid': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'uid',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
     r'userId': PropertySchema(
-      id: 17,
+      id: 18,
       name: r'userId',
       type: IsarType.string,
     )
@@ -192,6 +197,19 @@ const SubscriptionRecordSchema = CollectionSchema(
           caseSensitive: false,
         )
       ],
+    ),
+    r'enableNotifications': IndexSchema(
+      id: 471099693219190243,
+      name: r'enableNotifications',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'enableNotifications',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
@@ -268,14 +286,15 @@ void _subscriptionRecordSerialize(
   writer.writeString(offsets[7], object.billingCycle);
   writer.writeString(offsets[8], object.category);
   writer.writeString(offsets[9], object.currency);
-  writer.writeBool(offsets[10], object.isDeleted);
-  writer.writeString(offsets[11], object.name);
-  writer.writeDateTime(offsets[12], object.nextPaymentDate);
-  writer.writeString(offsets[13], object.note);
-  writer.writeDouble(offsets[14], object.price);
-  writer.writeString(offsets[15], object.uid);
-  writer.writeDateTime(offsets[16], object.updatedAt);
-  writer.writeString(offsets[17], object.userId);
+  writer.writeBool(offsets[10], object.enableNotifications);
+  writer.writeBool(offsets[11], object.isDeleted);
+  writer.writeString(offsets[12], object.name);
+  writer.writeDateTime(offsets[13], object.nextPaymentDate);
+  writer.writeString(offsets[14], object.note);
+  writer.writeDouble(offsets[15], object.price);
+  writer.writeString(offsets[16], object.uid);
+  writer.writeDateTime(offsets[17], object.updatedAt);
+  writer.writeString(offsets[18], object.userId);
 }
 
 SubscriptionRecord _subscriptionRecordDeserialize(
@@ -295,15 +314,16 @@ SubscriptionRecord _subscriptionRecordDeserialize(
     billingCycle: reader.readString(offsets[7]),
     category: reader.readString(offsets[8]),
     currency: reader.readString(offsets[9]),
+    enableNotifications: reader.readBoolOrNull(offsets[10]) ?? true,
     id: id,
-    isDeleted: reader.readBoolOrNull(offsets[10]) ?? false,
-    name: reader.readString(offsets[11]),
-    nextPaymentDate: reader.readDateTime(offsets[12]),
-    note: reader.readStringOrNull(offsets[13]),
-    price: reader.readDouble(offsets[14]),
-    uid: reader.readString(offsets[15]),
-    updatedAt: reader.readDateTime(offsets[16]),
-    userId: reader.readStringOrNull(offsets[17]),
+    isDeleted: reader.readBoolOrNull(offsets[11]) ?? false,
+    name: reader.readString(offsets[12]),
+    nextPaymentDate: reader.readDateTime(offsets[13]),
+    note: reader.readStringOrNull(offsets[14]),
+    price: reader.readDouble(offsets[15]),
+    uid: reader.readString(offsets[16]),
+    updatedAt: reader.readDateTime(offsets[17]),
+    userId: reader.readStringOrNull(offsets[18]),
   );
   return object;
 }
@@ -336,20 +356,22 @@ P _subscriptionRecordDeserializeProp<P>(
     case 9:
       return (reader.readString(offset)) as P;
     case 10:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBoolOrNull(offset) ?? true) as P;
     case 11:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 12:
-      return (reader.readDateTime(offset)) as P;
-    case 13:
-      return (reader.readStringOrNull(offset)) as P;
-    case 14:
-      return (reader.readDouble(offset)) as P;
-    case 15:
       return (reader.readString(offset)) as P;
-    case 16:
+    case 13:
       return (reader.readDateTime(offset)) as P;
+    case 14:
+      return (reader.readStringOrNull(offset)) as P;
+    case 15:
+      return (reader.readDouble(offset)) as P;
+    case 16:
+      return (reader.readString(offset)) as P;
     case 17:
+      return (reader.readDateTime(offset)) as P;
+    case 18:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -392,6 +414,15 @@ extension SubscriptionRecordQueryWhereSort
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'updatedAt'),
+      );
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhere>
+      anyEnableNotifications() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'enableNotifications'),
       );
     });
   }
@@ -852,6 +883,51 @@ extension SubscriptionRecordQueryWhere
         upper: [upperUpdatedAt],
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      enableNotificationsEqualTo(bool enableNotifications) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'enableNotifications',
+        value: [enableNotifications],
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      enableNotificationsNotEqualTo(bool enableNotifications) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'enableNotifications',
+              lower: [],
+              upper: [enableNotifications],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'enableNotifications',
+              lower: [enableNotifications],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'enableNotifications',
+              lower: [enableNotifications],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'enableNotifications',
+              lower: [],
+              upper: [enableNotifications],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
@@ -2088,6 +2164,16 @@ extension SubscriptionRecordQueryFilter
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      enableNotificationsEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'enableNotifications',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
       idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -3061,6 +3147,20 @@ extension SubscriptionRecordQuerySortBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByEnableNotifications() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'enableNotifications', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByEnableNotificationsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'enableNotifications', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       sortByIsDeleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isDeleted', Sort.asc);
@@ -3316,6 +3416,20 @@ extension SubscriptionRecordQuerySortThenBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByEnableNotifications() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'enableNotifications', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByEnableNotificationsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'enableNotifications', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -3517,6 +3631,13 @@ extension SubscriptionRecordQueryWhereDistinct
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
+      distinctByEnableNotifications() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'enableNotifications');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
       distinctByIsDeleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isDeleted');
@@ -3647,6 +3768,13 @@ extension SubscriptionRecordQueryProperty
       currencyProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'currency');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, bool, QQueryOperations>
+      enableNotificationsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'enableNotifications');
     });
   }
 

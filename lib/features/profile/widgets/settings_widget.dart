@@ -296,6 +296,34 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               },
             ),
             const SizedBox(height: AppSpacing.xs),
+            ValueListenableBuilder<bool>(
+              valueListenable: UserSettingsService.notificationsEnabledNotifier,
+              builder: (context, notificationsEnabled, _) {
+                return Card(
+                  child: SwitchListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: 4,
+                    ),
+                    secondary: Icon(notificationsEnabled
+                        ? Icons.notifications_active_outlined
+                        : Icons.notifications_off_outlined),
+                    title: Text(l10n.notificationsLabel),
+                    subtitle: Text(
+                      l10n.notificationsSubtitle,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    value: notificationsEnabled,
+                    onChanged: (bool value) {
+                      UserSettingsService().setNotificationsEnabled(value);
+                    },
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: AppSpacing.xs),
             Card(
               child: ListTile(
                 contentPadding: const EdgeInsets.symmetric(

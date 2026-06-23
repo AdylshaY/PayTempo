@@ -23,6 +23,7 @@ class UserSettings {
     this.proPriceDisplay,
     this.themeMode = AppThemeMode.system,
     this.languageCode,
+    this.notificationsEnabled = true,
   });
 
   Id id;
@@ -56,4 +57,6 @@ class UserSettings {
 
   /// Selected language code ('en', 'tr', etc.) or null for system default.
   String? languageCode;
+
+  bool notificationsEnabled;
 }

@@ -8,11 +8,12 @@ import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
+import 'package:pay_tempo/data/local/services/notification_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
 /// A bottom sheet that displays full details for a subscription,
 /// including recent payment history and a converted price equivalent.
-class SubscriptionDetailSheet extends StatelessWidget {
+class SubscriptionDetailSheet extends StatefulWidget {
   const SubscriptionDetailSheet({
     required this.subscription,
     required this.baseCurrency,
@@ -26,7 +27,40 @@ class SubscriptionDetailSheet extends StatelessWidget {
   final bool isPaidThisMonth;
   final VoidCallback? onMarkPaid;
 
+  @override
+  State<SubscriptionDetailSheet> createState() => _SubscriptionDetailSheetState();
+}
+
+class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
+  late bool _notificationsEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationsEnabled = widget.subscription.enableNotifications;
+  }
+
+  Future<void> _toggleNotifications(bool value) async {
+    setState(() {
+      _notificationsEnabled = value;
+    });
+
+    final isar = LocalDatabase.instance.isar;
+    await isar.writeTxn(() async {
+      widget.subscription.enableNotifications = value;
+      widget.subscription.updatedAt = DateTime.now();
+      await isar.subscriptionRecords.put(widget.subscription);
+    });
+
+    if (value) {
+      await NotificationService.instance.scheduleSubscriptionNotifications(widget.subscription);
+    } else {
+      await NotificationService.instance.cancelSubscriptionNotifications(widget.subscription);
+    }
+  }
+
   Widget _buildAvatar() {
+    final subscription = widget.subscription;
     final Color backgroundColor = subscription.avatarColorValue != null
         ? Color(subscription.avatarColorValue!)
         : AppColors.primary;
@@ -101,6 +135,11 @@ class SubscriptionDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final subscription = widget.subscription;
+    final baseCurrency = widget.baseCurrency;
+    final isPaidThisMonth = widget.isPaidThisMonth;
+    final onMarkPaid = widget.onMarkPaid;
+
     final TextTheme textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context)!;
     final bool showConversion =
@@ -212,6 +251,33 @@ class SubscriptionDetailSheet extends StatelessWidget {
                       icon: Icons.pin_outlined,
                       label: l10n.anchorDayLabel,
                       value: '${subscription.anchorDay}',
+                    ),
+                    const Divider(height: AppSpacing.md, thickness: 0.5),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      secondary: Icon(
+                        _notificationsEnabled
+                            ? Icons.notifications_active_outlined
+                            : Icons.notifications_off_outlined,
+                        color: AppColors.textSecondary,
+                      ),
+                      title: Text(
+                        l10n.notificationsLabel,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      subtitle: Text(
+                        _notificationsEnabled
+                            ? l10n.notificationsEnabledSubtitle
+                            : l10n.notificationsDisabledSubtitle,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      value: _notificationsEnabled,
+                      onChanged: _toggleNotifications,
                     ),
                   ],
                 ),

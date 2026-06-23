@@ -643,4 +643,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String notificationDueTodayBody(String name, String price, String currency) {
     return 'Your subscription for $name ($price $currency) is due today.';
   }
+
+  @override
+  String get notificationsLabel => 'Notifications';
+
+  @override
+  String get notificationsSubtitle =>
+      'Enable or disable reminders for upcoming bills.';
+
+  @override
+  String get notificationsEnabledSubtitle =>
+      'Reminders are scheduled for this subscription.';
+
+  @override
+  String get notificationsDisabledSubtitle =>
+      'Reminders are turned off for this subscription.';
 }

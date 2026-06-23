@@ -196,6 +196,10 @@
   "notification1DayBeforeTitle": "Yaklaşan Ödeme",
   "notification1DayBeforeBody": "{name} aboneliğinizin ödemesi yarın yapılacak ({price} {currency}).",
   "notificationDueTodayTitle": "Ödeme Günü",
-  "notificationDueTodayBody": "{name} aboneliğinizin ödemesi bugün yapılacak ({price} {currency})."
+  "notificationDueTodayBody": "{name} aboneliğinizin ödemesi bugün yapılacak ({price} {currency}).",
+  "notificationsLabel": "Bildirimler",
+  "notificationsSubtitle": "Yaklaşan ödemeler için hatırlatıcıları açın veya kapatın.",
+  "notificationsEnabledSubtitle": "Bu abonelik için hatırlatıcılar planlandı.",
+  "notificationsDisabledSubtitle": "Bu abonelik için hatırlatıcılar kapatıldı."
 }
 
