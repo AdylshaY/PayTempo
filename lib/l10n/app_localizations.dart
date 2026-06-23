@@ -1057,6 +1057,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See what is expected and what has already been paid.'**
   String get thisMonthSubtitle;
+
+  /// No description provided for @proUnlockMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Pro to view your spending distribution and monthly trends.'**
+  String get proUnlockMessage;
+
+  /// No description provided for @proUnlockedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'PayTempo Pro unlocked!'**
+  String get proUnlockedSuccess;
+
+  /// No description provided for @spendingByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending by Category'**
+  String get spendingByCategory;
+
+  /// No description provided for @monthlyTrends.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Trends'**
+  String get monthlyTrends;
+
+  /// No description provided for @noDataForAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'No payment data available for this month.'**
+  String get noDataForAnalytics;
+
+  /// No description provided for @last6Months.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 6 Months'**
+  String get last6Months;
+
+  /// No description provided for @totalSpending.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Spending'**
+  String get totalSpending;
+
+  /// No description provided for @billingCycleBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Billing Cycle Breakdown'**
+  String get billingCycleBreakdown;
+
+  /// No description provided for @monthlySubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Subscriptions'**
+  String get monthlySubscriptions;
+
+  /// No description provided for @yearlySubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly Subscriptions'**
+  String get yearlySubscriptions;
+
+  /// No description provided for @equivalentMonthlyTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Equivalent Monthly Cost'**
+  String get equivalentMonthlyTotal;
+
+  /// No description provided for @equivalentYearlyTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Equivalent Yearly Cost'**
+  String get equivalentYearlyTotal;
+
+  /// No description provided for @monthlyCycleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get monthlyCycleLabel;
+
+  /// No description provided for @yearlyCycleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get yearlyCycleLabel;
+
+  /// No description provided for @potentialSavingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optimize Savings'**
+  String get potentialSavingsTitle;
+
+  /// No description provided for @potentialSavingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Consider switching monthly subscriptions to yearly billing to save up to 20% annually.'**
+  String get potentialSavingsDesc;
 }
 
 class _AppLocalizationsDelegate

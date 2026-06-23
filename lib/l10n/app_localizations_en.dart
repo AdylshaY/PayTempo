@@ -519,4 +519,54 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get thisMonthSubtitle =>
       'See what is expected and what has already been paid.';
+
+  @override
+  String get proUnlockMessage =>
+      'Unlock Pro to view your spending distribution and monthly trends.';
+
+  @override
+  String get proUnlockedSuccess => 'PayTempo Pro unlocked!';
+
+  @override
+  String get spendingByCategory => 'Spending by Category';
+
+  @override
+  String get monthlyTrends => 'Monthly Trends';
+
+  @override
+  String get noDataForAnalytics => 'No payment data available for this month.';
+
+  @override
+  String get last6Months => 'Last 6 Months';
+
+  @override
+  String get totalSpending => 'Total Spending';
+
+  @override
+  String get billingCycleBreakdown => 'Billing Cycle Breakdown';
+
+  @override
+  String get monthlySubscriptions => 'Monthly Subscriptions';
+
+  @override
+  String get yearlySubscriptions => 'Yearly Subscriptions';
+
+  @override
+  String get equivalentMonthlyTotal => 'Equivalent Monthly Cost';
+
+  @override
+  String get equivalentYearlyTotal => 'Equivalent Yearly Cost';
+
+  @override
+  String get monthlyCycleLabel => 'Monthly';
+
+  @override
+  String get yearlyCycleLabel => 'Yearly';
+
+  @override
+  String get potentialSavingsTitle => 'Optimize Savings';
+
+  @override
+  String get potentialSavingsDesc =>
+      'Consider switching monthly subscriptions to yearly billing to save up to 20% annually.';
 }

@@ -520,4 +520,54 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get thisMonthSubtitle => 'Beklenen ve ödenmiş olanları görün.';
+
+  @override
+  String get proUnlockMessage =>
+      'Harcama dağılımınızı ve aylık eğilimlerinizi görmek için Pro\'yu etkinleştirin.';
+
+  @override
+  String get proUnlockedSuccess => 'PayTempo Pro özellikleri açıldı!';
+
+  @override
+  String get spendingByCategory => 'Kategoriye Göre Harcama';
+
+  @override
+  String get monthlyTrends => 'Aylık Trendler';
+
+  @override
+  String get noDataForAnalytics => 'Bu ay için ödeme verisi bulunmamaktadır.';
+
+  @override
+  String get last6Months => 'Son 6 Ay';
+
+  @override
+  String get totalSpending => 'Toplam Harcama';
+
+  @override
+  String get billingCycleBreakdown => 'Faturalandırma Periyodu Analizi';
+
+  @override
+  String get monthlySubscriptions => 'Aylık Abonelikler';
+
+  @override
+  String get yearlySubscriptions => 'Yıllık Abonelikler';
+
+  @override
+  String get equivalentMonthlyTotal => 'Aylık Ortalama Tutar';
+
+  @override
+  String get equivalentYearlyTotal => 'Yıllık Ortalama Tutar';
+
+  @override
+  String get monthlyCycleLabel => 'Aylık';
+
+  @override
+  String get yearlyCycleLabel => 'Yıllık';
+
+  @override
+  String get potentialSavingsTitle => 'Tasarruf Fırsatlarını Yakala';
+
+  @override
+  String get potentialSavingsDesc =>
+      'Aylık aboneliklerinizi yıllık ödemeye geçirerek yılda yaklaşık %20 tasarruf edebilirsiniz.';
 }

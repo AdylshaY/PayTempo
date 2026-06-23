@@ -220,5 +220,21 @@
   "continueToProLabel": "Continue to Pro",
   "analyticsScreenPlaceholder": "Analytics Screen",
   "thisMonth": "This Month",
-  "thisMonthSubtitle": "See what is expected and what has already been paid."
+  "thisMonthSubtitle": "See what is expected and what has already been paid.",
+  "proUnlockMessage": "Unlock Pro to view your spending distribution and monthly trends.",
+  "proUnlockedSuccess": "PayTempo Pro unlocked!",
+  "spendingByCategory": "Spending by Category",
+  "monthlyTrends": "Monthly Trends",
+  "noDataForAnalytics": "No payment data available for this month.",
+  "last6Months": "Last 6 Months",
+  "totalSpending": "Total Spending",
+  "billingCycleBreakdown": "Billing Cycle Breakdown",
+  "monthlySubscriptions": "Monthly Subscriptions",
+  "yearlySubscriptions": "Yearly Subscriptions",
+  "equivalentMonthlyTotal": "Equivalent Monthly Cost",
+  "equivalentYearlyTotal": "Equivalent Yearly Cost",
+  "monthlyCycleLabel": "Monthly",
+  "yearlyCycleLabel": "Yearly",
+  "potentialSavingsTitle": "Optimize Savings",
+  "potentialSavingsDesc": "Consider switching monthly subscriptions to yearly billing to save up to 20% annually."
 }

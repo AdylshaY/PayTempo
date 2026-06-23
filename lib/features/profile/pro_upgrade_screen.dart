@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class ProUpgradeScreen extends StatelessWidget {
@@ -71,12 +72,29 @@ class ProUpgradeScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(l10n.proUpgradeSoon),
-                      ),
-                    );
+                  onPressed: () async {
+                    try {
+                      await UserSettingsService().setProStatus(
+                        isPro: true,
+                        userId: 'demo_user',
+                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.proUnlockedSuccess),
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        );
+                      }
+                    }
                   },
                   child: Text(l10n.continueToProLabel),
                 ),

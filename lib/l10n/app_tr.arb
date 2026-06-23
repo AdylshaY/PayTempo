@@ -159,5 +159,21 @@
   "continueToProLabel": "Pro'ya Devam Et",
   "analyticsScreenPlaceholder": "Analiz Ekranı",
   "thisMonth": "Bu Ay",
-  "thisMonthSubtitle": "Beklenen ve ödenmiş olanları görün."
+  "thisMonthSubtitle": "Beklenen ve ödenmiş olanları görün.",
+  "proUnlockMessage": "Harcama dağılımınızı ve aylık eğilimlerinizi görmek için Pro'yu etkinleştirin.",
+  "proUnlockedSuccess": "PayTempo Pro özellikleri açıldı!",
+  "spendingByCategory": "Kategoriye Göre Harcama",
+  "monthlyTrends": "Aylık Trendler",
+  "noDataForAnalytics": "Bu ay için ödeme verisi bulunmamaktadır.",
+  "last6Months": "Son 6 Ay",
+  "totalSpending": "Toplam Harcama",
+  "billingCycleBreakdown": "Faturalandırma Periyodu Analizi",
+  "monthlySubscriptions": "Aylık Abonelikler",
+  "yearlySubscriptions": "Yıllık Abonelikler",
+  "equivalentMonthlyTotal": "Aylık Ortalama Tutar",
+  "equivalentYearlyTotal": "Yıllık Ortalama Tutar",
+  "monthlyCycleLabel": "Aylık",
+  "yearlyCycleLabel": "Yıllık",
+  "potentialSavingsTitle": "Tasarruf Fırsatlarını Yakala",
+  "potentialSavingsDesc": "Aylık aboneliklerinizi yıllık ödemeye geçirerek yılda yaklaşık %20 tasarruf edebilirsiniz."
 }
