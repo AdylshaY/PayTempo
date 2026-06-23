@@ -481,6 +481,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{price} {currency} • Due {date}'**
   String dueSubtitle(String price, String currency, String date);
+
+  /// No description provided for @subscriptionNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription Name'**
+  String get subscriptionNameLabel;
+
+  /// No description provided for @subscriptionNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Netflix'**
+  String get subscriptionNameHint;
+
+  /// No description provided for @subscriptionNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription name is required.'**
+  String get subscriptionNameRequired;
+
+  /// No description provided for @subscriptionNameMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter at least 2 characters.'**
+  String get subscriptionNameMinLength;
+
+  /// No description provided for @noteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note / Description (Optional)'**
+  String get noteLabel;
+
+  /// No description provided for @noteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Spouse\'s line, personal account'**
+  String get noteHint;
 }
 
 class _AppLocalizationsDelegate

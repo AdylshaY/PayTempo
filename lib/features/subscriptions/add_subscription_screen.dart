@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
@@ -29,6 +30,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   final ValueNotifier<String> _category = ValueNotifier<String>(
     subscriptionCategories.first.value,
   );
@@ -51,8 +53,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
 
   bool get _isTemplateFlow => widget.template != null;
 
-  String get _serviceName =>
-      widget.template?.title ?? _nameController.text.trim();
+  String get _serviceName => _nameController.text.trim();
 
   IconData? get _templateAvatarIcon => widget.template?.icon;
 
@@ -176,6 +177,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
   void dispose() {
     _nameController.dispose();
     _priceController.dispose();
+    _noteController.dispose();
     _category.dispose();
     _avatarType.dispose();
     _selectedIconIndex.dispose();
@@ -265,6 +267,9 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
           currency: _currency.value,
           billingCycle: _billingCycle.value,
           firstPaymentDate: _firstPaymentDate.value,
+          note: _noteController.text.trim().isEmpty
+              ? null
+              : _noteController.text.trim(),
         ),
       );
 
@@ -290,6 +295,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final AppLocalizations l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -337,27 +343,34 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
-              if (!_isTemplateFlow) ...[
-                TextFormField(
-                  controller: _nameController,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: 'Subscription Name',
-                    hintText: 'Example: Netflix',
-                  ),
-                  validator: (String? value) {
-                    final String text = value?.trim() ?? '';
-                    if (text.isEmpty) {
-                      return 'Subscription name is required.';
-                    }
-                    if (text.length < 2) {
-                      return 'Please enter at least 2 characters.';
-                    }
-                    return null;
-                  },
+              TextFormField(
+                controller: _nameController,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: l10n.subscriptionNameLabel,
+                  hintText: l10n.subscriptionNameHint,
                 ),
-                const SizedBox(height: AppSpacing.sm),
-              ],
+                validator: (String? value) {
+                  final String text = value?.trim() ?? '';
+                  if (text.isEmpty) {
+                    return l10n.subscriptionNameRequired;
+                  }
+                  if (text.length < 2) {
+                    return l10n.subscriptionNameMinLength;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              TextFormField(
+                controller: _noteController,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: l10n.noteLabel,
+                  hintText: l10n.noteHint,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
               ValueListenableBuilder<String>(
                 valueListenable: _category,
                 builder: (BuildContext context, String selectedCategory, _) {

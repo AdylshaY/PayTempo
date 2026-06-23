@@ -42,6 +42,7 @@ class SubscriptionService {
       nextPaymentDate: nextPaymentDate,
       updatedAt: now,
       isDeleted: false,
+      note: draft.note?.trim(),
     );
 
     await _isar.writeTxn(() async {

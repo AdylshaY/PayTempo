@@ -23,6 +23,7 @@ class SubscriptionRecord {
     required this.updatedAt,
     this.userId,
     this.isDeleted = false,
+    this.note,
   });
 
   Id id;
@@ -35,6 +36,8 @@ class SubscriptionRecord {
 
   @Index(caseSensitive: false)
   String category;
+
+  String? note;
 
   @Index(caseSensitive: false)
   String? avatarType;

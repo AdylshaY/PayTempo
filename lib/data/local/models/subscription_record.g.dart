@@ -83,23 +83,28 @@ const SubscriptionRecordSchema = CollectionSchema(
       name: r'nextPaymentDate',
       type: IsarType.dateTime,
     ),
-    r'price': PropertySchema(
+    r'note': PropertySchema(
       id: 13,
+      name: r'note',
+      type: IsarType.string,
+    ),
+    r'price': PropertySchema(
+      id: 14,
       name: r'price',
       type: IsarType.double,
     ),
     r'uid': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'uid',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
     r'userId': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'userId',
       type: IsarType.string,
     )
@@ -231,6 +236,12 @@ int _subscriptionRecordEstimateSize(
   bytesCount += 3 + object.category.length * 3;
   bytesCount += 3 + object.currency.length * 3;
   bytesCount += 3 + object.name.length * 3;
+  {
+    final value = object.note;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.uid.length * 3;
   {
     final value = object.userId;
@@ -260,10 +271,11 @@ void _subscriptionRecordSerialize(
   writer.writeBool(offsets[10], object.isDeleted);
   writer.writeString(offsets[11], object.name);
   writer.writeDateTime(offsets[12], object.nextPaymentDate);
-  writer.writeDouble(offsets[13], object.price);
-  writer.writeString(offsets[14], object.uid);
-  writer.writeDateTime(offsets[15], object.updatedAt);
-  writer.writeString(offsets[16], object.userId);
+  writer.writeString(offsets[13], object.note);
+  writer.writeDouble(offsets[14], object.price);
+  writer.writeString(offsets[15], object.uid);
+  writer.writeDateTime(offsets[16], object.updatedAt);
+  writer.writeString(offsets[17], object.userId);
 }
 
 SubscriptionRecord _subscriptionRecordDeserialize(
@@ -287,10 +299,11 @@ SubscriptionRecord _subscriptionRecordDeserialize(
     isDeleted: reader.readBoolOrNull(offsets[10]) ?? false,
     name: reader.readString(offsets[11]),
     nextPaymentDate: reader.readDateTime(offsets[12]),
-    price: reader.readDouble(offsets[13]),
-    uid: reader.readString(offsets[14]),
-    updatedAt: reader.readDateTime(offsets[15]),
-    userId: reader.readStringOrNull(offsets[16]),
+    note: reader.readStringOrNull(offsets[13]),
+    price: reader.readDouble(offsets[14]),
+    uid: reader.readString(offsets[15]),
+    updatedAt: reader.readDateTime(offsets[16]),
+    userId: reader.readStringOrNull(offsets[17]),
   );
   return object;
 }
@@ -329,12 +342,14 @@ P _subscriptionRecordDeserializeProp<P>(
     case 12:
       return (reader.readDateTime(offset)) as P;
     case 13:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 14:
-      return (reader.readString(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 15:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 16:
+      return (reader.readDateTime(offset)) as P;
+    case 17:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2331,6 +2346,160 @@ extension SubscriptionRecordQueryFilter
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'note',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'note',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'note',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'note',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'note',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'note',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'note',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'note',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'note',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'note',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'note',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      noteIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'note',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
       priceEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -2934,6 +3103,20 @@ extension SubscriptionRecordQuerySortBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByNote() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'note', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByNoteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'note', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       sortByPrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'price', Sort.asc);
@@ -3189,6 +3372,20 @@ extension SubscriptionRecordQuerySortThenBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByNote() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'note', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByNoteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'note', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       thenByPrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'price', Sort.asc);
@@ -3341,6 +3538,13 @@ extension SubscriptionRecordQueryWhereDistinct
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
+      distinctByNote({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'note', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
       distinctByPrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'price');
@@ -3462,6 +3666,12 @@ extension SubscriptionRecordQueryProperty
       nextPaymentDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'nextPaymentDate');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, String?, QQueryOperations> noteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'note');
     });
   }
 

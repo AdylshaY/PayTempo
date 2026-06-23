@@ -213,4 +213,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String dueSubtitle(String price, String currency, String date) {
     return '$price $currency • Due $date';
   }
+
+  @override
+  String get subscriptionNameLabel => 'Subscription Name';
+
+  @override
+  String get subscriptionNameHint => 'Example: Netflix';
+
+  @override
+  String get subscriptionNameRequired => 'Subscription name is required.';
+
+  @override
+  String get subscriptionNameMinLength => 'Please enter at least 2 characters.';
+
+  @override
+  String get noteLabel => 'Note / Description (Optional)';
+
+  @override
+  String get noteHint => 'Example: Spouse\'s line, personal account';
 }

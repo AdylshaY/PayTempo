@@ -63,5 +63,11 @@
   "dueToday": "Bugün ödenecek",
   "dueSoon": "Yakında ödenecek",
   "scheduled": "Planlanmış",
-  "dueSubtitle": "{price} {currency} • Son gün {date}"
+  "dueSubtitle": "{price} {currency} • Son gün {date}",
+  "subscriptionNameLabel": "Abonelik Adı",
+  "subscriptionNameHint": "Örnek: Netflix",
+  "subscriptionNameRequired": "Abonelik adı zorunludur.",
+  "subscriptionNameMinLength": "Lütfen en az 2 karakter girin.",
+  "noteLabel": "Açıklama / Not (İsteğe bağlı)",
+  "noteHint": "Örnek: Eşimin hattı, kişisel hesap"
 }

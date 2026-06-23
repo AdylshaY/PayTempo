@@ -13,10 +13,12 @@ class SubscriptionDraft {
     required this.billingCycle,
     required this.firstPaymentDate,
     this.userId,
+    this.note,
   });
 
   final String name;
   final String category;
+  final String? note;
   final String? avatarType;
   final String? avatarEmoji;
   final int? avatarIconCodePoint;

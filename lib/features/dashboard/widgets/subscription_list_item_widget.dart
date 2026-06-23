@@ -150,6 +150,18 @@ class SubscriptionListItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if (item.note != null && item.note!.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        item.note!,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                          fontStyle: FontStyle.italic,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                     const SizedBox(height: 4),
                     // Row 2: Due date + Status badge
                     Row(

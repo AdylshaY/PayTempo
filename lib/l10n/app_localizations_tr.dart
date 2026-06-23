@@ -215,4 +215,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String dueSubtitle(String price, String currency, String date) {
     return '$price $currency • Son gün $date';
   }
+
+  @override
+  String get subscriptionNameLabel => 'Abonelik Adı';
+
+  @override
+  String get subscriptionNameHint => 'Örnek: Netflix';
+
+  @override
+  String get subscriptionNameRequired => 'Abonelik adı zorunludur.';
+
+  @override
+  String get subscriptionNameMinLength => 'Lütfen en az 2 karakter girin.';
+
+  @override
+  String get noteLabel => 'Açıklama / Not (İsteğe bağlı)';
+
+  @override
+  String get noteHint => 'Örnek: Eşimin hattı, kişisel hesap';
 }

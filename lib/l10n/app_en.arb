@@ -100,5 +100,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "subscriptionNameLabel": "Subscription Name",
+  "subscriptionNameHint": "Example: Netflix",
+  "subscriptionNameRequired": "Subscription name is required.",
+  "subscriptionNameMinLength": "Please enter at least 2 characters.",
+  "noteLabel": "Note / Description (Optional)",
+  "noteHint": "Example: Spouse's line, personal account"
 }
