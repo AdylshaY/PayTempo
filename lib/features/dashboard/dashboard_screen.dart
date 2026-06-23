@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appTitle)),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+        padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
         children: [
           const SizedBox(height: AppSpacing.sm),
           MonthlySpendingCardWidget(baseCurrency: widget.baseCurrency),

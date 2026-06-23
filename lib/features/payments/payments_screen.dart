@@ -120,9 +120,10 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
     final Isar isar = LocalDatabase.instance.isar;
     final l10n = AppLocalizations.of(context)!;
 
-    return SafeArea(
-      child: Scaffold(
-        body: StreamBuilder<List<SubscriptionRecord>>(
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: StreamBuilder<List<SubscriptionRecord>>(
           stream: isar.subscriptionRecords
               .filter()
               .isDeletedEqualTo(false)
@@ -261,6 +262,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                       )
                                     else
                                       ListView.separated(
+                                        padding: EdgeInsets.zero,
                                         shrinkWrap: true,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
@@ -361,7 +363,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
 
                         if (sections.isEmpty) {
                           return ListView(
-                            padding: const EdgeInsets.all(AppSpacing.sm),
+                            padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
                             children: <Widget>[
                               topContent,
                               Card(
@@ -382,7 +384,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                         }
 
                         return ListView(
-                          padding: const EdgeInsets.all(AppSpacing.sm),
+                          padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
                           children: <Widget>[topContent, ...sections],
                         );
                       },

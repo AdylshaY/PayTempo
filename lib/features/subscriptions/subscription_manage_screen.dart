@@ -387,6 +387,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                             )
                           else
                             ListView.separated(
+                              padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: payments.length,

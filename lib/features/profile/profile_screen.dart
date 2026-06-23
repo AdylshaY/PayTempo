@@ -26,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: FutureBuilder<UserSettings?>(
           future: _settingsFuture,
           builder: (context, snapshot) {
@@ -45,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             final settings = snapshot.data;
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.sm),
+              padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
               child: Column(
                 children: [
                   ProfileAccountSection(

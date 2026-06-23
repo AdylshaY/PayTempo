@@ -16,6 +16,53 @@ class AppShellScreen extends StatefulWidget {
 class _AppShellScreenState extends State<AppShellScreen> {
   int _currentIndex = 0;
 
+  Widget _buildNavItem(
+    int index,
+    IconData inactiveIcon,
+    IconData activeIcon,
+    String label,
+  ) {
+    final bool isSelected = _currentIndex == index;
+    final ThemeData theme = Theme.of(context);
+    final Color activeColor = theme.colorScheme.primary;
+    final Color inactiveColor = theme.colorScheme.onSurfaceVariant;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedScale(
+              scale: isSelected ? 1.15 : 1.0,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOutCubic,
+              child: Icon(
+                isSelected ? activeIcon : inactiveIcon,
+                color: isSelected ? activeColor : inactiveColor,
+                size: 24,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: isSelected ? activeColor : inactiveColor,
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -31,41 +78,54 @@ class _AppShellScreenState extends State<AppShellScreen> {
         ];
 
         return Scaffold(
+          extendBody: true,
           body: IndexedStack(index: _currentIndex, children: pages),
           bottomNavigationBar: SafeArea(
             top: false,
-            child: SizedBox(
-              height: 80,
-              child: BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: (int index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                type: BottomNavigationBarType.fixed,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.dashboard_outlined),
-                    activeIcon: const Icon(Icons.dashboard),
-                    label: l10n.dashboard,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.receipt_long_outlined),
-                    activeIcon: const Icon(Icons.receipt_long),
-                    label: l10n.payments,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.bar_chart_outlined),
-                    activeIcon: const Icon(Icons.bar_chart),
-                    label: l10n.analytics,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.person_outline),
-                    activeIcon: const Icon(Icons.person),
-                    label: l10n.profile,
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+              child: Container(
+                height: 68,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.92),
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildNavItem(
+                      0,
+                      Icons.dashboard_outlined,
+                      Icons.dashboard,
+                      l10n.dashboard,
+                    ),
+                    _buildNavItem(
+                      1,
+                      Icons.receipt_long_outlined,
+                      Icons.receipt_long,
+                      l10n.payments,
+                    ),
+                    _buildNavItem(
+                      2,
+                      Icons.bar_chart_outlined,
+                      Icons.bar_chart,
+                      l10n.analytics,
+                    ),
+                    _buildNavItem(
+                      3,
+                      Icons.person_outline,
+                      Icons.person,
+                      l10n.profile,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

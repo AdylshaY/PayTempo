@@ -203,7 +203,7 @@ class AnalyticsScreen extends StatelessWidget {
 
 
                   return SingleChildScrollView(
-                    padding: const EdgeInsets.all(AppSpacing.sm),
+                    padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
