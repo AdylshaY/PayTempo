@@ -7,6 +7,7 @@ import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/dashboard/utils/due_date_resolver.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_item_widget.dart';
 import 'package:pay_tempo/features/dashboard/sheets/mark_subscription_paid_sheet.dart';
+import 'package:pay_tempo/features/dashboard/sheets/subscription_detail_sheet.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -30,6 +31,26 @@ class SubscriptionListSectionWidget extends StatelessWidget {
         return MarkSubscriptionPaidSheet(
           subscription: subscription,
           baseCurrency: baseCurrency,
+        );
+      },
+    );
+  }
+
+  Future<void> _openDetailSheet(
+    BuildContext context,
+    SubscriptionRecord subscription, {
+    required bool isPaidThisMonth,
+  }) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (BuildContext sheetContext) {
+        return SubscriptionDetailSheet(
+          subscription: subscription,
+          baseCurrency: baseCurrency,
+          isPaidThisMonth: isPaidThisMonth,
+          onMarkPaid: () => _openPaidSheet(context, subscription),
         );
       },
     );
@@ -158,6 +179,11 @@ class SubscriptionListSectionWidget extends StatelessWidget {
                               dueDateOverride: effectiveDueDate,
                               statusLabel: payment == null ? null : l10n.paidLabel,
                               statusColor: payment == null ? null : AppColors.success,
+                              onTap: () => _openDetailSheet(
+                                context,
+                                item,
+                                isPaidThisMonth: payment != null,
+                              ),
                             );
 
                             return Dismissible(
