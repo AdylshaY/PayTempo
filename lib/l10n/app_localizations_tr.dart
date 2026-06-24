@@ -724,4 +724,52 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get subscriptionUpdatedSuccess => 'Abonelik güncellendi.';
+
+  @override
+  String get backupAndRecovery => 'Yedekleme & Kurtarma';
+
+  @override
+  String get backupAndRecoverySubtitle =>
+      'Abonelik verilerinizi yerel olarak dışa veya içe aktarın.';
+
+  @override
+  String get exportData => 'Verileri Yedekle';
+
+  @override
+  String get exportDataSubtitle =>
+      'Aboneliklerinizi ve ödemelerinizi bir JSON dosyası olarak kaydedin.';
+
+  @override
+  String get importData => 'Yedeği Geri Yükle';
+
+  @override
+  String get importDataSubtitle =>
+      'Daha önce kaydedilmiş bir yedek dosyasından verileri geri yükleyin.';
+
+  @override
+  String get confirmRestoreTitle => 'Geri Yüklemeyi Onayla';
+
+  @override
+  String get confirmRestoreMessage =>
+      'Bu işlem mevcut tüm yerel verilerinizin üzerine yazacaktır. Devam etmek istediğinize emin misiniz?';
+
+  @override
+  String get exportSuccess => 'Veriler başarıyla dışa aktarıldı.';
+
+  @override
+  String get exportFailed => 'Veriler dışa aktarılamadı.';
+
+  @override
+  String get importSuccess => 'Veriler başarıyla geri yüklendi.';
+
+  @override
+  String get importFailed => 'Veriler geri yüklenemedi.';
+
+  @override
+  String get invalidBackupFile =>
+      'Seçilen dosya geçerli bir PayTempo yedeği değil.';
+
+  @override
+  String get restoreWarning =>
+      'Uyarı: Verilerin geri yüklenmesi mevcut ayarlarınızı, aboneliklerinizi ve ödeme geçmişinizi tamamen silecektir.';
 }

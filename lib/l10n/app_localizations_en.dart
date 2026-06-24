@@ -722,4 +722,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get subscriptionUpdatedSuccess => 'Subscription updated.';
+
+  @override
+  String get backupAndRecovery => 'Backup & Recovery';
+
+  @override
+  String get backupAndRecoverySubtitle =>
+      'Export or import your subscription data locally.';
+
+  @override
+  String get exportData => 'Export Data';
+
+  @override
+  String get exportDataSubtitle =>
+      'Save your subscriptions and payments as a JSON file.';
+
+  @override
+  String get importData => 'Import Data';
+
+  @override
+  String get importDataSubtitle =>
+      'Restore data from a previously saved backup file.';
+
+  @override
+  String get confirmRestoreTitle => 'Confirm Restore';
+
+  @override
+  String get confirmRestoreMessage =>
+      'This will overwrite all your current local data. Are you sure you want to proceed?';
+
+  @override
+  String get exportSuccess => 'Data exported successfully.';
+
+  @override
+  String get exportFailed => 'Failed to export data.';
+
+  @override
+  String get importSuccess => 'Data restored successfully.';
+
+  @override
+  String get importFailed => 'Failed to import data.';
+
+  @override
+  String get invalidBackupFile =>
+      'Selected file is not a valid PayTempo backup.';
+
+  @override
+  String get restoreWarning =>
+      'Warning: Restoring data will overwrite your current settings, subscriptions, and payment history.';
 }

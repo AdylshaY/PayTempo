@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
+import 'package:pay_tempo/data/local/services/backup_restore_service.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
@@ -16,7 +17,7 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
-  late final Future<UserSettings?> _settingsFuture;
+  late Future<UserSettings?> _settingsFuture;
   bool _changingCurrency = false;
 
   @override
@@ -166,6 +167,91 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           _changingCurrency = false;
         });
       }
+    }
+  }
+
+  Future<void> _exportBackup() async {
+    HapticFeedback.lightImpact();
+    final l10n = AppLocalizations.of(context)!;
+    final BackupRestoreService backupService = BackupRestoreService();
+
+    final bool success = await backupService.exportBackup();
+    if (!mounted) return;
+
+    if (success) {
+      HapticFeedback.mediumImpact();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.exportSuccess)),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.exportFailed)),
+      );
+    }
+  }
+
+  Future<void> _importBackup() async {
+    HapticFeedback.lightImpact();
+    final l10n = AppLocalizations.of(context)!;
+
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(l10n.confirmRestoreTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.confirmRestoreMessage),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                l10n.restoreWarning,
+                style: Theme.of(dialogContext).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(dialogContext).colorScheme.error,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(l10n.cancelButtonLabel),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(dialogContext).colorScheme.errorContainer,
+                foregroundColor: Theme.of(dialogContext).colorScheme.onErrorContainer,
+              ),
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: Text(l10n.importData),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true || !mounted) {
+      return;
+    }
+
+    final BackupRestoreService backupService = BackupRestoreService();
+    final bool success = await backupService.importBackup();
+    if (!mounted) return;
+
+    if (success) {
+      HapticFeedback.mediumImpact();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.importSuccess)),
+      );
+      setState(() {
+        _settingsFuture = UserSettingsService().getSettings();
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.importFailed)),
+      );
     }
   }
 
@@ -351,6 +437,39 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     );
                   }
                 },
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(l10n.backupAndRecovery, style: textTheme.titleMedium),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              l10n.backupAndRecoverySubtitle,
+              style: textTheme.bodySmall,
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.upload_rounded),
+                    title: Text(l10n.exportData),
+                    subtitle: Text(
+                      l10n.exportDataSubtitle,
+                      style: textTheme.bodySmall,
+                    ),
+                    onTap: _exportBackup,
+                  ),
+                  const Divider(height: 1, indent: AppSpacing.md, endIndent: AppSpacing.md),
+                  ListTile(
+                    leading: const Icon(Icons.download_rounded),
+                    title: Text(l10n.importData),
+                    subtitle: Text(
+                      l10n.importDataSubtitle,
+                      style: textTheme.bodySmall,
+                    ),
+                    onTap: _importBackup,
+                  ),
+                ],
               ),
             ),
           ],

@@ -1417,6 +1417,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscription updated.'**
   String get subscriptionUpdatedSuccess;
+
+  /// No description provided for @backupAndRecovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Recovery'**
+  String get backupAndRecovery;
+
+  /// No description provided for @backupAndRecoverySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export or import your subscription data locally.'**
+  String get backupAndRecoverySubtitle;
+
+  /// No description provided for @exportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Data'**
+  String get exportData;
+
+  /// No description provided for @exportDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your subscriptions and payments as a JSON file.'**
+  String get exportDataSubtitle;
+
+  /// No description provided for @importData.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Data'**
+  String get importData;
+
+  /// No description provided for @importDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore data from a previously saved backup file.'**
+  String get importDataSubtitle;
+
+  /// No description provided for @confirmRestoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Restore'**
+  String get confirmRestoreTitle;
+
+  /// No description provided for @confirmRestoreMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will overwrite all your current local data. Are you sure you want to proceed?'**
+  String get confirmRestoreMessage;
+
+  /// No description provided for @exportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data exported successfully.'**
+  String get exportSuccess;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to export data.'**
+  String get exportFailed;
+
+  /// No description provided for @importSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restored successfully.'**
+  String get importSuccess;
+
+  /// No description provided for @importFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to import data.'**
+  String get importFailed;
+
+  /// No description provided for @invalidBackupFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected file is not a valid PayTempo backup.'**
+  String get invalidBackupFile;
+
+  /// No description provided for @restoreWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: Restoring data will overwrite your current settings, subscriptions, and payment history.'**
+  String get restoreWarning;
 }
 
 class _AppLocalizationsDelegate

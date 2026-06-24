@@ -219,6 +219,20 @@
   "deleteSubscription": "Aboneliği Sil",
   "deleteSubscriptionConfirm": "Bu aboneliği silmek istediğinize emin misiniz? Bu işlem yaklaşan tüm hatırlatıcıları iptal eder ve ödeme geçmişini arşivler.",
   "subscriptionDeletedSuccess": "Abonelik silindi.",
-  "subscriptionUpdatedSuccess": "Abonelik güncellendi."
+  "subscriptionUpdatedSuccess": "Abonelik güncellendi.",
+  "backupAndRecovery": "Yedekleme & Kurtarma",
+  "backupAndRecoverySubtitle": "Abonelik verilerinizi yerel olarak dışa veya içe aktarın.",
+  "exportData": "Verileri Yedekle",
+  "exportDataSubtitle": "Aboneliklerinizi ve ödemelerinizi bir JSON dosyası olarak kaydedin.",
+  "importData": "Yedeği Geri Yükle",
+  "importDataSubtitle": "Daha önce kaydedilmiş bir yedek dosyasından verileri geri yükleyin.",
+  "confirmRestoreTitle": "Geri Yüklemeyi Onayla",
+  "confirmRestoreMessage": "Bu işlem mevcut tüm yerel verilerinizin üzerine yazacaktır. Devam etmek istediğinize emin misiniz?",
+  "exportSuccess": "Veriler başarıyla dışa aktarıldı.",
+  "exportFailed": "Veriler dışa aktarılamadı.",
+  "importSuccess": "Veriler başarıyla geri yüklendi.",
+  "importFailed": "Veriler geri yüklenemedi.",
+  "invalidBackupFile": "Seçilen dosya geçerli bir PayTempo yedeği değil.",
+  "restoreWarning": "Uyarı: Verilerin geri yüklenmesi mevcut ayarlarınızı, aboneliklerinizi ve ödeme geçmişinizi tamamen silecektir."
 }
 

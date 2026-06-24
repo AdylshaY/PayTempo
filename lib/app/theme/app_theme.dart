@@ -179,6 +179,13 @@ class AppTheme {
       scaffoldBackgroundColor: scaffoldBackground,
       splashFactory: InkRipple.splashFactory,
       textTheme: textTheme,
+      dividerTheme: DividerThemeData(
+        color: isDark
+            ? colorScheme.onSurface.withValues(alpha: 0.08)
+            : colorScheme.onSurface.withValues(alpha: 0.06),
+        thickness: 1,
+        space: 1,
+      ),
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,

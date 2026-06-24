@@ -306,6 +306,20 @@
   "deleteSubscription": "Delete Subscription",
   "deleteSubscriptionConfirm": "Are you sure you want to delete this subscription? This will cancel all upcoming reminders and keep payment history as read-only.",
   "subscriptionDeletedSuccess": "Subscription deleted.",
-  "subscriptionUpdatedSuccess": "Subscription updated."
+  "subscriptionUpdatedSuccess": "Subscription updated.",
+  "backupAndRecovery": "Backup & Recovery",
+  "backupAndRecoverySubtitle": "Export or import your subscription data locally.",
+  "exportData": "Export Data",
+  "exportDataSubtitle": "Save your subscriptions and payments as a JSON file.",
+  "importData": "Import Data",
+  "importDataSubtitle": "Restore data from a previously saved backup file.",
+  "confirmRestoreTitle": "Confirm Restore",
+  "confirmRestoreMessage": "This will overwrite all your current local data. Are you sure you want to proceed?",
+  "exportSuccess": "Data exported successfully.",
+  "exportFailed": "Failed to export data.",
+  "importSuccess": "Data restored successfully.",
+  "importFailed": "Failed to import data.",
+  "invalidBackupFile": "Selected file is not a valid PayTempo backup.",
+  "restoreWarning": "Warning: Restoring data will overwrite your current settings, subscriptions, and payment history."
 }
 

@@ -252,7 +252,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                       label: l10n.anchorDayLabel,
                       value: '${subscription.anchorDay}',
                     ),
-                    const Divider(height: AppSpacing.md, thickness: 0.5),
+                    const Divider(height: AppSpacing.md),
                     SwitchListTile(
                       contentPadding: EdgeInsets.zero,
                       secondary: Icon(
