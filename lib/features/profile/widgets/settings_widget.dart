@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
@@ -234,6 +235,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   value: themeMode,
                   onChanged: (ThemeMode? mode) {
                     if (mode != null) {
+                      HapticFeedback.lightImpact();
                       UserSettingsService().setThemeMode(
                         _flutterModeToAppMode(mode),
                       );
@@ -269,6 +271,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   subtitle: l10n.languageSubtitle,
                   value: languageCode,
                   onChanged: (String? code) {
+                    HapticFeedback.lightImpact();
                     UserSettingsService().setLanguageCode(code);
                   },
                   items: [
@@ -311,6 +314,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     ),
                     value: notificationsEnabled,
                     onChanged: (bool value) {
+                      HapticFeedback.lightImpact();
                       UserSettingsService().setNotificationsEnabled(value);
                     },
                   ),

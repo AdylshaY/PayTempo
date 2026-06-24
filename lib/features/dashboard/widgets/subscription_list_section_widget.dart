@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/widgets/empty_state_widget.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -132,21 +133,10 @@ class SubscriptionListSectionWidget extends StatelessWidget {
 
                 if (items.isEmpty) {
                   return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppSpacing.md),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(l10n.activeSubscriptions, style: textTheme.titleMedium),
-                          const SizedBox(height: AppSpacing.xs),
-                          Text(
-                            l10n.noActiveSubscriptions,
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: EmptyStateWidget(
+                      icon: Icons.card_membership_rounded,
+                      title: l10n.activeSubscriptions,
+                      message: l10n.noActiveSubscriptions,
                     ),
                   );
                 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/widgets/empty_state_widget.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
@@ -100,6 +102,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
       return;
     }
 
+    HapticFeedback.lightImpact();
     setState(() {
       _fromDate = result.fromDate;
       _toDate = result.toDate;
@@ -107,6 +110,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
   }
 
   Future<void> _clearFilters() async {
+    HapticFeedback.lightImpact();
     setState(() {
       _searchQuery = '';
       _fromDate = null;
@@ -367,16 +371,14 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                             children: <Widget>[
                               topContent,
                               Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(AppSpacing.md),
-                                  child: Text(
-                                    hasActiveFilters
-                                        ? l10n.noPaymentsMatchFilter
-                                        : l10n.noPaymentsRecordedYet,
-                                    style: textTheme.bodyMedium?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                    ),
-                                  ),
+                                child: EmptyStateWidget(
+                                  icon: hasActiveFilters
+                                      ? Icons.search_off_rounded
+                                      : Icons.history_rounded,
+                                  title: l10n.payments,
+                                  message: hasActiveFilters
+                                      ? l10n.noPaymentsMatchFilter
+                                      : l10n.noPaymentsRecordedYet,
                                 ),
                               ),
                             ],

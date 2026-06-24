@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/widgets/empty_state_widget.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
@@ -76,21 +77,11 @@ class RecentPaymentsSectionWidget extends StatelessWidget {
                               });
 
                         if (items.isEmpty) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.paymentsMadeTitle,
-                                style: textTheme.titleMedium,
-                              ),
-                              const SizedBox(height: AppSpacing.xs),
-                              Text(
-                                AppLocalizations.of(context)!.noPaymentsRecordedThisMonth,
-                                style: textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
+                          final l10n = AppLocalizations.of(context)!;
+                          return EmptyStateWidget(
+                            icon: Icons.receipt_long_rounded,
+                            title: l10n.paymentsMadeTitle,
+                            message: l10n.noPaymentsRecordedThisMonth,
                           );
                         }
 
