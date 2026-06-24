@@ -24,10 +24,9 @@ class AnalyticsScreen extends StatelessWidget {
     final isar = LocalDatabase.instance.isar;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.analytics),
-      ),
-      body: StreamBuilder<UserSettings?>(
+      body: SafeArea(
+        bottom: false,
+        child: StreamBuilder<UserSettings?>(
         stream: isar.userSettings.watchObject(1, fireImmediately: true),
         builder: (context, settingsSnapshot) {
           final settings = settingsSnapshot.data;
@@ -302,6 +301,7 @@ class AnalyticsScreen extends StatelessWidget {
             },
           );
         },
+      ),
       ),
     );
   }

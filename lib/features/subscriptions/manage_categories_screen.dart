@@ -160,10 +160,6 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
                     },
                   ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openAddCategorySheet,
-        child: const Icon(Icons.add_rounded),
-      ),
     );
   }
 }

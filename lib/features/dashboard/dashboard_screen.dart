@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
-import 'package:pay_tempo/features/subscriptions/subscription_template_picker_screen.dart';
+import 'package:pay_tempo/features/dashboard/widgets/dashboard_header_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/monthly_spending_card_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_section_widget.dart';
-import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({required this.baseCurrency, super.key});
@@ -15,37 +14,22 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  Future<void> _openAddSubscription() async {
-    final bool? created = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (_) => const SubscriptionTemplatePickerScreen(),
-      ),
-    );
-
-    if (created != true || !mounted) {
-      return;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appTitle)),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
-        children: [
-          const SizedBox(height: AppSpacing.sm),
-          MonthlySpendingCardWidget(baseCurrency: widget.baseCurrency),
-          const SizedBox(height: AppSpacing.md),
-          SubscriptionListSectionWidget(baseCurrency: widget.baseCurrency),
-          const SizedBox(height: AppSpacing.md),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openAddSubscription,
-        child: const Icon(Icons.add),
+      body: SafeArea(
+        bottom: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
+          children: [
+            DashboardHeaderWidget(baseCurrency: widget.baseCurrency),
+            const SizedBox(height: AppSpacing.md),
+            MonthlySpendingCardWidget(baseCurrency: widget.baseCurrency),
+            const SizedBox(height: AppSpacing.md),
+            SubscriptionListSectionWidget(baseCurrency: widget.baseCurrency),
+            const SizedBox(height: AppSpacing.md),
+          ],
+        ),
       ),
     );
   }

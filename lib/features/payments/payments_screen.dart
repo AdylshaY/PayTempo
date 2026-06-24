@@ -121,9 +121,6 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.payments),
-      ),
       body: SafeArea(
         bottom: false,
         child: StreamBuilder<List<SubscriptionRecord>>(

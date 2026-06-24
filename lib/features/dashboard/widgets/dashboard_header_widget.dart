@@ -12,7 +12,9 @@ class DashboardHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final ThemeData theme = Theme.of(context);
+    final TextTheme textTheme = theme.textTheme;
+    final ColorScheme colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context)!;
 
     return Row(
@@ -27,7 +29,7 @@ class DashboardHeaderWidget extends StatelessWidget {
               Text(
                 l10n.thisMonthSubtitle,
                 style: textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textSecondary,
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
             ],
@@ -40,13 +42,13 @@ class DashboardHeaderWidget extends StatelessWidget {
             vertical: AppSpacing.xs,
           ),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(AppRadii.button),
           ),
           child: Text(
             baseCurrency,
             style: textTheme.bodyMedium?.copyWith(
-              color: AppColors.primary,
+              color: colorScheme.primary,
               fontWeight: FontWeight.w600,
             ),
           ),
