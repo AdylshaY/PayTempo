@@ -240,6 +240,15 @@
   "sortByName": "İsim (A-Z)",
   "sortByPriceHigh": "Fiyat (Yüksekten Düşüğe)",
   "sortByPriceLow": "Fiyat (Düşükten Yükseğe)",
-  "noSubscriptionsMatchSearch": "Aramanızla eşleşen abonelik bulunamadı."
+  "noSubscriptionsMatchSearch": "Aramanızla eşleşen abonelik bulunamadı.",
+  "offlineRatesWarning": "Döviz kurları güncellenemedi. {date} tarihli kur bilgileri kullanılıyor.",
+  "@offlineRatesWarning": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineRatesWarningNoCache": "Kayıtlı döviz kuru bulunamadı. Lütfen internet bağlantınızı kontrol edin."
 }
 

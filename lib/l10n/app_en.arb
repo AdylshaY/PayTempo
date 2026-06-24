@@ -327,6 +327,15 @@
   "sortByName": "Name (A-Z)",
   "sortByPriceHigh": "Price (High to Low)",
   "sortByPriceLow": "Price (Low to High)",
-  "noSubscriptionsMatchSearch": "No subscriptions match your search."
+  "noSubscriptionsMatchSearch": "No subscriptions match your search.",
+  "offlineRatesWarning": "Exchange rates could not be updated. Using cached rates from {date}.",
+  "@offlineRatesWarning": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineRatesWarningNoCache": "No cached exchange rates available. Please check your internet connection."
 }
 

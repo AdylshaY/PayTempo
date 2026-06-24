@@ -794,4 +794,13 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get noSubscriptionsMatchSearch =>
       'Aramanızla eşleşen abonelik bulunamadı.';
+
+  @override
+  String offlineRatesWarning(String date) {
+    return 'Döviz kurları güncellenemedi. $date tarihli kur bilgileri kullanılıyor.';
+  }
+
+  @override
+  String get offlineRatesWarningNoCache =>
+      'Kayıtlı döviz kuru bulunamadı. Lütfen internet bağlantınızı kontrol edin.';
 }

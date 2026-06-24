@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -13,6 +14,9 @@ class ExchangeRateService {
   ExchangeRateService._();
 
   static final ExchangeRateService instance = ExchangeRateService._();
+
+  static final ValueNotifier<bool> isOfflineNotifier = ValueNotifier<bool>(false);
+  static final ValueNotifier<DateTime?> lastUpdateNotifier = ValueNotifier<DateTime?>(null);
 
   static const String _apiBaseUrl = 'https://api.frankfurter.app';
   static const String _cacheFileName = 'exchange_rates_cache.json';
@@ -73,15 +77,19 @@ class ExchangeRateService {
         };
 
         await _saveCacheToDisk(response.body);
+        isOfflineNotifier.value = false;
+        lastUpdateNotifier.value = DateTime.now();
+      } else {
+        isOfflineNotifier.value = true;
       }
     } on SocketException {
-      // No internet — use whatever cache we loaded above.
+      isOfflineNotifier.value = true;
     } on HttpException {
-      // Server error — use cache.
+      isOfflineNotifier.value = true;
     } on FormatException {
-      // Malformed JSON — use cache.
+      isOfflineNotifier.value = true;
     } catch (_) {
-      // Any other error (timeout, etc.) — use cache.
+      isOfflineNotifier.value = true;
     }
   }
 
@@ -198,6 +206,9 @@ class ExchangeRateService {
       if (!file.existsSync()) {
         return;
       }
+
+      final lastModified = file.lastModifiedSync();
+      lastUpdateNotifier.value = lastModified;
 
       final String contents = await file.readAsString();
       final Map<String, dynamic> json =

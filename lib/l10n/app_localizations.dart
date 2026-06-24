@@ -1543,6 +1543,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No subscriptions match your search.'**
   String get noSubscriptionsMatchSearch;
+
+  /// No description provided for @offlineRatesWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange rates could not be updated. Using cached rates from {date}.'**
+  String offlineRatesWarning(String date);
+
+  /// No description provided for @offlineRatesWarningNoCache.
+  ///
+  /// In en, this message translates to:
+  /// **'No cached exchange rates available. Please check your internet connection.'**
+  String get offlineRatesWarningNoCache;
 }
 
 class _AppLocalizationsDelegate

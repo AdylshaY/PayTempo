@@ -792,4 +792,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noSubscriptionsMatchSearch =>
       'No subscriptions match your search.';
+
+  @override
+  String offlineRatesWarning(String date) {
+    return 'Exchange rates could not be updated. Using cached rates from $date.';
+  }
+
+  @override
+  String get offlineRatesWarningNoCache =>
+      'No cached exchange rates available. Please check your internet connection.';
 }

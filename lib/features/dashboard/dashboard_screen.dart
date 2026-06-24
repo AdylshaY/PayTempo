@@ -4,6 +4,7 @@ import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/dashboard/widgets/dashboard_header_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/monthly_spending_card_widget.dart';
+import 'package:pay_tempo/features/dashboard/widgets/offline_status_banner.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_section_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -48,6 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
             children: [
+              const OfflineStatusBanner(),
               DashboardHeaderWidget(baseCurrency: widget.baseCurrency),
               const SizedBox(height: AppSpacing.md),
               MonthlySpendingCardWidget(baseCurrency: widget.baseCurrency),
