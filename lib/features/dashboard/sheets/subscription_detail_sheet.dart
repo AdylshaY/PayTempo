@@ -1,11 +1,18 @@
+import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
+import 'package:pay_tempo/features/dashboard/widgets/subscription_share_card.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 import 'package:pay_tempo/data/local/services/notification_service.dart';
@@ -33,11 +40,79 @@ class SubscriptionDetailSheet extends StatefulWidget {
 
 class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
   late bool _notificationsEnabled;
+  final GlobalKey _shareKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     _notificationsEnabled = widget.subscription.enableNotifications;
+  }
+
+  Future<void> _shareSubscription() async {
+    HapticFeedback.mediumImpact();
+    final l10n = AppLocalizations.of(context)!;
+    final subscription = widget.subscription;
+    final baseCurrency = widget.baseCurrency;
+
+    final bool showConversion =
+        subscription.currency.toUpperCase() != baseCurrency.toUpperCase();
+
+    final double basePrice = ExchangeRateService.instance.convert(
+      subscription.price,
+      subscription.currency,
+      baseCurrency,
+    );
+
+    final String cycle = _billingCycleLabel(subscription.billingCycle, l10n);
+
+    final StringBuffer buffer = StringBuffer();
+    buffer.writeln('📋 ${subscription.name} — ${l10n.subscriptionManageTitle}');
+    buffer.writeln('💵 ${l10n.priceLabel}: ${subscription.price.toStringAsFixed(2)} ${subscription.currency} ($cycle)');
+
+    if (showConversion) {
+      buffer.writeln('🔄 ${l10n.equivalentLabel}: ≈ ${basePrice.toStringAsFixed(2)} $baseCurrency');
+    }
+
+    buffer.writeln('📅 ${l10n.nextPaymentLabel}: ${subscription.nextPaymentDate.toMonthDayYearCommaLabel(l10n.localeName)}');
+
+    if (subscription.note != null && subscription.note!.isNotEmpty) {
+      buffer.writeln('📝 ${l10n.noteLabel}: ${subscription.note}');
+    }
+
+    buffer.writeln();
+    buffer.write('Tracked via PayTempo ⚡');
+
+    try {
+      final RenderRepaintBoundary? boundary =
+          _shareKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary != null) {
+        // High resolution capture
+        final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+        final ByteData? byteData =
+            await image.toByteData(format: ui.ImageByteFormat.png);
+        if (byteData != null) {
+          final Uint8List pngBytes = byteData.buffer.asUint8List();
+          final Directory tempDir = await getTemporaryDirectory();
+          final String safeName = subscription.name.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
+          final String path = '${tempDir.path}/paytempo_$safeName.png';
+          final File file = File(path);
+          await file.writeAsBytes(pngBytes);
+
+          // ignore: deprecated_member_use
+          await Share.shareXFiles(
+            [XFile(path)],
+            subject: subscription.name,
+          );
+          return;
+        }
+      }
+    } catch (e) {
+      debugPrint('Error sharing subscription card image, falling back to text: $e');
+    }
+
+    // Fallback to text sharing if image rendering or writing fails
+    // ignore: deprecated_member_use
+    await Share.share(buffer.toString(), subject: subscription.name);
   }
 
   Future<void> _toggleNotifications(bool value) async {
@@ -145,186 +220,206 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     final bool showConversion =
         subscription.currency.toUpperCase() != baseCurrency.toUpperCase();
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.md,
-          0,
-          AppSpacing.md,
-          AppSpacing.md,
+    return Stack(
+      children: [
+        Positioned(
+          left: -9999,
+          top: -9999,
+          child: RepaintBoundary(
+            key: _shareKey,
+            child: SubscriptionShareCard(
+              subscription: subscription,
+              baseCurrency: baseCurrency,
+            ),
+          ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // ── Header ──
-            Row(
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              0,
+              AppSpacing.md,
+              AppSpacing.md,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _buildAvatar(),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        subscription.name,
-                        style: textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 2),
-                      Row(
+                // ── Header ──
+                Row(
+                  children: [
+                    _buildAvatar(),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            getCategoryLabel(subscription.category, l10n),
+                            subscription.name,
+                            style: textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Row(
+                            children: [
+                              Text(
+                                getCategoryLabel(subscription.category, l10n),
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                              if (subscription.note != null &&
+                                  subscription.note!.isNotEmpty) ...[
+                                Text(
+                                  ' • ',
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    subscription.note!,
+                                    style: textTheme.bodySmall?.copyWith(
+                                      color: AppColors.textSecondary,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.share_rounded),
+                      tooltip: l10n.shareSubscription,
+                      onPressed: _shareSubscription,
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: AppSpacing.md),
+
+                // ── Info Grid ──
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.sm),
+                    child: Column(
+                      children: [
+                        _InfoRow(
+                          icon: Icons.payments_outlined,
+                          label: l10n.priceLabel,
+                          value:
+                              '${subscription.price.toStringAsFixed(2)} ${subscription.currency}',
+                        ),
+                        if (showConversion) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          _InfoRow(
+                            icon: Icons.currency_exchange,
+                            label: l10n.equivalentLabel,
+                            value:
+                                '≈ ${ExchangeRateService.instance.convert(subscription.price, subscription.currency, baseCurrency).toStringAsFixed(2)} $baseCurrency',
+                          ),
+                        ],
+                        const SizedBox(height: AppSpacing.xs),
+                        _InfoRow(
+                          icon: Icons.repeat,
+                          label: l10n.billingCycleLabel,
+                          value: _billingCycleLabel(subscription.billingCycle, l10n),
+                        ),
+                        const SizedBox(height: AppSpacing.xs),
+                        _InfoRow(
+                          icon: Icons.calendar_today_outlined,
+                          label: l10n.nextPaymentLabel,
+                          value: subscription.nextPaymentDate
+                              .toMonthDayYearCommaLabel(l10n.localeName),
+                        ),
+                        const SizedBox(height: AppSpacing.xs),
+                        _InfoRow(
+                          icon: Icons.pin_outlined,
+                          label: l10n.anchorDayLabel,
+                          value: '${subscription.anchorDay}',
+                        ),
+                        const Divider(height: AppSpacing.md),
+                        SwitchListTile(
+                          contentPadding: EdgeInsets.zero,
+                          secondary: Icon(
+                            _notificationsEnabled
+                                ? Icons.notifications_active_outlined
+                                : Icons.notifications_off_outlined,
+                            color: AppColors.textSecondary,
+                          ),
+                          title: Text(
+                            l10n.notificationsLabel,
+                            style: textTheme.bodySmall?.copyWith(
+                              color: AppColors.textSecondary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          subtitle: Text(
+                            _notificationsEnabled
+                                ? l10n.notificationsEnabledSubtitle
+                                : l10n.notificationsDisabledSubtitle,
                             style: textTheme.bodySmall?.copyWith(
                               color: AppColors.textSecondary,
                             ),
                           ),
-                          if (subscription.note != null &&
-                              subscription.note!.isNotEmpty) ...[
-                            Text(
-                              ' • ',
-                              style: textTheme.bodySmall?.copyWith(
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                subscription.note!,
-                                style: textTheme.bodySmall?.copyWith(
-                                  color: AppColors.textSecondary,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ],
+                          value: _notificationsEnabled,
+                          onChanged: _toggleNotifications,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sm),
+
+                // ── Recent Payments ──
+                _RecentPaymentsSection(subscriptionUid: subscription.uid),
+
+                const SizedBox(height: AppSpacing.md),
+
+                // ── Actions ──
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    icon: const Icon(Icons.settings_outlined),
+                    label: Text(l10n.manageSubscriptionDetailLabel),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: isPaidThisMonth
+                        ? null
+                        : () {
+                            Navigator.of(context).pop();
+                            onMarkPaid?.call();
+                          },
+                    icon: Icon(
+                      isPaidThisMonth
+                          ? Icons.check_circle
+                          : Icons.check_circle_outline,
+                    ),
+                    label: Text(
+                      isPaidThisMonth ? l10n.alreadyPaidThisMonth : l10n.markAsPaid,
+                    ),
                   ),
                 ),
               ],
             ),
-
-            const SizedBox(height: AppSpacing.md),
-
-            // ── Info Grid ──
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                child: Column(
-                  children: [
-                    _InfoRow(
-                      icon: Icons.payments_outlined,
-                      label: l10n.priceLabel,
-                      value:
-                          '${subscription.price.toStringAsFixed(2)} ${subscription.currency}',
-                    ),
-                    if (showConversion) ...[
-                      const SizedBox(height: AppSpacing.xs),
-                      _InfoRow(
-                        icon: Icons.currency_exchange,
-                        label: l10n.equivalentLabel,
-                        value:
-                            '≈ ${ExchangeRateService.instance.convert(subscription.price, subscription.currency, baseCurrency).toStringAsFixed(2)} $baseCurrency',
-                      ),
-                    ],
-                    const SizedBox(height: AppSpacing.xs),
-                    _InfoRow(
-                      icon: Icons.repeat,
-                      label: l10n.billingCycleLabel,
-                      value: _billingCycleLabel(subscription.billingCycle, l10n),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    _InfoRow(
-                      icon: Icons.calendar_today_outlined,
-                      label: l10n.nextPaymentLabel,
-                      value: subscription.nextPaymentDate
-                          .toMonthDayYearCommaLabel(l10n.localeName),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    _InfoRow(
-                      icon: Icons.pin_outlined,
-                      label: l10n.anchorDayLabel,
-                      value: '${subscription.anchorDay}',
-                    ),
-                    const Divider(height: AppSpacing.md),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      secondary: Icon(
-                        _notificationsEnabled
-                            ? Icons.notifications_active_outlined
-                            : Icons.notifications_off_outlined,
-                        color: AppColors.textSecondary,
-                      ),
-                      title: Text(
-                        l10n.notificationsLabel,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      subtitle: Text(
-                        _notificationsEnabled
-                            ? l10n.notificationsEnabledSubtitle
-                            : l10n.notificationsDisabledSubtitle,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      value: _notificationsEnabled,
-                      onChanged: _toggleNotifications,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: AppSpacing.sm),
-
-            // ── Recent Payments ──
-            _RecentPaymentsSection(subscriptionUid: subscription.uid),
-
-            const SizedBox(height: AppSpacing.md),
-
-            // ── Actions ──
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                icon: const Icon(Icons.settings_outlined),
-                label: Text(l10n.manageSubscriptionDetailLabel),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xs),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: isPaidThisMonth
-                    ? null
-                    : () {
-                        Navigator.of(context).pop();
-                        onMarkPaid?.call();
-                      },
-                icon: Icon(
-                  isPaidThisMonth
-                      ? Icons.check_circle
-                      : Icons.check_circle_outline,
-                ),
-                label: Text(
-                  isPaidThisMonth ? l10n.alreadyPaidThisMonth : l10n.markAsPaid,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

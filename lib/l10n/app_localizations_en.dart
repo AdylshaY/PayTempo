@@ -801,4 +801,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get offlineRatesWarningNoCache =>
       'No cached exchange rates available. Please check your internet connection.';
+
+  @override
+  String get shareSubscription => 'Share subscription';
 }

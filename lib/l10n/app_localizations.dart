@@ -1555,6 +1555,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No cached exchange rates available. Please check your internet connection.'**
   String get offlineRatesWarningNoCache;
+
+  /// No description provided for @shareSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Share subscription'**
+  String get shareSubscription;
 }
 
 class _AppLocalizationsDelegate

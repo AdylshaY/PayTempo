@@ -803,4 +803,7 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get offlineRatesWarningNoCache =>
       'Kayıtlı döviz kuru bulunamadı. Lütfen internet bağlantınızı kontrol edin.';
+
+  @override
+  String get shareSubscription => 'Aboneliği Paylaş';
 }

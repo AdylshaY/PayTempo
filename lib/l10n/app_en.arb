@@ -336,6 +336,7 @@
       }
     }
   },
-  "offlineRatesWarningNoCache": "No cached exchange rates available. Please check your internet connection."
+  "offlineRatesWarningNoCache": "No cached exchange rates available. Please check your internet connection.",
+  "shareSubscription": "Share subscription"
 }
 

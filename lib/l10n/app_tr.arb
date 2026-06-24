@@ -249,6 +249,7 @@
       }
     }
   },
-  "offlineRatesWarningNoCache": "Kayıtlı döviz kuru bulunamadı. Lütfen internet bağlantınızı kontrol edin."
+  "offlineRatesWarningNoCache": "Kayıtlı döviz kuru bulunamadı. Lütfen internet bağlantınızı kontrol edin.",
+  "shareSubscription": "Aboneliği Paylaş"
 }
 
