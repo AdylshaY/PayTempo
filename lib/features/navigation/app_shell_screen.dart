@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tempo/features/analytics/analytics_screen.dart';
 import 'package:pay_tempo/features/dashboard/dashboard_screen.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
@@ -18,6 +19,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
   int _currentIndex = 0;
 
   Future<void> _openAddSubscription() async {
+    HapticFeedback.lightImpact();
     await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (_) => const SubscriptionTemplatePickerScreen(),
@@ -39,6 +41,9 @@ class _AppShellScreenState extends State<AppShellScreen> {
     return Expanded(
       child: InkWell(
         onTap: () {
+          if (!isSelected) {
+            HapticFeedback.selectionClick();
+          }
           setState(() {
             _currentIndex = index;
           });

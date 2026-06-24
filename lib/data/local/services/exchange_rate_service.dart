@@ -31,6 +31,24 @@ class ExchangeRateService {
   /// remain empty and [convert] returns the original amount (1:1 fallback).
   Future<void> fetchAndCacheRates(String baseCurrency) async {
     final String normalized = baseCurrency.trim().toUpperCase();
+    
+    // Check if cache file exists and was modified within the last hour
+    try {
+      final File file = await _cacheFile();
+      if (file.existsSync()) {
+        final DateTime lastModified = file.lastModifiedSync();
+        final Duration difference = DateTime.now().difference(lastModified);
+        if (difference.inHours < 1) {
+          await _loadCacheFromDisk();
+          if (_baseCurrency == normalized && _rates.isNotEmpty) {
+            return; // Cache is fresh and base currency matches, skip fetch.
+          }
+        }
+      }
+    } catch (_) {
+      // Ignore cache check errors, proceed to normal fetch.
+    }
+
     _baseCurrency = normalized;
 
     // Try loading from cache first so we always have something.

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/dashboard/widgets/dashboard_header_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/monthly_spending_card_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_list_section_widget.dart';
@@ -19,16 +21,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
-          children: [
-            DashboardHeaderWidget(baseCurrency: widget.baseCurrency),
-            const SizedBox(height: AppSpacing.md),
-            MonthlySpendingCardWidget(baseCurrency: widget.baseCurrency),
-            const SizedBox(height: AppSpacing.md),
-            SubscriptionListSectionWidget(baseCurrency: widget.baseCurrency),
-            const SizedBox(height: AppSpacing.md),
-          ],
+        child: RefreshIndicator(
+          onRefresh: () async {
+            // Haptic impact for starting refresh
+            HapticFeedback.mediumImpact();
+
+            final DateTime startTime = DateTime.now();
+
+            // Perform rates reload
+            await ExchangeRateService.instance.fetchAndCacheRates(widget.baseCurrency);
+
+            // Calculate duration to enforce a minimum of 500ms visual spinner delay
+            final int elapsedMs = DateTime.now().difference(startTime).inMilliseconds;
+            if (elapsedMs < 500) {
+              await Future.delayed(Duration(milliseconds: 500 - elapsedMs));
+            }
+
+            if (mounted) {
+              setState(() {});
+            }
+
+            // Haptic impact for completing refresh
+            HapticFeedback.lightImpact();
+          },
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
+            children: [
+              DashboardHeaderWidget(baseCurrency: widget.baseCurrency),
+              const SizedBox(height: AppSpacing.md),
+              MonthlySpendingCardWidget(baseCurrency: widget.baseCurrency),
+              const SizedBox(height: AppSpacing.md),
+              SubscriptionListSectionWidget(baseCurrency: widget.baseCurrency),
+              const SizedBox(height: AppSpacing.md),
+            ],
+          ),
         ),
       ),
     );

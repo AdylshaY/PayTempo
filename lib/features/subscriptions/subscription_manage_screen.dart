@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
@@ -57,6 +58,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
       try {
         await _subscriptionService.deleteSubscription(subscription);
         if (!mounted) return;
+        HapticFeedback.mediumImpact();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l10n.subscriptionDeletedSuccess)),
         );
@@ -81,6 +83,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
     );
 
     if (updated == true && mounted) {
+      HapticFeedback.lightImpact();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.subscriptionUpdatedSuccess)),
       );

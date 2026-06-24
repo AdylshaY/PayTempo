@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -73,6 +74,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
         return;
       }
 
+      HapticFeedback.mediumImpact();
       Navigator.of(context).pop(true);
     } catch (_) {
       if (!mounted) {
