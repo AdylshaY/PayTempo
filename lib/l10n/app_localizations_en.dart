@@ -770,4 +770,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get restoreWarning =>
       'Warning: Restoring data will overwrite your current settings, subscriptions, and payment history.';
+
+  @override
+  String get searchActiveSubscriptions => 'Search subscriptions...';
+
+  @override
+  String get sortBy => 'Sort by';
+
+  @override
+  String get sortByDueDate => 'Payment Date';
+
+  @override
+  String get sortByName => 'Name (A-Z)';
+
+  @override
+  String get sortByPriceHigh => 'Price (High to Low)';
+
+  @override
+  String get sortByPriceLow => 'Price (Low to High)';
+
+  @override
+  String get noSubscriptionsMatchSearch =>
+      'No subscriptions match your search.';
 }

@@ -233,6 +233,13 @@
   "importSuccess": "Veriler başarıyla geri yüklendi.",
   "importFailed": "Veriler geri yüklenemedi.",
   "invalidBackupFile": "Seçilen dosya geçerli bir PayTempo yedeği değil.",
-  "restoreWarning": "Uyarı: Verilerin geri yüklenmesi mevcut ayarlarınızı, aboneliklerinizi ve ödeme geçmişinizi tamamen silecektir."
+  "restoreWarning": "Uyarı: Verilerin geri yüklenmesi mevcut ayarlarınızı, aboneliklerinizi ve ödeme geçmişinizi tamamen silecektir.",
+  "searchActiveSubscriptions": "Aboneliklerde ara...",
+  "sortBy": "Sıralama",
+  "sortByDueDate": "Ödeme Tarihi",
+  "sortByName": "İsim (A-Z)",
+  "sortByPriceHigh": "Fiyat (Yüksekten Düşüğe)",
+  "sortByPriceLow": "Fiyat (Düşükten Yükseğe)",
+  "noSubscriptionsMatchSearch": "Aramanızla eşleşen abonelik bulunamadı."
 }
 

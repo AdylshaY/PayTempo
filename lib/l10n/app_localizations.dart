@@ -1501,6 +1501,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Warning: Restoring data will overwrite your current settings, subscriptions, and payment history.'**
   String get restoreWarning;
+
+  /// No description provided for @searchActiveSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Search subscriptions...'**
+  String get searchActiveSubscriptions;
+
+  /// No description provided for @sortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortBy;
+
+  /// No description provided for @sortByDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Date'**
+  String get sortByDueDate;
+
+  /// No description provided for @sortByName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (A-Z)'**
+  String get sortByName;
+
+  /// No description provided for @sortByPriceHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Price (High to Low)'**
+  String get sortByPriceHigh;
+
+  /// No description provided for @sortByPriceLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Price (Low to High)'**
+  String get sortByPriceLow;
+
+  /// No description provided for @noSubscriptionsMatchSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No subscriptions match your search.'**
+  String get noSubscriptionsMatchSearch;
 }
 
 class _AppLocalizationsDelegate

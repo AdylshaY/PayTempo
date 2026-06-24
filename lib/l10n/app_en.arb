@@ -320,6 +320,13 @@
   "importSuccess": "Data restored successfully.",
   "importFailed": "Failed to import data.",
   "invalidBackupFile": "Selected file is not a valid PayTempo backup.",
-  "restoreWarning": "Warning: Restoring data will overwrite your current settings, subscriptions, and payment history."
+  "restoreWarning": "Warning: Restoring data will overwrite your current settings, subscriptions, and payment history.",
+  "searchActiveSubscriptions": "Search subscriptions...",
+  "sortBy": "Sort by",
+  "sortByDueDate": "Payment Date",
+  "sortByName": "Name (A-Z)",
+  "sortByPriceHigh": "Price (High to Low)",
+  "sortByPriceLow": "Price (Low to High)",
+  "noSubscriptionsMatchSearch": "No subscriptions match your search."
 }
 

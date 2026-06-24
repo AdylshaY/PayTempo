@@ -772,4 +772,26 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get restoreWarning =>
       'Uyarı: Verilerin geri yüklenmesi mevcut ayarlarınızı, aboneliklerinizi ve ödeme geçmişinizi tamamen silecektir.';
+
+  @override
+  String get searchActiveSubscriptions => 'Aboneliklerde ara...';
+
+  @override
+  String get sortBy => 'Sıralama';
+
+  @override
+  String get sortByDueDate => 'Ödeme Tarihi';
+
+  @override
+  String get sortByName => 'İsim (A-Z)';
+
+  @override
+  String get sortByPriceHigh => 'Fiyat (Yüksekten Düşüğe)';
+
+  @override
+  String get sortByPriceLow => 'Fiyat (Düşükten Yükseğe)';
+
+  @override
+  String get noSubscriptionsMatchSearch =>
+      'Aramanızla eşleşen abonelik bulunamadı.';
 }
