@@ -839,8 +839,74 @@ abstract class AppLocalizations {
   /// No description provided for @warningBannerText.
   ///
   /// In en, this message translates to:
-  /// **'Warning: This selection cannot be changed later. Please choose carefully.'**
+  /// **'You can change your base currency anytime in Settings. Your previous payments will be automatically recalculated.'**
   String get warningBannerText;
+
+  /// No description provided for @onboardingFeaturePrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy-First: All data is saved locally on your device.'**
+  String get onboardingFeaturePrivacy;
+
+  /// No description provided for @onboardingFeatureCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Currency: Automatic exchange rate conversions.'**
+  String get onboardingFeatureCurrency;
+
+  /// No description provided for @onboardingFeatureAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Alerts: Get notified before your bills are due.'**
+  String get onboardingFeatureAlerts;
+
+  /// No description provided for @onboardingPage1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy-First Tracker'**
+  String get onboardingPage1Title;
+
+  /// No description provided for @onboardingPage1Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All your subscription data is stored locally and securely on your device. No registration required.'**
+  String get onboardingPage1Subtitle;
+
+  /// No description provided for @onboardingPage2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Track in Any Currency'**
+  String get onboardingPage2Title;
+
+  /// No description provided for @onboardingPage2Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add subscriptions in different currencies. Rates are fetched daily and converted to your base currency.'**
+  String get onboardingPage2Subtitle;
+
+  /// No description provided for @onboardingPage3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Never Pay Unwanted Bills'**
+  String get onboardingPage3Title;
+
+  /// No description provided for @onboardingPage3Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get smart alerts before your bills are due. Stay in control of your recurring expenses.'**
+  String get onboardingPage3Subtitle;
+
+  /// No description provided for @getStartedButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get getStartedButtonLabel;
+
+  /// No description provided for @skipButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skipButtonLabel;
 
   /// No description provided for @continueButtonLabel.
   ///

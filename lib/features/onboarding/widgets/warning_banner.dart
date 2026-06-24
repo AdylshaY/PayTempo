@@ -8,30 +8,34 @@ class WarningBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.sm),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppRadii.button),
-        color: AppColors.warning.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        color: colorScheme.primary.withValues(alpha: 0.08),
+        border: Border.all(
+          color: colorScheme.primary.withValues(alpha: 0.16),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: AppSpacing.sm,
         children: [
-          const Icon(
-            Icons.warning_amber_rounded,
-            color: AppColors.warning,
-            size: 32,
+          Icon(
+            Icons.info_outline_rounded,
+            color: colorScheme.primary,
+            size: 24,
           ),
           Expanded(
             child: Text(
               l10n.warningBannerText,
               style: textTheme.bodySmall?.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w500,
+                color: colorScheme.onSurface,
+                height: 1.4,
               ),
               overflow: TextOverflow.clip,
             ),

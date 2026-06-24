@@ -403,7 +403,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get warningBannerText =>
-      'Warning: This selection cannot be changed later. Please choose carefully.';
+      'You can change your base currency anytime in Settings. Your previous payments will be automatically recalculated.';
+
+  @override
+  String get onboardingFeaturePrivacy =>
+      'Privacy-First: All data is saved locally on your device.';
+
+  @override
+  String get onboardingFeatureCurrency =>
+      'Multi-Currency: Automatic exchange rate conversions.';
+
+  @override
+  String get onboardingFeatureAlerts =>
+      'Smart Alerts: Get notified before your bills are due.';
+
+  @override
+  String get onboardingPage1Title => 'Privacy-First Tracker';
+
+  @override
+  String get onboardingPage1Subtitle =>
+      'All your subscription data is stored locally and securely on your device. No registration required.';
+
+  @override
+  String get onboardingPage2Title => 'Track in Any Currency';
+
+  @override
+  String get onboardingPage2Subtitle =>
+      'Add subscriptions in different currencies. Rates are fetched daily and converted to your base currency.';
+
+  @override
+  String get onboardingPage3Title => 'Never Pay Unwanted Bills';
+
+  @override
+  String get onboardingPage3Subtitle =>
+      'Get smart alerts before your bills are due. Stay in control of your recurring expenses.';
+
+  @override
+  String get getStartedButtonLabel => 'Get Started';
+
+  @override
+  String get skipButtonLabel => 'Skip';
 
   @override
   String get continueButtonLabel => 'Continue';

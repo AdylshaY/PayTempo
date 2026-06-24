@@ -407,7 +407,46 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get warningBannerText =>
-      'Uyarı: Bu seçim daha sonra değiştirilemez. Lütfen dikkatli seçin.';
+      'Para biriminizi daha sonra Ayarlar\'dan dilediğiniz zaman değiştirebilirsiniz. Geçmiş ödemeleriniz otomatik olarak yeniden hesaplanacaktır.';
+
+  @override
+  String get onboardingFeaturePrivacy =>
+      'Gizlilik Odaklı: Tüm verileriniz cihazınızda güvenle saklanır.';
+
+  @override
+  String get onboardingFeatureCurrency =>
+      'Çoklu Para Birimi: Güncel kurlar temel alınarak otomatik çevrilir.';
+
+  @override
+  String get onboardingFeatureAlerts =>
+      'Akıllı Uyarılar: Ödeme günü gelmeden önce bildirim alırsınız.';
+
+  @override
+  String get onboardingPage1Title => 'Gizlilik Odaklı Takip';
+
+  @override
+  String get onboardingPage1Subtitle =>
+      'Tüm abonelik verileriniz cihazınızda yerel ve güvenli şekilde saklanır. Üyelik veya giriş gerekmez.';
+
+  @override
+  String get onboardingPage2Title => 'Döviz Desteğiyle Harcamalar';
+
+  @override
+  String get onboardingPage2Subtitle =>
+      'Farklı para birimlerindeki aboneliklerinizi ekleyin. Kurlar otomatik çevrilerek ana paranıza yansır.';
+
+  @override
+  String get onboardingPage3Title => 'Sürpriz Ödemelere Son';
+
+  @override
+  String get onboardingPage3Subtitle =>
+      'Ödeme günleri gelmeden önce akıllı bildirimler alın. Tekrarlayan faturalarınızı kontrol altında tutun.';
+
+  @override
+  String get getStartedButtonLabel => 'Hemen Başla';
+
+  @override
+  String get skipButtonLabel => 'Atla';
 
   @override
   String get continueButtonLabel => 'Devam Et';
