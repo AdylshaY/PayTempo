@@ -25,8 +25,8 @@ class NotificationService {
     // Initialize Timezones with robust error fallback
     try {
       tz.initializeTimeZones();
-      final String timeZoneName = await FlutterTimezone.getLocalTimezone();
-      tz.setLocalLocation(tz.getLocation(timeZoneName));
+      final timeZoneInfo = await FlutterTimezone.getLocalTimezone();
+      tz.setLocalLocation(tz.getLocation(timeZoneInfo.identifier));
     } catch (_) {
       // Fallback to UTC if timezone lookup fails
       tz.setLocalLocation(tz.UTC);
@@ -50,7 +50,7 @@ class NotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse details) {
         // Handle notification tap if necessary
       },
@@ -170,28 +170,24 @@ class NotificationService {
     // Schedule 1 day before notification if it is in the future
     if (scheduledDate1DayBefore.isAfter(nowZoned)) {
       await _flutterLocalNotificationsPlugin.zonedSchedule(
-        id1DayBefore,
-        title1DayBefore,
-        body1DayBefore,
-        scheduledDate1DayBefore,
-        platformDetails,
+        id: id1DayBefore,
+        title: title1DayBefore,
+        body: body1DayBefore,
+        scheduledDate: scheduledDate1DayBefore,
+        notificationDetails: platformDetails,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
       );
     }
 
     // Schedule due today notification if it is in the future
     if (scheduledDateToday.isAfter(nowZoned)) {
       await _flutterLocalNotificationsPlugin.zonedSchedule(
-        idDueToday,
-        titleDueToday,
-        bodyDueToday,
-        scheduledDateToday,
-        platformDetails,
+        id: idDueToday,
+        title: titleDueToday,
+        body: bodyDueToday,
+        scheduledDate: scheduledDateToday,
+        notificationDetails: platformDetails,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
       );
     }
   }
@@ -203,8 +199,8 @@ class NotificationService {
     final int id1DayBefore = subscription.id * 2;
     final int idDueToday = subscription.id * 2 + 1;
 
-    await _flutterLocalNotificationsPlugin.cancel(id1DayBefore);
-    await _flutterLocalNotificationsPlugin.cancel(idDueToday);
+    await _flutterLocalNotificationsPlugin.cancel(id: id1DayBefore);
+    await _flutterLocalNotificationsPlugin.cancel(id: idDueToday);
   }
 
   /// Cancels all scheduled notifications across all subscriptions.

@@ -111,7 +111,7 @@ class BackupRestoreService {
   Future<bool> importBackup() async {
     try {
       // 1. Pick file
-      final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      final FilePickerResult? result = await FilePicker.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['json'],
       );
