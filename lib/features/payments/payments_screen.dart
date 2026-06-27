@@ -465,10 +465,23 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: AppSpacing.xs),
-                                IconButton.filledTonal(
-                                  onPressed: _openFilterSheet,
-                                  icon: const Icon(Icons.tune),
-                                ),
+                                 IconButton(
+                                   onPressed: _openFilterSheet,
+                                   icon: const Icon(Icons.tune),
+                                   style: IconButton.styleFrom(
+                                     backgroundColor: Theme.of(context).cardColor,
+                                     foregroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                                     shape: RoundedRectangleBorder(
+                                       borderRadius: BorderRadius.circular(AppRadii.button),
+                                       side: BorderSide(
+                                         color: Theme.of(context).brightness == Brightness.dark
+                                             ? AppColors.inactiveDark
+                                             : AppColors.inactive,
+                                       ),
+                                     ),
+                                     minimumSize: const Size(56, 56),
+                                   ),
+                                 ),
                               ],
                             ),
                             const SizedBox(height: AppSpacing.xs),
