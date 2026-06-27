@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
+import 'package:pay_tempo/features/dashboard/subscription_list_screen.dart';
 import 'package:pay_tempo/features/dashboard/widgets/dashboard_header_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/monthly_spending_card_widget.dart';
 import 'package:pay_tempo/features/dashboard/widgets/offline_status_banner.dart';
-import 'package:pay_tempo/features/dashboard/widgets/subscription_list_section_widget.dart';
+import 'package:pay_tempo/features/dashboard/widgets/upcoming_payments_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({required this.baseCurrency, super.key});
@@ -17,6 +18,14 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  void _navigateToSubscriptionList() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => const SubscriptionListScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +63,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const SizedBox(height: AppSpacing.md),
               MonthlySpendingCardWidget(baseCurrency: widget.baseCurrency),
               const SizedBox(height: AppSpacing.md),
-              SubscriptionListSectionWidget(baseCurrency: widget.baseCurrency),
+              UpcomingPaymentsWidget(
+                baseCurrency: widget.baseCurrency,
+                onSeeAll: _navigateToSubscriptionList,
+              ),
               const SizedBox(height: AppSpacing.md),
             ],
           ),

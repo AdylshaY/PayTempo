@@ -1609,6 +1609,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Amount'**
   String get budgetAmountHint;
+
+  /// No description provided for @upcomingPayments.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Payments'**
+  String get upcomingPayments;
+
+  /// No description provided for @seeAllCount.
+  ///
+  /// In en, this message translates to:
+  /// **'See All ({count})'**
+  String seeAllCount(int count);
+
+  /// No description provided for @noUpcomingPayments.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up! No upcoming payments.'**
+  String get noUpcomingPayments;
+
+  /// No description provided for @heroStatActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get heroStatActive;
+
+  /// No description provided for @heroStatPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get heroStatPaid;
+
+  /// No description provided for @heroStatEstimated.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated'**
+  String get heroStatEstimated;
+
+  /// No description provided for @calendarView.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get calendarView;
+
+  /// No description provided for @listView.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get listView;
+
+  /// No description provided for @noPaymentsOnDay.
+  ///
+  /// In en, this message translates to:
+  /// **'No payments on this day'**
+  String get noPaymentsOnDay;
 }
 
 class _AppLocalizationsDelegate

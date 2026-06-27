@@ -7,7 +7,9 @@ import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/payments/sheets/payments_filter_sheet.dart';
+import 'package:pay_tempo/features/payments/widgets/payment_calendar_widget.dart';
 import 'package:pay_tempo/features/payments/widgets/payment_row.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -22,6 +24,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
   String _searchQuery = '';
   DateTime? _fromDate;
   DateTime? _toDate;
+  bool _isCalendarView = false;
 
 
 
@@ -303,9 +306,63 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                           );
                         }
 
+                        final Widget header = Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(l10n.payments, style: textTheme.headlineMedium),
+                            SegmentedButton<bool>(
+                              showSelectedIcon: false,
+                              style: SegmentedButton.styleFrom(
+                                visualDensity: VisualDensity.compact,
+                              ),
+                              segments: [
+                                ButtonSegment<bool>(
+                                  value: false,
+                                  icon: const Icon(Icons.list_rounded, size: 18),
+                                  label: Text(l10n.listView),
+                                ),
+                                ButtonSegment<bool>(
+                                  value: true,
+                                  icon: const Icon(Icons.calendar_month_rounded, size: 18),
+                                  label: Text(l10n.calendarView),
+                                ),
+                              ],
+                              selected: {_isCalendarView},
+                              onSelectionChanged: (Set<bool> val) {
+                                HapticFeedback.lightImpact();
+                                setState(() {
+                                  _isCalendarView = val.first;
+                                });
+                              },
+                            ),
+                          ],
+                        );
+
+                        if (_isCalendarView) {
+                          return ListView(
+                            padding: const EdgeInsets.fromLTRB(AppSpacing.sm, AppSpacing.sm, AppSpacing.sm, 130),
+                            children: <Widget>[
+                              header,
+                              const SizedBox(height: AppSpacing.md),
+                              ValueListenableBuilder<String>(
+                                valueListenable: UserSettingsService.baseCurrencyNotifier,
+                                builder: (BuildContext context, String baseCurrency, Widget? _) {
+                                  return PaymentCalendarWidget(
+                                    subscriptions: subscriptionsSnapshot.data ?? const <SubscriptionRecord>[],
+                                    transactions: paymentsSnapshot.data ?? const <PaymentTransaction>[],
+                                    baseCurrency: baseCurrency,
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        }
+
                         final Widget topContent = Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            header,
+                            const SizedBox(height: AppSpacing.md),
                             Row(
                               children: [
                                 Expanded(

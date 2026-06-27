@@ -358,6 +358,22 @@
   "setBudget": "Set Budget",
   "removeBudget": "Remove Budget",
   "budgetSettingDesc": "Set a monthly spending limit for your subscriptions.",
-  "budgetAmountHint": "Amount"
+  "budgetAmountHint": "Amount",
+  "upcomingPayments": "Upcoming Payments",
+  "seeAllCount": "See All ({count})",
+  "@seeAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noUpcomingPayments": "All caught up! No upcoming payments.",
+  "heroStatActive": "Active",
+  "heroStatPaid": "Paid",
+  "heroStatEstimated": "Estimated",
+  "calendarView": "Calendar",
+  "listView": "List",
+  "noPaymentsOnDay": "No payments on this day"
 }
 

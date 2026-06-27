@@ -831,4 +831,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get budgetAmountHint => 'Amount';
+
+  @override
+  String get upcomingPayments => 'Upcoming Payments';
+
+  @override
+  String seeAllCount(int count) {
+    return 'See All ($count)';
+  }
+
+  @override
+  String get noUpcomingPayments => 'All caught up! No upcoming payments.';
+
+  @override
+  String get heroStatActive => 'Active';
+
+  @override
+  String get heroStatPaid => 'Paid';
+
+  @override
+  String get heroStatEstimated => 'Estimated';
+
+  @override
+  String get calendarView => 'Calendar';
+
+  @override
+  String get listView => 'List';
+
+  @override
+  String get noPaymentsOnDay => 'No payments on this day';
 }

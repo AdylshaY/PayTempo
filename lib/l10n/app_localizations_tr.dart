@@ -833,4 +833,33 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get budgetAmountHint => 'Tutar';
+
+  @override
+  String get upcomingPayments => 'Yaklaşan Ödemeler';
+
+  @override
+  String seeAllCount(int count) {
+    return 'Tümünü Gör ($count)';
+  }
+
+  @override
+  String get noUpcomingPayments => 'Harika! Yaklaşan ödeme yok.';
+
+  @override
+  String get heroStatActive => 'Aktif';
+
+  @override
+  String get heroStatPaid => 'Ödendi';
+
+  @override
+  String get heroStatEstimated => 'Tahmini';
+
+  @override
+  String get calendarView => 'Takvim';
+
+  @override
+  String get listView => 'Liste';
+
+  @override
+  String get noPaymentsOnDay => 'Bu günde ödeme bulunmuyor';
 }
