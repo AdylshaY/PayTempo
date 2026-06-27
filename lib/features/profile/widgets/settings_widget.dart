@@ -255,6 +255,84 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     }
   }
 
+  Future<void> _showBudgetDialog(double? currentBudget) async {
+    final l10n = AppLocalizations.of(context)!;
+    final TextEditingController controller = TextEditingController(
+      text: currentBudget != null ? currentBudget.toStringAsFixed(0) : '',
+    );
+
+    final double? result = await showDialog<double?>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(l10n.budgetLabel),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.budgetSettingDesc,
+                style: Theme.of(dialogContext).textTheme.bodySmall,
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              TextField(
+                controller: controller,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
+                ],
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: l10n.budgetAmountHint,
+                  suffixText: UserSettingsService.baseCurrencyNotifier.value,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            if (currentBudget != null)
+              TextButton(
+                onPressed: () {
+                  // Return -1 to signal "remove budget"
+                  Navigator.of(dialogContext).pop(-1.0);
+                },
+                child: Text(
+                  l10n.removeBudget,
+                  style: TextStyle(
+                    color: Theme.of(dialogContext).colorScheme.error,
+                  ),
+                ),
+              ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(l10n.cancelButtonLabel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final double? value = double.tryParse(controller.text.trim());
+                if (value != null && value > 0) {
+                  Navigator.of(dialogContext).pop(value);
+                }
+              },
+              child: Text(l10n.setBudget),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (!mounted || result == null) return;
+
+    if (result == -1.0) {
+      // Remove budget
+      await UserSettingsService().setBudgetLimit(null);
+    } else {
+      await UserSettingsService().setBudgetLimit(result);
+    }
+
+    HapticFeedback.lightImpact();
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -408,6 +486,44 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               },
             ),
             const SizedBox(height: AppSpacing.xs),
+            ValueListenableBuilder<double?>(
+              valueListenable: UserSettingsService.budgetLimitNotifier,
+              builder: (context, budgetLimit, _) {
+                final String displayValue = budgetLimit != null
+                    ? '${budgetLimit.toStringAsFixed(0)} ${UserSettingsService.baseCurrencyNotifier.value}'
+                    : l10n.budgetNotSet;
+
+                return Card(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: 4,
+                    ),
+                    leading: const Icon(Icons.account_balance_wallet_outlined),
+                    title: Text(l10n.budgetLabel),
+                    subtitle: Text(
+                      l10n.budgetSettingDesc,
+                      style: textTheme.bodySmall,
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          displayValue,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.chevron_right_rounded, size: 20),
+                      ],
+                    ),
+                    onTap: () => _showBudgetDialog(budgetLimit),
+                  ),
+                );
+              },
+            ),
             Card(
               child: ListTile(
                 contentPadding: const EdgeInsets.symmetric(

@@ -804,4 +804,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareSubscription => 'Share subscription';
+
+  @override
+  String get budgetLabel => 'Monthly Budget';
+
+  @override
+  String budgetOf(String spent, String limit, String currency) {
+    return '$spent / $limit $currency';
+  }
+
+  @override
+  String get budgetExceeded => 'Budget exceeded!';
+
+  @override
+  String get budgetNotSet => 'No budget set';
+
+  @override
+  String get setBudget => 'Set Budget';
+
+  @override
+  String get removeBudget => 'Remove Budget';
+
+  @override
+  String get budgetSettingDesc =>
+      'Set a monthly spending limit for your subscriptions.';
+
+  @override
+  String get budgetAmountHint => 'Amount';
 }

@@ -806,4 +806,31 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get shareSubscription => 'Aboneliği Paylaş';
+
+  @override
+  String get budgetLabel => 'Aylık Bütçe';
+
+  @override
+  String budgetOf(String spent, String limit, String currency) {
+    return '$spent / $limit $currency';
+  }
+
+  @override
+  String get budgetExceeded => 'Bütçe aşıldı!';
+
+  @override
+  String get budgetNotSet => 'Bütçe belirlenmedi';
+
+  @override
+  String get setBudget => 'Bütçe Belirle';
+
+  @override
+  String get removeBudget => 'Bütçeyi Kaldır';
+
+  @override
+  String get budgetSettingDesc =>
+      'Abonelikleriniz için aylık harcama limiti belirleyin.';
+
+  @override
+  String get budgetAmountHint => 'Tutar';
 }

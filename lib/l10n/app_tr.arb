@@ -250,6 +250,27 @@
     }
   },
   "offlineRatesWarningNoCache": "Kayıtlı döviz kuru bulunamadı. Lütfen internet bağlantınızı kontrol edin.",
-  "shareSubscription": "Aboneliği Paylaş"
+  "shareSubscription": "Aboneliği Paylaş",
+  "budgetLabel": "Aylık Bütçe",
+  "budgetOf": "{spent} / {limit} {currency}",
+  "@budgetOf": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetExceeded": "Bütçe aşıldı!",
+  "budgetNotSet": "Bütçe belirlenmedi",
+  "setBudget": "Bütçe Belirle",
+  "removeBudget": "Bütçeyi Kaldır",
+  "budgetSettingDesc": "Abonelikleriniz için aylık harcama limiti belirleyin.",
+  "budgetAmountHint": "Tutar"
 }
 

@@ -28,6 +28,11 @@ class UserSettingsService {
   static final ValueNotifier<bool> notificationsEnabledNotifier =
       ValueNotifier(true);
 
+  /// Global notifier for the monthly budget limit.
+  /// Null means no budget has been set.
+  static final ValueNotifier<double?> budgetLimitNotifier =
+      ValueNotifier(null);
+
   /// Converts Isar AppThemeMode enum to Flutter ThemeMode.
   ThemeMode _toFlutterThemeMode(AppThemeMode mode) {
     switch (mode) {
@@ -47,6 +52,7 @@ class UserSettingsService {
       appThemeNotifier.value = _toFlutterThemeMode(settings.themeMode);
       appLanguageNotifier.value = settings.languageCode;
       notificationsEnabledNotifier.value = settings.notificationsEnabled;
+      budgetLimitNotifier.value = settings.monthlyBudgetLimit;
       if (settings.baseCurrency.trim().isNotEmpty) {
         baseCurrencyNotifier.value = settings.baseCurrency.trim().toUpperCase();
       }
@@ -206,5 +212,18 @@ class UserSettingsService {
       // Cancel all notifications
       await NotificationService.instance.cancelAllNotifications();
     }
+  }
+
+  /// Sets or removes the monthly budget limit.
+  /// Pass null to remove the budget.
+  Future<void> setBudgetLimit(double? limit) async {
+    await _isar.writeTxn(() async {
+      final UserSettings? current = await _isar.userSettings.get(1);
+      if (current != null) {
+        current.monthlyBudgetLimit = limit;
+        await _isar.userSettings.put(current);
+        budgetLimitNotifier.value = limit;
+      }
+    });
   }
 }

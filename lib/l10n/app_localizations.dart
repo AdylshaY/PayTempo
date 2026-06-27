@@ -1561,6 +1561,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share subscription'**
   String get shareSubscription;
+
+  /// No description provided for @budgetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Budget'**
+  String get budgetLabel;
+
+  /// No description provided for @budgetOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{spent} / {limit} {currency}'**
+  String budgetOf(String spent, String limit, String currency);
+
+  /// No description provided for @budgetExceeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget exceeded!'**
+  String get budgetExceeded;
+
+  /// No description provided for @budgetNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'No budget set'**
+  String get budgetNotSet;
+
+  /// No description provided for @setBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Budget'**
+  String get setBudget;
+
+  /// No description provided for @removeBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Budget'**
+  String get removeBudget;
+
+  /// No description provided for @budgetSettingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a monthly spending limit for your subscriptions.'**
+  String get budgetSettingDesc;
+
+  /// No description provided for @budgetAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get budgetAmountHint;
 }
 
 class _AppLocalizationsDelegate

@@ -6,6 +6,7 @@ import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/dashboard/utils/due_date_resolver.dart';
+import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class MonthlySpendingCardWidget extends StatelessWidget {
@@ -19,6 +20,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final DateTime now = DateTime.now();
     final DateTime monthStart = DateTime(now.year, now.month, 1);
     final DateTime nextMonthStart = DateTime(now.year, now.month + 1, 1);
@@ -107,7 +109,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
                     Text(
                       l10n.paidThisMonth,
                       style: textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        color: colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -115,8 +117,100 @@ class MonthlySpendingCardWidget extends StatelessWidget {
                     Text(
                       l10n.remainingFromActive(remainingTotal.toStringAsFixed(2), baseCurrency),
                       style: textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.75),
+                        color: colorScheme.onSurfaceVariant.withValues(alpha: 0.75),
                       ),
+                    ),
+                    // Budget progress bar (reactive via ValueListenableBuilder)
+                    ValueListenableBuilder<double?>(
+                      valueListenable: UserSettingsService.budgetLimitNotifier,
+                      builder: (BuildContext context, double? budgetLimit, Widget? _) {
+                        if (budgetLimit == null || budgetLimit <= 0) {
+                          return const SizedBox.shrink();
+                        }
+
+                        final double estimatedTotal = paidTotal + remainingTotal;
+                        final double ratio = (estimatedTotal / budgetLimit).clamp(0.0, 1.5);
+
+                        // Color logic: green < 80%, warning 80-100%, error > 100%
+                        final Color progressColor;
+                        if (ratio > 1.0) {
+                          progressColor = AppColors.error;
+                        } else if (ratio >= 0.8) {
+                          progressColor = AppColors.warning;
+                        } else {
+                          progressColor = AppColors.success;
+                        }
+
+                        final bool isExceeded = ratio > 1.0;
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: AppSpacing.sm),
+                            // Budget label row
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      isExceeded
+                                          ? Icons.warning_amber_rounded
+                                          : Icons.account_balance_wallet_outlined,
+                                      size: 14,
+                                      color: progressColor,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      l10n.budgetLabel,
+                                      style: textTheme.bodySmall?.copyWith(
+                                        color: progressColor,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  l10n.budgetOf(
+                                    estimatedTotal.toStringAsFixed(0),
+                                    budgetLimit.toStringAsFixed(0),
+                                    baseCurrency,
+                                  ),
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: progressColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            // Progress bar
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: SizedBox(
+                                height: 6,
+                                child: LinearProgressIndicator(
+                                  value: ratio.clamp(0.0, 1.0),
+                                  backgroundColor: colorScheme.onSurface.withValues(alpha: 0.08),
+                                  valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+                                ),
+                              ),
+                            ),
+                            // Exceeded warning text
+                            if (isExceeded) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                l10n.budgetExceeded,
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: AppColors.error,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),

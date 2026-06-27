@@ -337,6 +337,27 @@
     }
   },
   "offlineRatesWarningNoCache": "No cached exchange rates available. Please check your internet connection.",
-  "shareSubscription": "Share subscription"
+  "shareSubscription": "Share subscription",
+  "budgetLabel": "Monthly Budget",
+  "budgetOf": "{spent} / {limit} {currency}",
+  "@budgetOf": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetExceeded": "Budget exceeded!",
+  "budgetNotSet": "No budget set",
+  "setBudget": "Set Budget",
+  "removeBudget": "Remove Budget",
+  "budgetSettingDesc": "Set a monthly spending limit for your subscriptions.",
+  "budgetAmountHint": "Amount"
 }
 

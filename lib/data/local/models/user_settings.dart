@@ -59,4 +59,8 @@ class UserSettings {
   String? languageCode;
 
   bool notificationsEnabled;
+
+  /// Monthly subscription budget limit in base currency.
+  /// Null means no budget has been set.
+  double? monthlyBudgetLimit;
 }

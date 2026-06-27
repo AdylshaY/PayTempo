@@ -47,34 +47,39 @@ const UserSettingsSchema = CollectionSchema(
       name: r'lastSyncTime',
       type: IsarType.dateTime,
     ),
-    r'notificationsEnabled': PropertySchema(
+    r'monthlyBudgetLimit': PropertySchema(
       id: 6,
+      name: r'monthlyBudgetLimit',
+      type: IsarType.double,
+    ),
+    r'notificationsEnabled': PropertySchema(
+      id: 7,
       name: r'notificationsEnabled',
       type: IsarType.bool,
     ),
     r'proExpiryDate': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'proExpiryDate',
       type: IsarType.dateTime,
     ),
     r'proPlanType': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'proPlanType',
       type: IsarType.string,
     ),
     r'proPriceDisplay': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'proPriceDisplay',
       type: IsarType.string,
     ),
     r'themeMode': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'themeMode',
       type: IsarType.byte,
       enumMap: _UserSettingsthemeModeEnumValueMap,
     ),
     r'userId': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'userId',
       type: IsarType.string,
     )
@@ -165,12 +170,13 @@ void _userSettingsSerialize(
   writer.writeBool(offsets[3], object.isPro);
   writer.writeString(offsets[4], object.languageCode);
   writer.writeDateTime(offsets[5], object.lastSyncTime);
-  writer.writeBool(offsets[6], object.notificationsEnabled);
-  writer.writeDateTime(offsets[7], object.proExpiryDate);
-  writer.writeString(offsets[8], object.proPlanType);
-  writer.writeString(offsets[9], object.proPriceDisplay);
-  writer.writeByte(offsets[10], object.themeMode.index);
-  writer.writeString(offsets[11], object.userId);
+  writer.writeDouble(offsets[6], object.monthlyBudgetLimit);
+  writer.writeBool(offsets[7], object.notificationsEnabled);
+  writer.writeDateTime(offsets[8], object.proExpiryDate);
+  writer.writeString(offsets[9], object.proPlanType);
+  writer.writeString(offsets[10], object.proPriceDisplay);
+  writer.writeByte(offsets[11], object.themeMode.index);
+  writer.writeString(offsets[12], object.userId);
 }
 
 UserSettings _userSettingsDeserialize(
@@ -187,15 +193,16 @@ UserSettings _userSettingsDeserialize(
     isPro: reader.readBoolOrNull(offsets[3]) ?? false,
     languageCode: reader.readStringOrNull(offsets[4]),
     lastSyncTime: reader.readDateTimeOrNull(offsets[5]),
-    notificationsEnabled: reader.readBoolOrNull(offsets[6]) ?? true,
-    proExpiryDate: reader.readDateTimeOrNull(offsets[7]),
-    proPlanType: reader.readStringOrNull(offsets[8]),
-    proPriceDisplay: reader.readStringOrNull(offsets[9]),
+    notificationsEnabled: reader.readBoolOrNull(offsets[7]) ?? true,
+    proExpiryDate: reader.readDateTimeOrNull(offsets[8]),
+    proPlanType: reader.readStringOrNull(offsets[9]),
+    proPriceDisplay: reader.readStringOrNull(offsets[10]),
     themeMode: _UserSettingsthemeModeValueEnumMap[
-            reader.readByteOrNull(offsets[10])] ??
+            reader.readByteOrNull(offsets[11])] ??
         AppThemeMode.system,
-    userId: reader.readStringOrNull(offsets[11]),
+    userId: reader.readStringOrNull(offsets[12]),
   );
+  object.monthlyBudgetLimit = reader.readDoubleOrNull(offsets[6]);
   return object;
 }
 
@@ -219,18 +226,20 @@ P _userSettingsDeserializeProp<P>(
     case 5:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 6:
-      return (reader.readBoolOrNull(offset) ?? true) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 7:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? true) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
+      return (reader.readStringOrNull(offset)) as P;
+    case 11:
       return (_UserSettingsthemeModeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           AppThemeMode.system) as P;
-    case 11:
+    case 12:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1121,6 +1130,90 @@ extension UserSettingsQueryFilter
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      monthlyBudgetLimitIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'monthlyBudgetLimit',
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      monthlyBudgetLimitIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'monthlyBudgetLimit',
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      monthlyBudgetLimitEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'monthlyBudgetLimit',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      monthlyBudgetLimitGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'monthlyBudgetLimit',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      monthlyBudgetLimitLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'monthlyBudgetLimit',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      monthlyBudgetLimitBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'monthlyBudgetLimit',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
       notificationsEnabledEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1807,6 +1900,20 @@ extension UserSettingsQuerySortBy
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByMonthlyBudgetLimit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'monthlyBudgetLimit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByMonthlyBudgetLimitDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'monthlyBudgetLimit', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
       sortByNotificationsEnabled() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notificationsEnabled', Sort.asc);
@@ -1976,6 +2083,20 @@ extension UserSettingsQuerySortThenBy
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByMonthlyBudgetLimit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'monthlyBudgetLimit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByMonthlyBudgetLimitDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'monthlyBudgetLimit', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
       thenByNotificationsEnabled() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notificationsEnabled', Sort.asc);
@@ -2097,6 +2218,13 @@ extension UserSettingsQueryWhereDistinct
   }
 
   QueryBuilder<UserSettings, UserSettings, QDistinct>
+      distinctByMonthlyBudgetLimit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'monthlyBudgetLimit');
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QDistinct>
       distinctByNotificationsEnabled() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'notificationsEnabled');
@@ -2181,6 +2309,13 @@ extension UserSettingsQueryProperty
       lastSyncTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastSyncTime');
+    });
+  }
+
+  QueryBuilder<UserSettings, double?, QQueryOperations>
+      monthlyBudgetLimitProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'monthlyBudgetLimit');
     });
   }
 
