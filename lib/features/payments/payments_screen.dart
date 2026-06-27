@@ -310,30 +310,106 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(l10n.payments, style: textTheme.headlineMedium),
-                            SegmentedButton<bool>(
-                              showSelectedIcon: false,
-                              style: SegmentedButton.styleFrom(
-                                visualDensity: VisualDensity.compact,
+                            Container(
+                              height: 38,
+                              width: 180,
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white.withValues(alpha: 0.08)
+                                    : Colors.black.withValues(alpha: 0.05),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              segments: [
-                                ButtonSegment<bool>(
-                                  value: false,
-                                  icon: const Icon(Icons.list_rounded, size: 18),
-                                  label: Text(l10n.listView),
-                                ),
-                                ButtonSegment<bool>(
-                                  value: true,
-                                  icon: const Icon(Icons.calendar_month_rounded, size: 18),
-                                  label: Text(l10n.calendarView),
-                                ),
-                              ],
-                              selected: {_isCalendarView},
-                              onSelectionChanged: (Set<bool> val) {
-                                HapticFeedback.lightImpact();
-                                setState(() {
-                                  _isCalendarView = val.first;
-                                });
-                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        HapticFeedback.lightImpact();
+                                        setState(() {
+                                          _isCalendarView = false;
+                                        });
+                                      },
+                                      child: AnimatedContainer(
+                                        duration: const Duration(milliseconds: 150),
+                                        decoration: BoxDecoration(
+                                          color: !_isCalendarView
+                                              ? Theme.of(context).colorScheme.primary
+                                              : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.list_rounded,
+                                              size: 16,
+                                              color: !_isCalendarView
+                                                  ? Colors.white
+                                                  : Theme.of(context).colorScheme.onSurfaceVariant,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              l10n.listView,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: !_isCalendarView
+                                                    ? Colors.white
+                                                    : Theme.of(context).colorScheme.onSurfaceVariant,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        HapticFeedback.lightImpact();
+                                        setState(() {
+                                          _isCalendarView = true;
+                                        });
+                                      },
+                                      child: AnimatedContainer(
+                                        duration: const Duration(milliseconds: 150),
+                                        decoration: BoxDecoration(
+                                          color: _isCalendarView
+                                              ? Theme.of(context).colorScheme.primary
+                                              : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.calendar_month_rounded,
+                                              size: 16,
+                                              color: _isCalendarView
+                                                  ? Colors.white
+                                                  : Theme.of(context).colorScheme.onSurfaceVariant,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              l10n.calendarView,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: _isCalendarView
+                                                    ? Colors.white
+                                                    : Theme.of(context).colorScheme.onSurfaceVariant,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         );

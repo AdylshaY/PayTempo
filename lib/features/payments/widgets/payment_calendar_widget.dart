@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
-import 'package:pay_tempo/app/widgets/empty_state_widget.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/dashboard/sheets/mark_subscription_paid_sheet.dart';
@@ -229,6 +228,8 @@ class _PaymentCalendarWidgetState extends State<PaymentCalendarWidget> {
     final DateTime firstDayOfMonth = _visibleMonth;
     final int prefixDays = firstDayOfMonth.weekday - 1; // Monday as first day (1..7)
     final DateTime gridStartDate = firstDayOfMonth.subtract(Duration(days: prefixDays));
+    final int daysInMonth = DateTime(_visibleMonth.year, _visibleMonth.month + 1, 0).day;
+    final int totalCells = (prefixDays + daysInMonth) <= 35 ? 35 : 42;
 
     final DateTime today = DateTime.now();
     final DateTime normalizedToday = DateTime(today.year, today.month, today.day);
@@ -306,14 +307,15 @@ class _PaymentCalendarWidgetState extends State<PaymentCalendarWidget> {
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.xs),
             child: GridView.builder(
+              padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 42, // 6 rows * 7 columns fixed
+              itemCount: totalCells,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 7,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                childAspectRatio: 1.0,
+                mainAxisSpacing: 2,
+                crossAxisSpacing: 2,
+                childAspectRatio: 1.22,
               ),
               itemBuilder: (BuildContext context, int index) {
                 final DateTime cellDate = gridStartDate.add(Duration(days: index));
@@ -394,7 +396,7 @@ class _PaymentCalendarWidgetState extends State<PaymentCalendarWidget> {
             ),
           ),
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: 12),
 
         // 4. Day Details Header
         Row(
@@ -410,15 +412,30 @@ class _PaymentCalendarWidgetState extends State<PaymentCalendarWidget> {
             ),
           ],
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: 8),
 
         // 5. Day Details List
         if (selectedDayEvents.isEmpty)
           Card(
-            child: EmptyStateWidget(
-              icon: Icons.calendar_today_rounded,
-              title: l10n.payments,
-              message: l10n.noPaymentsOnDay,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.calendar_today_rounded,
+                    color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    l10n.noPaymentsOnDay,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         else
