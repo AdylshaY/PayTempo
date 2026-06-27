@@ -4,6 +4,7 @@ import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/data/local/models/custom_category.dart';
+import 'package:pay_tempo/data/local/models/notification_reminder.dart';
 
 class LocalDatabase {
   LocalDatabase._();
@@ -25,6 +26,7 @@ class LocalDatabase {
         SubscriptionRecordSchema,
         PaymentTransactionSchema,
         CustomCategorySchema,
+        NotificationReminderSchema,
       ],
 
       directory: appSupportDir.path,

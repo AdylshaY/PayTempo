@@ -862,4 +862,42 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get noPaymentsOnDay => 'Bu günde ödeme bulunmuyor';
+
+  @override
+  String get notificationTimeLabel => 'Bildirim Saati';
+
+  @override
+  String get notificationTimeDesc =>
+      'Günlük hatırlatıcıları almak istediğiniz varsayılan saati belirleyin';
+
+  @override
+  String get reminderDaysLabel => 'Hatırlatıcılar';
+
+  @override
+  String get reminderSameDay => 'Ödeme Günü';
+
+  @override
+  String get reminder1DayBefore => '1 Gün Önce';
+
+  @override
+  String get reminder2DaysBefore => '2 Gün Önce';
+
+  @override
+  String get reminder3DaysBefore => '3 Gün Önce';
+
+  @override
+  String get reminder7DaysBefore => '1 Hafta Önce';
+
+  @override
+  String get notificationDaysBeforeTitle => 'Yaklaşan Ödeme';
+
+  @override
+  String notificationDaysBeforeBody(
+    String name,
+    String days,
+    String price,
+    String currency,
+  ) {
+    return '$name ödemesine $days gün kaldı ($price $currency)';
+  }
 }

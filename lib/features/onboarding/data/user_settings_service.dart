@@ -28,6 +28,12 @@ class UserSettingsService {
   static final ValueNotifier<bool> notificationsEnabledNotifier =
       ValueNotifier(true);
 
+  /// Global notifier for the notification time hour.
+  static final ValueNotifier<int> notificationHourNotifier = ValueNotifier(9);
+
+  /// Global notifier for the notification time minute.
+  static final ValueNotifier<int> notificationMinuteNotifier = ValueNotifier(0);
+
   /// Global notifier for the monthly budget limit.
   /// Null means no budget has been set.
   static final ValueNotifier<double?> budgetLimitNotifier =
@@ -53,6 +59,8 @@ class UserSettingsService {
       appLanguageNotifier.value = settings.languageCode;
       notificationsEnabledNotifier.value = settings.notificationsEnabled;
       budgetLimitNotifier.value = settings.monthlyBudgetLimit;
+      notificationHourNotifier.value = settings.notificationHour;
+      notificationMinuteNotifier.value = settings.notificationMinute;
       if (settings.baseCurrency.trim().isNotEmpty) {
         baseCurrencyNotifier.value = settings.baseCurrency.trim().toUpperCase();
       }
@@ -225,5 +233,31 @@ class UserSettingsService {
         budgetLimitNotifier.value = limit;
       }
     });
+  }
+
+  /// Sets custom global notification time and reschedules all reminders.
+  Future<void> setNotificationTime(int hour, int minute) async {
+    await _isar.writeTxn(() async {
+      final UserSettings? current = await _isar.userSettings.get(1);
+      if (current != null) {
+        current.notificationHour = hour;
+        current.notificationMinute = minute;
+        await _isar.userSettings.put(current);
+        notificationHourNotifier.value = hour;
+        notificationMinuteNotifier.value = minute;
+      }
+    });
+
+    // Reschedule all active notifications
+    if (notificationsEnabledNotifier.value) {
+      final subscriptions = await _isar.subscriptionRecords
+          .filter()
+          .isDeletedEqualTo(false)
+          .enableNotificationsEqualTo(true)
+          .findAll();
+      for (final SubscriptionRecord sub in subscriptions) {
+        await NotificationService.instance.scheduleSubscriptionNotifications(sub);
+      }
+    }
   }
 }

@@ -124,7 +124,7 @@ class SubscriptionService {
   }
 
   Future<void> deleteSubscription(SubscriptionRecord subscription) async {
-    await NotificationService.instance.cancelSubscriptionNotifications(subscription);
+    await NotificationService.instance.cancelSubscriptionNotifications(subscription, deleteFromDb: true);
     await _isar.writeTxn(() async {
       subscription.isDeleted = true;
       subscription.updatedAt = DateTime.now();

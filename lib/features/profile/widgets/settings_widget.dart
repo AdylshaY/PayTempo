@@ -462,26 +462,85 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ValueListenableBuilder<bool>(
               valueListenable: UserSettingsService.notificationsEnabledNotifier,
               builder: (context, notificationsEnabled, _) {
-                return Card(
-                  child: SwitchListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                      vertical: 4,
+                return Column(
+                  children: [
+                    Card(
+                      child: SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: 4,
+                        ),
+                        secondary: Icon(notificationsEnabled
+                            ? Icons.notifications_active_outlined
+                            : Icons.notifications_off_outlined),
+                        title: Text(l10n.notificationsLabel),
+                        subtitle: Text(
+                          l10n.notificationsSubtitle,
+                          style: textTheme.bodySmall,
+                        ),
+                        value: notificationsEnabled,
+                        onChanged: (bool value) {
+                          HapticFeedback.lightImpact();
+                          UserSettingsService().setNotificationsEnabled(value);
+                        },
+                      ),
                     ),
-                    secondary: Icon(notificationsEnabled
-                        ? Icons.notifications_active_outlined
-                        : Icons.notifications_off_outlined),
-                    title: Text(l10n.notificationsLabel),
-                    subtitle: Text(
-                      l10n.notificationsSubtitle,
-                      style: textTheme.bodySmall,
-                    ),
-                    value: notificationsEnabled,
-                    onChanged: (bool value) {
-                      HapticFeedback.lightImpact();
-                      UserSettingsService().setNotificationsEnabled(value);
-                    },
-                  ),
+                    if (notificationsEnabled) ...[
+                      const SizedBox(height: AppSpacing.xs),
+                      Card(
+                        child: ValueListenableBuilder<int>(
+                          valueListenable: UserSettingsService.notificationHourNotifier,
+                          builder: (context, hour, _) {
+                            return ValueListenableBuilder<int>(
+                              valueListenable: UserSettingsService.notificationMinuteNotifier,
+                              builder: (context, minute, _) {
+                                final String displayTime =
+                                    '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+
+                                return ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: AppSpacing.md,
+                                    vertical: 4,
+                                  ),
+                                  leading: const Icon(Icons.access_time_outlined),
+                                  title: Text(l10n.notificationTimeLabel),
+                                  subtitle: Text(
+                                    l10n.notificationTimeDesc,
+                                    style: textTheme.bodySmall,
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        displayTime,
+                                        style: textTheme.bodyMedium?.copyWith(
+                                          color: Theme.of(context).colorScheme.primary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      const Icon(Icons.chevron_right_rounded, size: 20),
+                                    ],
+                                  ),
+                                  onTap: () async {
+                                    HapticFeedback.lightImpact();
+                                    final TimeOfDay? picked = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay(hour: hour, minute: minute),
+                                    );
+                                    if (picked != null) {
+                                      await UserSettingsService()
+                                          .setNotificationTime(picked.hour, picked.minute);
+                                    }
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
                 );
               },
             ),

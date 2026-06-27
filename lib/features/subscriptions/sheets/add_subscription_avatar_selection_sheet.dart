@@ -139,7 +139,7 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: isSelected
-                                ? AppColors.textPrimary
+                                ? Theme.of(context).colorScheme.onSurface
                                 : Colors.transparent,
                             width: 2,
                           ),

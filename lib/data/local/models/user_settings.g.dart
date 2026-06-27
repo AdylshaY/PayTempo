@@ -52,34 +52,44 @@ const UserSettingsSchema = CollectionSchema(
       name: r'monthlyBudgetLimit',
       type: IsarType.double,
     ),
-    r'notificationsEnabled': PropertySchema(
+    r'notificationHour': PropertySchema(
       id: 7,
+      name: r'notificationHour',
+      type: IsarType.long,
+    ),
+    r'notificationMinute': PropertySchema(
+      id: 8,
+      name: r'notificationMinute',
+      type: IsarType.long,
+    ),
+    r'notificationsEnabled': PropertySchema(
+      id: 9,
       name: r'notificationsEnabled',
       type: IsarType.bool,
     ),
     r'proExpiryDate': PropertySchema(
-      id: 8,
+      id: 10,
       name: r'proExpiryDate',
       type: IsarType.dateTime,
     ),
     r'proPlanType': PropertySchema(
-      id: 9,
+      id: 11,
       name: r'proPlanType',
       type: IsarType.string,
     ),
     r'proPriceDisplay': PropertySchema(
-      id: 10,
+      id: 12,
       name: r'proPriceDisplay',
       type: IsarType.string,
     ),
     r'themeMode': PropertySchema(
-      id: 11,
+      id: 13,
       name: r'themeMode',
       type: IsarType.byte,
       enumMap: _UserSettingsthemeModeEnumValueMap,
     ),
     r'userId': PropertySchema(
-      id: 12,
+      id: 14,
       name: r'userId',
       type: IsarType.string,
     )
@@ -171,12 +181,14 @@ void _userSettingsSerialize(
   writer.writeString(offsets[4], object.languageCode);
   writer.writeDateTime(offsets[5], object.lastSyncTime);
   writer.writeDouble(offsets[6], object.monthlyBudgetLimit);
-  writer.writeBool(offsets[7], object.notificationsEnabled);
-  writer.writeDateTime(offsets[8], object.proExpiryDate);
-  writer.writeString(offsets[9], object.proPlanType);
-  writer.writeString(offsets[10], object.proPriceDisplay);
-  writer.writeByte(offsets[11], object.themeMode.index);
-  writer.writeString(offsets[12], object.userId);
+  writer.writeLong(offsets[7], object.notificationHour);
+  writer.writeLong(offsets[8], object.notificationMinute);
+  writer.writeBool(offsets[9], object.notificationsEnabled);
+  writer.writeDateTime(offsets[10], object.proExpiryDate);
+  writer.writeString(offsets[11], object.proPlanType);
+  writer.writeString(offsets[12], object.proPriceDisplay);
+  writer.writeByte(offsets[13], object.themeMode.index);
+  writer.writeString(offsets[14], object.userId);
 }
 
 UserSettings _userSettingsDeserialize(
@@ -193,14 +205,16 @@ UserSettings _userSettingsDeserialize(
     isPro: reader.readBoolOrNull(offsets[3]) ?? false,
     languageCode: reader.readStringOrNull(offsets[4]),
     lastSyncTime: reader.readDateTimeOrNull(offsets[5]),
-    notificationsEnabled: reader.readBoolOrNull(offsets[7]) ?? true,
-    proExpiryDate: reader.readDateTimeOrNull(offsets[8]),
-    proPlanType: reader.readStringOrNull(offsets[9]),
-    proPriceDisplay: reader.readStringOrNull(offsets[10]),
+    notificationHour: reader.readLongOrNull(offsets[7]) ?? 9,
+    notificationMinute: reader.readLongOrNull(offsets[8]) ?? 0,
+    notificationsEnabled: reader.readBoolOrNull(offsets[9]) ?? true,
+    proExpiryDate: reader.readDateTimeOrNull(offsets[10]),
+    proPlanType: reader.readStringOrNull(offsets[11]),
+    proPriceDisplay: reader.readStringOrNull(offsets[12]),
     themeMode: _UserSettingsthemeModeValueEnumMap[
-            reader.readByteOrNull(offsets[11])] ??
+            reader.readByteOrNull(offsets[13])] ??
         AppThemeMode.system,
-    userId: reader.readStringOrNull(offsets[12]),
+    userId: reader.readStringOrNull(offsets[14]),
   );
   object.monthlyBudgetLimit = reader.readDoubleOrNull(offsets[6]);
   return object;
@@ -228,18 +242,22 @@ P _userSettingsDeserializeProp<P>(
     case 6:
       return (reader.readDoubleOrNull(offset)) as P;
     case 7:
-      return (reader.readBoolOrNull(offset) ?? true) as P;
+      return (reader.readLongOrNull(offset) ?? 9) as P;
     case 8:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset) ?? 0) as P;
     case 9:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? true) as P;
     case 10:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 11:
+      return (reader.readStringOrNull(offset)) as P;
+    case 12:
+      return (reader.readStringOrNull(offset)) as P;
+    case 13:
       return (_UserSettingsthemeModeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           AppThemeMode.system) as P;
-    case 12:
+    case 14:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1214,6 +1232,118 @@ extension UserSettingsQueryFilter
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationHourEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'notificationHour',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationHourGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'notificationHour',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationHourLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'notificationHour',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationHourBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'notificationHour',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationMinuteEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'notificationMinute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationMinuteGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'notificationMinute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationMinuteLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'notificationMinute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
+      notificationMinuteBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'notificationMinute',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterFilterCondition>
       notificationsEnabledEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1914,6 +2044,34 @@ extension UserSettingsQuerySortBy
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByNotificationHour() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationHour', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByNotificationHourDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationHour', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByNotificationMinute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationMinute', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      sortByNotificationMinuteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationMinute', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
       sortByNotificationsEnabled() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notificationsEnabled', Sort.asc);
@@ -2097,6 +2255,34 @@ extension UserSettingsQuerySortThenBy
   }
 
   QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByNotificationHour() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationHour', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByNotificationHourDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationHour', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByNotificationMinute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationMinute', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
+      thenByNotificationMinuteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationMinute', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QAfterSortBy>
       thenByNotificationsEnabled() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notificationsEnabled', Sort.asc);
@@ -2225,6 +2411,20 @@ extension UserSettingsQueryWhereDistinct
   }
 
   QueryBuilder<UserSettings, UserSettings, QDistinct>
+      distinctByNotificationHour() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'notificationHour');
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QDistinct>
+      distinctByNotificationMinute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'notificationMinute');
+    });
+  }
+
+  QueryBuilder<UserSettings, UserSettings, QDistinct>
       distinctByNotificationsEnabled() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'notificationsEnabled');
@@ -2316,6 +2516,19 @@ extension UserSettingsQueryProperty
       monthlyBudgetLimitProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'monthlyBudgetLimit');
+    });
+  }
+
+  QueryBuilder<UserSettings, int, QQueryOperations> notificationHourProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'notificationHour');
+    });
+  }
+
+  QueryBuilder<UserSettings, int, QQueryOperations>
+      notificationMinuteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'notificationMinute');
     });
   }
 

@@ -11,6 +11,7 @@ import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
+import 'package:pay_tempo/data/local/models/notification_reminder.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/dashboard/widgets/subscription_share_card.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
@@ -41,11 +42,24 @@ class SubscriptionDetailSheet extends StatefulWidget {
 class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
   late bool _notificationsEnabled;
   final GlobalKey _shareKey = GlobalKey();
+  List<NotificationReminder> _reminders = [];
 
   @override
   void initState() {
     super.initState();
     _notificationsEnabled = widget.subscription.enableNotifications;
+    _loadReminders();
+  }
+
+  Future<void> _loadReminders() async {
+    final isar = LocalDatabase.instance.isar;
+    final List<NotificationReminder> list = await isar.notificationReminders
+        .filter()
+        .subscriptionUidEqualTo(widget.subscription.uid)
+        .findAll();
+    setState(() {
+      _reminders = list;
+    });
   }
 
   Future<void> _shareSubscription() async {
@@ -129,9 +143,205 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
 
     if (value) {
       await NotificationService.instance.scheduleSubscriptionNotifications(widget.subscription);
+      await _loadReminders();
     } else {
       await NotificationService.instance.cancelSubscriptionNotifications(widget.subscription);
     }
+  }
+
+  Future<void> _toggleReminderDay(int daysBefore) async {
+    HapticFeedback.lightImpact();
+    final isar = LocalDatabase.instance.isar;
+    final bool currentlySelected = _reminders.any((r) => r.daysBefore == daysBefore);
+
+    if (currentlySelected) {
+      if (_reminders.length == 1) {
+        // Last reminder removed -> disable notifications completely
+        await _toggleNotifications(false);
+        return;
+      }
+
+      final reminderToRemove = _reminders.firstWhere((r) => r.daysBefore == daysBefore);
+      await isar.writeTxn(() async {
+        await isar.notificationReminders.delete(reminderToRemove.id);
+      });
+      setState(() {
+        _reminders.removeWhere((r) => r.daysBefore == daysBefore);
+      });
+    } else {
+      final newReminder = NotificationReminder(
+        uid: '${DateTime.now().microsecondsSinceEpoch}_${daysBefore}_${widget.subscription.uid}',
+        subscriptionUid: widget.subscription.uid,
+        daysBefore: daysBefore,
+        updatedAt: DateTime.now(),
+      );
+
+      await isar.writeTxn(() async {
+        await isar.notificationReminders.put(newReminder);
+      });
+
+      setState(() {
+        _reminders.add(newReminder);
+      });
+    }
+
+    await NotificationService.instance.scheduleSubscriptionNotifications(widget.subscription);
+  }
+
+  Future<void> _updateReminderTime(NotificationReminder reminder, int? hour, int? minute) async {
+    final isar = LocalDatabase.instance.isar;
+    await isar.writeTxn(() async {
+      reminder.customHour = hour;
+      reminder.customMinute = minute;
+      reminder.updatedAt = DateTime.now();
+      await isar.notificationReminders.put(reminder);
+    });
+
+    await _loadReminders();
+    await NotificationService.instance.scheduleSubscriptionNotifications(widget.subscription);
+  }
+
+  Widget _buildReminderChip(int day, AppLocalizations l10n, TextTheme textTheme) {
+    NotificationReminder? reminder;
+    for (final r in _reminders) {
+      if (r.daysBefore == day) {
+        reminder = r;
+        break;
+      }
+    }
+    final bool isSelected = reminder != null;
+
+    String label;
+    if (day == 0) {
+      label = l10n.reminderSameDay;
+    } else if (day == 1) {
+      label = l10n.reminder1DayBefore;
+    } else if (day == 2) {
+      label = l10n.reminder2DaysBefore;
+    } else if (day == 3) {
+      label = l10n.reminder3DaysBefore;
+    } else {
+      label = l10n.reminder7DaysBefore;
+    }
+
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color backgroundColor = isSelected
+        ? colorScheme.primary
+        : (Theme.of(context).brightness == Brightness.dark
+            ? Colors.white.withValues(alpha: 0.05)
+            : Colors.black.withValues(alpha: 0.05));
+
+    final Color foregroundColor = isSelected
+        ? colorScheme.onPrimary
+        : colorScheme.onSurface;
+
+    final int globalHour = UserSettingsService.notificationHourNotifier.value;
+    final int globalMinute = UserSettingsService.notificationMinuteNotifier.value;
+
+    final int displayHour = reminder?.customHour ?? globalHour;
+    final int displayMinute = reminder?.customMinute ?? globalMinute;
+    final bool hasCustomTime = reminder?.customHour != null && reminder?.customMinute != null;
+
+    final String timeStr =
+        '${displayHour.toString().padLeft(2, '0')}:${displayMinute.toString().padLeft(2, '0')}';
+
+    return Container(
+      margin: const EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(AppRadii.button),
+        border: Border.all(
+          color: isSelected
+              ? colorScheme.primary
+              : (Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.inactiveDark
+                  : AppColors.inactive),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: () => _toggleReminderDay(day),
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(AppRadii.button - 1),
+              bottomLeft: const Radius.circular(AppRadii.button - 1),
+              topRight: isSelected ? Radius.zero : const Radius.circular(AppRadii.button - 1),
+              bottomRight: isSelected ? Radius.zero : const Radius.circular(AppRadii.button - 1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 8),
+              child: Text(
+                label,
+                style: textTheme.bodySmall?.copyWith(
+                  color: foregroundColor,
+                  fontWeight: isSelected ? FontWeight.w600 : null,
+                ),
+              ),
+            ),
+          ),
+          if (isSelected) ...[
+            Container(
+              width: 1,
+              height: 20,
+              color: foregroundColor.withValues(alpha: 0.3),
+            ),
+            InkWell(
+              onTap: () async {
+                HapticFeedback.lightImpact();
+                final TimeOfDay? picked = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay(hour: displayHour, minute: displayMinute),
+                );
+                if (picked != null) {
+                  await _updateReminderTime(reminder!, picked.hour, picked.minute);
+                }
+              },
+              borderRadius: BorderRadius.only(
+                topRight: const Radius.circular(AppRadii.button - 1),
+                bottomRight: const Radius.circular(AppRadii.button - 1),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.access_time_filled_rounded,
+                      size: 14,
+                      color: foregroundColor,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      timeStr,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: foregroundColor,
+                        fontWeight: isSelected ? FontWeight.w600 : null,
+                        fontStyle: hasCustomTime ? null : FontStyle.italic,
+                      ),
+                    ),
+                    if (hasCustomTime) ...[
+                      const SizedBox(width: 4),
+                      GestureDetector(
+                        onTap: () async {
+                          HapticFeedback.lightImpact();
+                          await _updateReminderTime(reminder!, null, null);
+                        },
+                        child: Icon(
+                          Icons.close_rounded,
+                          size: 12,
+                          color: foregroundColor,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
   }
 
   Widget _buildAvatar() {
@@ -372,6 +582,30 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                           value: _notificationsEnabled,
                           onChanged: _toggleNotifications,
                         ),
+                        if (_notificationsEnabled) ...[
+                          const Divider(height: AppSpacing.md),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.reminderDaysLabel,
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: AppColors.textSecondary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [0, 1, 2, 3, 7].map((int day) {
+                                    return _buildReminderChip(day, l10n, textTheme);
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ],
                     ),
                   ),

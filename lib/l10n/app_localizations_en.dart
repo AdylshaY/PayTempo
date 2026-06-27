@@ -860,4 +860,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noPaymentsOnDay => 'No payments on this day';
+
+  @override
+  String get notificationTimeLabel => 'Notification Time';
+
+  @override
+  String get notificationTimeDesc =>
+      'Set the default time to receive daily reminders';
+
+  @override
+  String get reminderDaysLabel => 'Reminders';
+
+  @override
+  String get reminderSameDay => 'Same Day';
+
+  @override
+  String get reminder1DayBefore => '1 Day Before';
+
+  @override
+  String get reminder2DaysBefore => '2 Days Before';
+
+  @override
+  String get reminder3DaysBefore => '3 Days Before';
+
+  @override
+  String get reminder7DaysBefore => '1 Week Before';
+
+  @override
+  String get notificationDaysBeforeTitle => 'Upcoming Payment';
+
+  @override
+  String notificationDaysBeforeBody(
+    String name,
+    String days,
+    String price,
+    String currency,
+  ) {
+    return '$name is due in $days days ($price $currency)';
+  }
 }

@@ -287,6 +287,32 @@
   "heroStatEstimated": "Tahmini",
   "calendarView": "Takvim",
   "listView": "Liste",
-  "noPaymentsOnDay": "Bu günde ödeme bulunmuyor"
+  "noPaymentsOnDay": "Bu günde ödeme bulunmuyor",
+  "notificationTimeLabel": "Bildirim Saati",
+  "notificationTimeDesc": "Günlük hatırlatıcıları almak istediğiniz varsayılan saati belirleyin",
+  "reminderDaysLabel": "Hatırlatıcılar",
+  "reminderSameDay": "Ödeme Günü",
+  "reminder1DayBefore": "1 Gün Önce",
+  "reminder2DaysBefore": "2 Gün Önce",
+  "reminder3DaysBefore": "3 Gün Önce",
+  "reminder7DaysBefore": "1 Hafta Önce",
+  "notificationDaysBeforeTitle": "Yaklaşan Ödeme",
+  "notificationDaysBeforeBody": "{name} ödemesine {days} gün kaldı ({price} {currency})",
+  "@notificationDaysBeforeBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "days": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  }
 }
 

@@ -1663,6 +1663,71 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No payments on this day'**
   String get noPaymentsOnDay;
+
+  /// No description provided for @notificationTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Time'**
+  String get notificationTimeLabel;
+
+  /// No description provided for @notificationTimeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the default time to receive daily reminders'**
+  String get notificationTimeDesc;
+
+  /// No description provided for @reminderDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminderDaysLabel;
+
+  /// No description provided for @reminderSameDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Same Day'**
+  String get reminderSameDay;
+
+  /// No description provided for @reminder1DayBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Day Before'**
+  String get reminder1DayBefore;
+
+  /// No description provided for @reminder2DaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'2 Days Before'**
+  String get reminder2DaysBefore;
+
+  /// No description provided for @reminder3DaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'3 Days Before'**
+  String get reminder3DaysBefore;
+
+  /// No description provided for @reminder7DaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Week Before'**
+  String get reminder7DaysBefore;
+
+  /// No description provided for @notificationDaysBeforeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Payment'**
+  String get notificationDaysBeforeTitle;
+
+  /// No description provided for @notificationDaysBeforeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is due in {days} days ({price} {currency})'**
+  String notificationDaysBeforeBody(
+    String name,
+    String days,
+    String price,
+    String currency,
+  );
 }
 
 class _AppLocalizationsDelegate

@@ -24,6 +24,8 @@ class UserSettings {
     this.themeMode = AppThemeMode.system,
     this.languageCode,
     this.notificationsEnabled = true,
+    this.notificationHour = 9,
+    this.notificationMinute = 0,
   });
 
   Id id;
@@ -63,4 +65,7 @@ class UserSettings {
   /// Monthly subscription budget limit in base currency.
   /// Null means no budget has been set.
   double? monthlyBudgetLimit;
+
+  int notificationHour;
+  int notificationMinute;
 }

@@ -374,6 +374,32 @@
   "heroStatEstimated": "Estimated",
   "calendarView": "Calendar",
   "listView": "List",
-  "noPaymentsOnDay": "No payments on this day"
+  "noPaymentsOnDay": "No payments on this day",
+  "notificationTimeLabel": "Notification Time",
+  "notificationTimeDesc": "Set the default time to receive daily reminders",
+  "reminderDaysLabel": "Reminders",
+  "reminderSameDay": "Same Day",
+  "reminder1DayBefore": "1 Day Before",
+  "reminder2DaysBefore": "2 Days Before",
+  "reminder3DaysBefore": "3 Days Before",
+  "reminder7DaysBefore": "1 Week Before",
+  "notificationDaysBeforeTitle": "Upcoming Payment",
+  "notificationDaysBeforeBody": "{name} is due in {days} days ({price} {currency})",
+  "@notificationDaysBeforeBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "days": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  }
 }
 
