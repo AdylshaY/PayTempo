@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/widgets/feature_row_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -45,19 +46,22 @@ class ProUpgradeScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: AppSpacing.sm),
-                      _BenefitRow(
+                      FeatureRowWidget(
                         icon: Icons.cloud_sync_outlined,
-                        label: l10n.proBenefit1,
+                        text: l10n.proBenefit1,
+                        iconColor: AppColors.primary,
                       ),
                       const SizedBox(height: AppSpacing.xs),
-                      _BenefitRow(
+                      FeatureRowWidget(
                         icon: Icons.devices_outlined,
-                        label: l10n.proBenefit2,
+                        text: l10n.proBenefit2,
+                        iconColor: AppColors.primary,
                       ),
                       const SizedBox(height: AppSpacing.xs),
-                      _BenefitRow(
+                      FeatureRowWidget(
                         icon: Icons.shield_outlined,
-                        label: l10n.proBenefit3,
+                        text: l10n.proBenefit3,
+                        iconColor: AppColors.primary,
                       ),
                     ],
                   ),
@@ -107,22 +111,4 @@ class ProUpgradeScreen extends StatelessWidget {
   }
 }
 
-class _BenefitRow extends StatelessWidget {
-  const _BenefitRow({required this.icon, required this.label});
 
-  final IconData icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: AppColors.primary),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: Text(label, style: textTheme.bodyMedium)),
-      ],
-    );
-  }
-}

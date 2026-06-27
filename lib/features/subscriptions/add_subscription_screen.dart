@@ -85,7 +85,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     try {
       return Color(int.parse(_selectedColorHex.value, radix: 16) | 0xFF000000);
     } catch (_) {
-      return Color(0xFF4F46E5);
+      return AppColors.primary;
     }
   }
 

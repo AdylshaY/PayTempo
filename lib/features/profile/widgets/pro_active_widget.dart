@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
+import 'package:pay_tempo/app/widgets/feature_row_widget.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -32,18 +33,7 @@ class ProActiveWidget extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(AppSpacing.sm),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppRadii.card),
-          gradient: LinearGradient(
-            colors: [
-              AppColors.proGold.withValues(alpha: 0.12),
-              AppColors.proGold.withValues(alpha: 0.04),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          border: Border.all(color: AppColors.proGold.withValues(alpha: 0.3)),
-        ),
+        decoration: AppColors.proGoldCardDecoration(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -133,11 +123,23 @@ class ProActiveWidget extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Divider(color: AppColors.proGold.withValues(alpha: 0.2), height: 1),
             const SizedBox(height: AppSpacing.sm),
-            _ProFeatureCheck(text: l10n.proFeatureCloudSync),
+            FeatureRowWidget(
+              icon: Icons.check_circle_outline,
+              text: l10n.proFeatureCloudSync,
+              iconColor: AppColors.success,
+            ),
             const SizedBox(height: AppSpacing.xs),
-            _ProFeatureCheck(text: l10n.proFeature2),
+            FeatureRowWidget(
+              icon: Icons.check_circle_outline,
+              text: l10n.proFeature2,
+              iconColor: AppColors.success,
+            ),
             const SizedBox(height: AppSpacing.xs),
-            _ProFeatureCheck(text: l10n.proFeature3),
+            FeatureRowWidget(
+              icon: Icons.check_circle_outline,
+              text: l10n.proFeature3,
+              iconColor: AppColors.success,
+            ),
             const SizedBox(height: AppSpacing.sm),
             InkWell(
               onTap: onManageSubscription,
@@ -168,23 +170,4 @@ class ProActiveWidget extends StatelessWidget {
   }
 }
 
-class _ProFeatureCheck extends StatelessWidget {
-  const _ProFeatureCheck({required this.text});
 
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(
-          Icons.check_circle_outline,
-          size: 18,
-          color: AppColors.success,
-        ),
-        const SizedBox(width: 8),
-        Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyMedium)),
-      ],
-    );
-  }
-}

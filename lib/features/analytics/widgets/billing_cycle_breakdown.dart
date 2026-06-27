@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/widgets/info_banner_widget.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
@@ -205,66 +206,46 @@ class BillingCycleBreakdown extends StatelessWidget {
             // Savings Recommendation Card (Only if they have monthly subscriptions)
             if (potentialSavings > 0) ...[
               const SizedBox(height: AppSpacing.md),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(AppSpacing.xs + 4),
-                decoration: BoxDecoration(
-                  color: AppColors.success.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(AppRadii.button),
-                  border: Border.all(
-                    color: AppColors.success.withValues(alpha: 0.2),
-                  ),
-                ),
-                child: Row(
+              InfoBannerWidget(
+                icon: Icons.tips_and_updates_outlined,
+                accentColor: AppColors.success,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.tips_and_updates_outlined,
-                      color: AppColors.success,
-                      size: 20,
+                    Text(
+                      l10n.potentialSavingsTitle,
+                      style: textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.success,
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 2),
+                    Text(
+                      l10n.potentialSavingsDesc,
+                      style: textTheme.bodySmall?.copyWith(
+                        height: 1.3,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    RichText(
+                      text: TextSpan(
+                        style: textTheme.bodySmall,
                         children: [
-                          Text(
-                            l10n.potentialSavingsTitle,
-                            style: textTheme.bodySmall?.copyWith(
+                          TextSpan(
+                            text: l10n.localeName == 'tr'
+                                ? 'Tahmini Tasarruf: '
+                                : 'Estimated Savings: ',
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          TextSpan(
+                            text: '${potentialSavings.toStringAsFixed(2)} $baseCurrency',
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: AppColors.success,
                             ),
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            l10n.potentialSavingsDesc,
-                            style: textTheme.bodySmall?.copyWith(
-                              height: 1.3,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          RichText(
-                            text: TextSpan(
-                              style: textTheme.bodySmall,
-                              children: [
-                                TextSpan(
-                                  text: l10n.localeName == 'tr'
-                                      ? 'Tahmini Tasarruf: '
-                                      : 'Estimated Savings: ',
-                                  style: const TextStyle(fontWeight: FontWeight.w600),
-                                ),
-                                TextSpan(
-                                  text: '${potentialSavings.toStringAsFixed(2)} $baseCurrency',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.success,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: l10n.localeName == 'tr' ? ' / yıl' : ' / year',
-                                ),
-                              ],
-                            ),
+                          TextSpan(
+                            text: l10n.localeName == 'tr' ? ' / yıl' : ' / year',
                           ),
                         ],
                       ),

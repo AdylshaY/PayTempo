@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/widgets/icon_circle_widget.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/onboarding/widgets/currency_dropdown.dart';
@@ -114,7 +115,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     animate: true,
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
-                      return _OnboardingPlaceholderIcon(icon: fallbackIcon);
+                      return IconCircleWidget(icon: fallbackIcon, size: 180);
                     },
                   ),
                 ),
@@ -282,32 +283,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-class _OnboardingPlaceholderIcon extends StatelessWidget {
-  const _OnboardingPlaceholderIcon({
-    required this.icon,
-  });
 
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Container(
-      width: 180,
-      height: 180,
-      decoration: BoxDecoration(
-        color: colorScheme.primary.withValues(alpha: 0.08),
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: colorScheme.primary.withValues(alpha: 0.16),
-          width: 2,
-        ),
-      ),
-      child: Icon(
-        icon,
-        color: colorScheme.primary,
-        size: 72,
-      ),
-    );
-  }
-}

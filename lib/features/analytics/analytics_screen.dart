@@ -10,6 +10,7 @@ import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
 import 'package:pay_tempo/features/analytics/widgets/donut_chart_painter.dart';
 import 'package:pay_tempo/features/analytics/widgets/category_spending_list.dart';
 import 'package:pay_tempo/features/analytics/widgets/billing_cycle_breakdown.dart';
+import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class AnalyticsScreen extends StatelessWidget {
@@ -99,10 +100,7 @@ class AnalyticsScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.proGold,
-                                foregroundColor: Colors.black87,
-                              ),
+                              style: AppColors.proGoldButtonStyle(),
                               child: Text(
                                 l10n.viewProPlans,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
@@ -164,29 +162,7 @@ class AnalyticsScreen extends StatelessWidget {
                     totalAmount += tx.snapshotBaseAmount;
                   }
 
-                  // Resolve category colors
-                  Color getCategoryColor(String category) {
-                    switch (category.toLowerCase()) {
-                      case 'streaming':
-                        return const Color(0xFFEF4444);
-                      case 'music':
-                        return const Color(0xFF10B981);
-                      case 'video':
-                        return const Color(0xFFF59E0B);
-                      case 'cloud':
-                        return const Color(0xFF3B82F6);
-                      case 'ai':
-                        return const Color(0xFF8B5CF6);
-                      case 'productivity':
-                        return const Color(0xFFEC4899);
-                      case 'gaming':
-                        return const Color(0xFF06B6D4);
-                      case 'news':
-                        return const Color(0xFF64748B);
-                      default:
-                        return const Color(0xFF94A3B8);
-                    }
-                  }
+
 
                   final List<DonutChartData> donutDataList = categorySums.entries.map((entry) {
                     return DonutChartData(
@@ -308,9 +284,9 @@ class AnalyticsScreen extends StatelessWidget {
 
   Widget _buildMockChartsPreview(BuildContext context) {
     final mockDonutData = [
-      const DonutChartData(category: 'Streaming', amount: 50, color: Color(0xFFEF4444)),
-      const DonutChartData(category: 'Music', amount: 25, color: Color(0xFF10B981)),
-      const DonutChartData(category: 'Cloud', amount: 15, color: Color(0xFF3B82F6)),
+      DonutChartData(category: 'Streaming', amount: 50, color: getCategoryColor('streaming')),
+      DonutChartData(category: 'Music', amount: 25, color: getCategoryColor('music')),
+      DonutChartData(category: 'Cloud', amount: 15, color: getCategoryColor('cloud')),
     ];
     final mockSubscriptions = [
       SubscriptionRecord(

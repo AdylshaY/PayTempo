@@ -49,6 +49,7 @@ class CategoryService {
             fontFamily: cc.iconFontFamily,
             fontPackage: cc.iconFontPackage,
           ),
+          color: const Color(0xFF94A3B8),
         ),
       );
     }
@@ -63,6 +64,7 @@ class CategoryService {
         value: '',
         label: '',
         icon: Icons.category_outlined,
+        color: Color(0xFF94A3B8),
       ),
     );
 

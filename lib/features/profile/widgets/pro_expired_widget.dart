@@ -114,13 +114,7 @@ class ProExpiredWidget extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: onRenewPro,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.proGold,
-                  foregroundColor: Colors.black87,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadii.button),
-                  ),
-                ),
+                style: AppColors.proGoldButtonStyle(),
                 icon: const Icon(Icons.refresh),
                 label: Text(
                   '${l10n.renewPro} — $price/$planType',

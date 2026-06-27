@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
+import 'package:pay_tempo/app/widgets/subscription_avatar_widget.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -46,61 +47,7 @@ class SubscriptionListItemWidget extends StatelessWidget {
     return (label: l10n.scheduled, color: AppColors.secondaryHighlight);
   }
 
-  Widget _avatar() {
-    final Color backgroundColor = item.avatarColorValue != null
-        ? Color(item.avatarColorValue!)
-        : AppColors.primary;
 
-    if (item.avatarType == 'emoji' &&
-        item.avatarEmoji != null &&
-        item.avatarEmoji!.isNotEmpty) {
-      return Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(AppRadii.button),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          item.avatarEmoji!,
-          style: const TextStyle(fontSize: 20),
-        ),
-      );
-    }
-
-    if (item.avatarIconCodePoint != null) {
-      return Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(AppRadii.button),
-        ),
-        child: Icon(
-          IconData(
-            item.avatarIconCodePoint!,
-            fontFamily: item.avatarIconFontFamily,
-            fontPackage: item.avatarIconFontPackage,
-          ),
-          color: Colors.white,
-        ),
-      );
-    }
-
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(AppRadii.button),
-      ),
-      child: const Icon(
-        Icons.subscriptions_outlined,
-        color: Colors.white,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +78,7 @@ class SubscriptionListItemWidget extends StatelessWidget {
             ),
             child: Row(
               children: [
-                _avatar(),
+                SubscriptionAvatarWidget(item: item, size: 44),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Column(

@@ -17,6 +17,8 @@ import 'package:pay_tempo/features/dashboard/widgets/subscription_share_card.dar
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 import 'package:pay_tempo/data/local/services/notification_service.dart';
+import 'package:pay_tempo/app/widgets/subscription_avatar_widget.dart';
+import 'package:pay_tempo/app/utils/subscription_helpers.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
 /// A bottom sheet that displays full details for a subscription,
@@ -77,7 +79,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       baseCurrency,
     );
 
-    final String cycle = _billingCycleLabel(subscription.billingCycle, l10n);
+    final String cycle = billingCycleLabel(subscription.billingCycle, l10n);
 
     final StringBuffer buffer = StringBuffer();
     buffer.writeln('📋 ${subscription.name} — ${l10n.subscriptionManageTitle}');
@@ -344,79 +346,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     );
   }
 
-  Widget _buildAvatar() {
-    final subscription = widget.subscription;
-    final Color backgroundColor = subscription.avatarColorValue != null
-        ? Color(subscription.avatarColorValue!)
-        : AppColors.primary;
 
-    if (subscription.avatarType == 'emoji' &&
-        subscription.avatarEmoji != null &&
-        subscription.avatarEmoji!.isNotEmpty) {
-      return Container(
-        width: 56,
-        height: 56,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(AppRadii.card),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          subscription.avatarEmoji!,
-          style: const TextStyle(fontSize: 28),
-        ),
-      );
-    }
-
-    if (subscription.avatarIconCodePoint != null) {
-      return Container(
-        width: 56,
-        height: 56,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(AppRadii.card),
-        ),
-        child: Icon(
-          IconData(
-            subscription.avatarIconCodePoint!,
-            fontFamily: subscription.avatarIconFontFamily,
-            fontPackage: subscription.avatarIconFontPackage,
-          ),
-          color: Colors.white,
-          size: 28,
-        ),
-      );
-    }
-
-    return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(AppRadii.card),
-      ),
-      child: const Icon(
-        Icons.subscriptions_outlined,
-        color: Colors.white,
-        size: 28,
-      ),
-    );
-  }
-
-  String _billingCycleLabel(String cycle, AppLocalizations l10n) {
-    switch (cycle.toLowerCase()) {
-      case 'monthly':
-        return l10n.monthlyLabel;
-      case 'yearly':
-        return l10n.yearlyLabel;
-      case 'weekly':
-        return l10n.weeklyLabel;
-      case 'quarterly':
-        return l10n.quarterlyLabel;
-      default:
-        return cycle;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -457,7 +387,11 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 // ── Header ──
                 Row(
                   children: [
-                    _buildAvatar(),
+                    SubscriptionAvatarWidget(
+                      item: subscription,
+                      size: 56,
+                      borderRadius: AppRadii.card,
+                    ),
                     const SizedBox(width: AppSpacing.sm),
                     Expanded(
                       child: Column(
@@ -540,7 +474,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                         _InfoRow(
                           icon: Icons.repeat,
                           label: l10n.billingCycleLabel,
-                          value: _billingCycleLabel(subscription.billingCycle, l10n),
+                          value: billingCycleLabel(subscription.billingCycle, l10n),
                         ),
                         const SizedBox(height: AppSpacing.xs),
                         _InfoRow(

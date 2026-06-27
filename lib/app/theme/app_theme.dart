@@ -22,11 +22,41 @@ class AppColors {
 
   /// Gold accent used for Pro/premium UI elements.
   static const Color proGold = Color(0xFFD4A853);
+
+  static BoxDecoration proGoldCardDecoration() {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(AppRadii.card),
+      gradient: LinearGradient(
+        colors: [
+          proGold.withValues(alpha: 0.12),
+          proGold.withValues(alpha: 0.04),
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      border: Border.all(color: proGold.withValues(alpha: 0.3)),
+    );
+  }
+
+  static ButtonStyle proGoldButtonStyle() {
+    return ElevatedButton.styleFrom(
+      backgroundColor: proGold,
+      foregroundColor: Colors.black87,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadii.button),
+      ),
+    );
+  }
+
+  /// Dark background color gradient end.
+  static const Color primaryGradientEndDark = Color(0xFF312E81);
 }
 
 class AppSpacing {
   const AppSpacing._();
 
+  static const double micro = 2;
+  static const double xxs = 4;
   static const double xs = 8;
   static const double sm = 16;
   static const double md = 24;

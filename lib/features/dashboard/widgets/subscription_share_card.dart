@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
+import 'package:pay_tempo/app/widgets/subscription_avatar_widget.dart';
+import 'package:pay_tempo/app/utils/subscription_helpers.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
@@ -16,81 +18,7 @@ class SubscriptionShareCard extends StatelessWidget {
   final SubscriptionRecord subscription;
   final String baseCurrency;
 
-  Widget _buildAvatar() {
-    final Color backgroundColor = subscription.avatarColorValue != null
-        ? Color(subscription.avatarColorValue!)
-        : AppColors.primary;
 
-    if (subscription.avatarType == 'emoji' &&
-        subscription.avatarEmoji != null &&
-        subscription.avatarEmoji!.isNotEmpty) {
-      return Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          subscription.avatarEmoji!,
-          style: const TextStyle(fontSize: 30),
-        ),
-      );
-    }
-
-    if (subscription.avatarIconCodePoint != null) {
-      return Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-        child: Icon(
-          IconData(
-            subscription.avatarIconCodePoint!,
-            fontFamily: subscription.avatarIconFontFamily,
-            fontPackage: subscription.avatarIconFontPackage,
-          ),
-          color: Colors.white,
-          size: 30,
-        ),
-      );
-    }
-
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 2),
-      ),
-      child: const Icon(
-        Icons.subscriptions,
-        color: Colors.white,
-        size: 30,
-      ),
-    );
-  }
-
-  String _billingCycleLabel(String cycle, AppLocalizations l10n) {
-    switch (cycle.toLowerCase()) {
-      case 'monthly':
-        return l10n.monthlyLabel;
-      case 'yearly':
-        return l10n.yearlyLabel;
-      case 'weekly':
-        return l10n.weeklyLabel;
-      case 'quarterly':
-        return l10n.quarterlyLabel;
-      default:
-        return cycle;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +31,7 @@ class SubscriptionShareCard extends StatelessWidget {
       baseCurrency,
     );
 
-    final String cycleLabel = _billingCycleLabel(subscription.billingCycle, l10n);
+    final String cycleLabel = billingCycleLabel(subscription.billingCycle, l10n);
 
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(
@@ -169,7 +97,12 @@ class SubscriptionShareCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _buildAvatar(),
+                    SubscriptionAvatarWidget(
+                      item: subscription,
+                      size: 60,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 2),
+                    ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
                       subscription.name,

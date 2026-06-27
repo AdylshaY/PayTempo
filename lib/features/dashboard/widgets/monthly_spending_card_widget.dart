@@ -147,7 +147,7 @@ class _HeroCardContent extends StatelessWidget {
           colors: isDark
               ? [
                   AppColors.primary.withValues(alpha: 0.85),
-                  const Color(0xFF312E81),
+                  AppColors.primaryGradientEndDark,
                 ]
               : [
                   AppColors.primary,
