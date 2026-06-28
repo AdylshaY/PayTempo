@@ -15,20 +15,7 @@ enum AccountStatus { guest, proActive, proExpired }
 /// separate "free member" state. A user is either a guest (local-only),
 /// an active Pro subscriber, or an expired Pro subscriber.
 AccountStatus resolveAccountStatus(UserSettings? settings) {
-  if (settings == null || !settings.isPro) {
-    // No Pro purchase ever made, or isPro explicitly false.
-    final expiryDate = settings?.proExpiryDate;
-    if (expiryDate != null && settings?.userId != null) {
-      // Had Pro before but it lapsed.
-      return AccountStatus.proExpired;
-    }
-    return AccountStatus.guest;
-  }
-  final expiryDate = settings.proExpiryDate;
-  if (expiryDate != null && expiryDate.isBefore(DateTime.now())) {
-    return AccountStatus.proExpired;
-  }
-  return AccountStatus.proActive;
+  return AccountStatus.guest;
 }
 
 /// Top-level orchestrator that composes the profile header card + the

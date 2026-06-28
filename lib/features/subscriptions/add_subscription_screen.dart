@@ -501,22 +501,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                       }
 
                       if (value == '_add_custom_') {
-                        // Check if user is Pro
-                        final userSettings = await UserSettingsService().getSettings();
-                        final bool isPro = userSettings?.isPro ?? false;
-
                         if (!context.mounted) return;
-
-                        if (!isPro) {
-                          // Revert value notifier to trigger rebuild and keep visually selected category correct
-                          _category.value = _category.value;
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const ProUpgradeScreen(),
-                            ),
-                          );
-                          return;
-                        }
 
                         // Open custom category creator
                         final bool? added = await showModalBottomSheet<bool>(

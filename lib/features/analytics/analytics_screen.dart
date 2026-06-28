@@ -34,90 +34,9 @@ class AnalyticsScreen extends StatelessWidget {
         stream: isar.userSettings.watchObject(1, fireImmediately: true),
         builder: (context, settingsSnapshot) {
           final settings = settingsSnapshot.data;
-          final bool isPro = settings?.isPro ?? false;
           final String baseCurrency = (settings?.baseCurrency.trim().isNotEmpty ?? false)
               ? settings!.baseCurrency.trim().toUpperCase()
               : 'USD';
-
-          if (!isPro) {
-            return Stack(
-              children: [
-                ImageFiltered(
-                  imageFilter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: AbsorbPointer(
-                      child: _buildMockChartsPreview(context),
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(AppSpacing.md),
-                      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                      decoration: BoxDecoration(
-                        color: (isDark ? AppColors.surfaceDark : AppColors.surface).withValues(alpha: 0.9),
-                        borderRadius: BorderRadius.circular(AppRadii.card),
-                        border: Border.all(color: AppColors.proGold.withValues(alpha: 0.3)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 16,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.workspace_premium_rounded,
-                            color: AppColors.proGold,
-                            size: 48,
-                          ),
-                          const SizedBox(height: AppSpacing.sm),
-                          Text(
-                            l10n.proActiveTitle,
-                            style: textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.proGold,
-                            ),
-                          ),
-                          const SizedBox(height: AppSpacing.xs),
-                          Text(
-                            l10n.proUnlockMessage,
-                            textAlign: TextAlign.center,
-                            style: textTheme.bodyMedium?.copyWith(
-                              height: 1.4,
-                            ),
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const ProUpgradeScreen(),
-                                  ),
-                                );
-                              },
-                              style: AppColors.proGoldButtonStyle(),
-                              child: Text(
-                                l10n.viewProPlans,
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }
 
           // Fetch subscriptions and payments reactively
           return StreamBuilder<List<SubscriptionRecord>>(

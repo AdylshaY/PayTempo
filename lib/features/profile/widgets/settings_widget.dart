@@ -597,20 +597,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 trailing: const Icon(Icons.chevron_right_rounded),
                 onTap: () {
-                  final bool isPro = snapshot.data?.isPro ?? false;
-                  if (!isPro) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const ProUpgradeScreen(),
-                      ),
-                    );
-                  } else {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const ManageCategoriesScreen(),
-                      ),
-                    );
-                  }
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const ManageCategoriesScreen(),
+                    ),
+                  );
                 },
               ),
             ),
