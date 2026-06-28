@@ -232,7 +232,7 @@ class NotificationService {
           body: body,
           scheduledDate: scheduledTime,
           notificationDetails: platformDetails,
-          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         );
       }
     }
