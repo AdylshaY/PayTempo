@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_emojis.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_avatar_options.dart';
+import 'package:pay_tempo/app/widgets/app_segmented_control.dart';
 import 'package:pay_tempo/features/subscriptions/models/add_subscription_avatar_selection_model.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -88,30 +89,26 @@ class _AvatarSelectionSheetState extends State<AvatarSelectionSheet> {
           children: [
             Center(child: _preview()),
             const SizedBox(height: AppSpacing.sm),
-            Center(
-              child: SegmentedButton<String>(
-                segments: <ButtonSegment<String>>[
-                  ButtonSegment<String>(
-                    value: 'icon',
-                    icon: const Icon(Icons.apps_rounded),
-                    label: Text(l10n.iconTabLabel),
-                  ),
-                  ButtonSegment<String>(
-                    value: 'emoji',
-                    icon: const Icon(Icons.emoji_emotions_outlined),
-                    label: Text(l10n.emojiTabLabel),
-                  ),
-                ],
-                selected: <String>{_type},
-                onSelectionChanged: (Set<String> selection) {
-                  if (selection.isEmpty) {
-                    return;
-                  }
-                  setState(() {
-                    _type = selection.first;
-                  });
-                },
-              ),
+            AppSegmentedControl<String>(
+              width: double.infinity,
+              tabs: [
+                AppSegmentedTab<String>(
+                  value: 'icon',
+                  label: l10n.iconTabLabel,
+                  icon: Icons.apps_rounded,
+                ),
+                AppSegmentedTab<String>(
+                  value: 'emoji',
+                  label: l10n.emojiTabLabel,
+                  icon: Icons.emoji_emotions_outlined,
+                ),
+              ],
+              selectedValue: _type,
+              onValueChanged: (String val) {
+                setState(() {
+                  _type = val;
+                });
+              },
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(l10n.colorPaletteTitle, style: textTheme.titleMedium),

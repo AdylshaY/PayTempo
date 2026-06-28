@@ -414,6 +414,31 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                                   color: AppColors.textSecondary,
                                 ),
                               ),
+                              if (subscription.isPaused) ...[
+                                const SizedBox(width: 6),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.warning.withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      color: AppColors.warning.withValues(alpha: 0.5),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    l10n.pausedStatus,
+                                    style: textTheme.labelSmall?.copyWith(
+                                      color: AppColors.warning,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                              ],
                               if (subscription.note != null &&
                                   subscription.note!.isNotEmpty) ...[
                                 Text(
@@ -567,19 +592,25 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: isPaidThisMonth
+                    onPressed: (isPaidThisMonth || subscription.isPaused)
                         ? null
                         : () {
                             Navigator.of(context).pop();
                             onMarkPaid?.call();
                           },
                     icon: Icon(
-                      isPaidThisMonth
-                          ? Icons.check_circle
-                          : Icons.check_circle_outline,
+                      subscription.isPaused
+                          ? Icons.pause_circle_outline_rounded
+                          : (isPaidThisMonth
+                              ? Icons.check_circle
+                              : Icons.check_circle_outline),
                     ),
                     label: Text(
-                      isPaidThisMonth ? l10n.alreadyPaidThisMonth : l10n.markAsPaid,
+                      subscription.isPaused
+                          ? l10n.pausedStatus
+                          : (isPaidThisMonth
+                              ? l10n.alreadyPaidThisMonth
+                              : l10n.markAsPaid),
                     ),
                   ),
                 ),

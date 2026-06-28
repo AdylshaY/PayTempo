@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
+import 'package:pay_tempo/app/widgets/app_segmented_control.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
@@ -554,23 +555,21 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
               ValueListenableBuilder<String>(
                 valueListenable: _billingCycle,
                 builder: (BuildContext context, String cycle, _) {
-                  return SegmentedButton<String>(
-                    segments: <ButtonSegment<String>>[
-                      ButtonSegment<String>(
+                  return AppSegmentedControl<String>(
+                    width: double.infinity,
+                    tabs: [
+                      AppSegmentedTab<String>(
                         value: 'monthly',
-                        label: Text(l10n.monthlyLabel),
+                        label: l10n.monthlyLabel,
                       ),
-                      ButtonSegment<String>(
+                      AppSegmentedTab<String>(
                         value: 'yearly',
-                        label: Text(l10n.yearlyLabel),
+                        label: l10n.yearlyLabel,
                       ),
                     ],
-                    selected: <String>{cycle},
-                    onSelectionChanged: (Set<String> selection) {
-                      if (selection.isEmpty) {
-                        return;
-                      }
-                      _billingCycle.value = selection.first;
+                    selectedValue: cycle,
+                    onValueChanged: (String val) {
+                      _billingCycle.value = val;
                     },
                   );
                 },

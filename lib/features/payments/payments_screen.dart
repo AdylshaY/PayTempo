@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/widgets/empty_state_widget.dart';
+import 'package:pay_tempo/app/widgets/app_segmented_control.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
@@ -310,106 +311,26 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(l10n.payments, style: textTheme.headlineMedium),
-                            Container(
-                              height: 38,
+                            AppSegmentedControl<bool>(
                               width: 180,
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white.withValues(alpha: 0.08)
-                                    : Colors.black.withValues(alpha: 0.05),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        HapticFeedback.lightImpact();
-                                        setState(() {
-                                          _isCalendarView = false;
-                                        });
-                                      },
-                                      child: AnimatedContainer(
-                                        duration: const Duration(milliseconds: 150),
-                                        decoration: BoxDecoration(
-                                          color: !_isCalendarView
-                                              ? Theme.of(context).colorScheme.primary
-                                              : Colors.transparent,
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.list_rounded,
-                                              size: 16,
-                                              color: !_isCalendarView
-                                                  ? Colors.white
-                                                  : Theme.of(context).colorScheme.onSurfaceVariant,
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              l10n.listView,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600,
-                                                color: !_isCalendarView
-                                                    ? Colors.white
-                                                    : Theme.of(context).colorScheme.onSurfaceVariant,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        HapticFeedback.lightImpact();
-                                        setState(() {
-                                          _isCalendarView = true;
-                                        });
-                                      },
-                                      child: AnimatedContainer(
-                                        duration: const Duration(milliseconds: 150),
-                                        decoration: BoxDecoration(
-                                          color: _isCalendarView
-                                              ? Theme.of(context).colorScheme.primary
-                                              : Colors.transparent,
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.calendar_month_rounded,
-                                              size: 16,
-                                              color: _isCalendarView
-                                                  ? Colors.white
-                                                  : Theme.of(context).colorScheme.onSurfaceVariant,
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              l10n.calendarView,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600,
-                                                color: _isCalendarView
-                                                    ? Colors.white
-                                                    : Theme.of(context).colorScheme.onSurfaceVariant,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              tabs: [
+                                AppSegmentedTab<bool>(
+                                  value: false,
+                                  label: l10n.listView,
+                                  icon: Icons.list_rounded,
+                                ),
+                                AppSegmentedTab<bool>(
+                                  value: true,
+                                  label: l10n.calendarView,
+                                  icon: Icons.calendar_month_rounded,
+                                ),
+                              ],
+                              selectedValue: _isCalendarView,
+                              onValueChanged: (bool val) {
+                                setState(() {
+                                  _isCalendarView = val;
+                                });
+                              },
                             ),
                           ],
                         );

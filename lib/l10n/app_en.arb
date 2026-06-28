@@ -400,6 +400,15 @@
         "type": "String"
       }
     }
-  }
+  },
+  "pauseSubscription": "Pause Subscription",
+  "resumeSubscription": "Resume Subscription",
+  "subscriptionPausedSuccess": "Subscription paused successfully.",
+  "subscriptionResumedSuccess": "Subscription activated successfully.",
+  "pausedStatus": "Paused",
+  "activeStatus": "Active",
+  "pauseConfirmTitle": "Pause Subscription?",
+  "pauseConfirmBody": "When you pause this subscription, upcoming payments will be excluded from calculations and reminders will be temporarily disabled.",
+  "pausedSubscriptions": "Paused Subscriptions"
 }
 

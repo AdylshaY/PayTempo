@@ -72,6 +72,59 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
     }
   }
 
+  Future<void> _togglePauseSubscription(SubscriptionRecord subscription) async {
+    final l10n = AppLocalizations.of(context)!;
+    
+    // We toggle the state: if it is NOT paused, we ask for confirmation to pause it.
+    if (!subscription.isPaused) {
+      final bool? confirmed = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(l10n.pauseConfirmTitle),
+            content: Text(l10n.pauseConfirmBody),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text(l10n.cancelButtonLabel),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.warning,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text(l10n.pauseSubscription),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (confirmed != true) return;
+    }
+
+    try {
+      await _subscriptionService.toggleSubscriptionPause(subscription);
+      if (!mounted) return;
+      HapticFeedback.mediumImpact();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            subscription.isPaused
+                ? l10n.subscriptionPausedSuccess
+                : l10n.subscriptionResumedSuccess,
+          ),
+        ),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to update subscription status.')),
+      );
+    }
+  }
+
   Future<void> _editSubscription(SubscriptionRecord subscription) async {
     final l10n = AppLocalizations.of(context)!;
     final bool? updated = await Navigator.of(context).push<bool>(
@@ -181,6 +234,18 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                 icon: const Icon(Icons.edit_rounded),
               ),
               IconButton(
+                onPressed: () => _togglePauseSubscription(subscription),
+                icon: Icon(
+                  subscription.isPaused
+                      ? Icons.play_circle_outline_rounded
+                      : Icons.pause_circle_outline_rounded,
+                  color: subscription.isPaused ? AppColors.success : AppColors.warning,
+                ),
+                tooltip: subscription.isPaused
+                    ? l10n.resumeSubscription
+                    : l10n.pauseSubscription,
+              ),
+              IconButton(
                 onPressed: () => _deleteSubscription(subscription),
                 icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
               ),
@@ -255,6 +320,21 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                                           : l10n.yearlyLabel,
                                       style: textTheme.bodySmall,
                                     ),
+                                    if (subscription.isPaused) ...[
+                                      Text(
+                                        ' • ',
+                                        style: textTheme.bodySmall?.copyWith(
+                                          color: AppColors.warning,
+                                        ),
+                                      ),
+                                      Text(
+                                        l10n.pausedStatus,
+                                        style: textTheme.bodySmall?.copyWith(
+                                          color: AppColors.warning,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ],
                                 ),
                               ],

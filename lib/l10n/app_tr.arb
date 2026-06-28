@@ -313,6 +313,15 @@
         "type": "String"
       }
     }
-  }
+  },
+  "pauseSubscription": "Aboneliği Duraklat",
+  "resumeSubscription": "Aboneliği Başlat",
+  "subscriptionPausedSuccess": "Abonelik başarıyla duraklatıldı.",
+  "subscriptionResumedSuccess": "Abonelik başarıyla aktife alındı.",
+  "pausedStatus": "Duraklatıldı",
+  "activeStatus": "Aktif",
+  "pauseConfirmTitle": "Aboneliği Duraklat?",
+  "pauseConfirmBody": "Bu aboneliği duraklattığınızda, yaklaşan ödemeler hesaplamalardan hariç tutulacak ve bildirimler geçici olarak devre dışı bırakılacaktır.",
+  "pausedSubscriptions": "Duraklatılmış Abonelikler"
 }
 

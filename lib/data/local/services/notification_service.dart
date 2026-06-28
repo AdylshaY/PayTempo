@@ -114,6 +114,11 @@ class NotificationService {
       return;
     }
 
+    // Return if the subscription is paused
+    if (subscription.isPaused) {
+      return;
+    }
+
     // Return if notifications are disabled for this subscription
     if (!subscription.enableNotifications) {
       return;

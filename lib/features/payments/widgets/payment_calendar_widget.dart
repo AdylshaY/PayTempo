@@ -55,7 +55,7 @@ class _PaymentCalendarWidgetState extends State<PaymentCalendarWidget> {
   }
 
   DateTime? _getSubscriptionDueDateInMonth(SubscriptionRecord sub, DateTime date) {
-    if (sub.isDeleted) return null;
+    if (sub.isDeleted || sub.isPaused) return null;
 
     final int year = date.year;
     final int month = date.month;

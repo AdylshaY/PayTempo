@@ -63,6 +63,7 @@ class MonthlySpendingCardWidget extends StatelessWidget {
             // Due this month
             final List<SubscriptionRecord> dueSubscriptions = subscriptions
                 .where((SubscriptionRecord item) {
+                  if (item.isPaused) return false;
                   final bool isPaid = paidThisMonthUids.contains(item.uid);
                   final DateTime effectiveDueDate = resolveEffectiveDueDate(
                     subscription: item,

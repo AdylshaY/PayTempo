@@ -23,6 +23,7 @@ class SubscriptionRecord {
     required this.updatedAt,
     this.userId,
     this.isDeleted = false,
+    this.isPaused = false,
     this.note,
     this.enableNotifications = true,
   });
@@ -70,6 +71,9 @@ class SubscriptionRecord {
   DateTime updatedAt;
 
   bool isDeleted;
+
+  @Index()
+  bool isPaused;
 
   @Index()
   bool enableNotifications;

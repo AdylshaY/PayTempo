@@ -12,7 +12,7 @@ DateTime resolveEffectiveDueDate({
     subscription.nextPaymentDate.day,
   );
 
-  if (isPaidThisMonth || subscription.billingCycle != 'monthly') {
+  if (isPaidThisMonth || subscription.billingCycle != 'monthly' || subscription.isPaused) {
     return storedNextPaymentDate;
   }
 

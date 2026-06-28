@@ -78,38 +78,43 @@ const SubscriptionRecordSchema = CollectionSchema(
       name: r'isDeleted',
       type: IsarType.bool,
     ),
-    r'name': PropertySchema(
+    r'isPaused': PropertySchema(
       id: 12,
+      name: r'isPaused',
+      type: IsarType.bool,
+    ),
+    r'name': PropertySchema(
+      id: 13,
       name: r'name',
       type: IsarType.string,
     ),
     r'nextPaymentDate': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'nextPaymentDate',
       type: IsarType.dateTime,
     ),
     r'note': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'note',
       type: IsarType.string,
     ),
     r'price': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'price',
       type: IsarType.double,
     ),
     r'uid': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'uid',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 17,
+      id: 18,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
     r'userId': PropertySchema(
-      id: 18,
+      id: 19,
       name: r'userId',
       type: IsarType.string,
     )
@@ -193,6 +198,19 @@ const SubscriptionRecordSchema = CollectionSchema(
       properties: [
         IndexPropertySchema(
           name: r'updatedAt',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'isPaused': IndexSchema(
+      id: 4526810497335126103,
+      name: r'isPaused',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'isPaused',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -288,13 +306,14 @@ void _subscriptionRecordSerialize(
   writer.writeString(offsets[9], object.currency);
   writer.writeBool(offsets[10], object.enableNotifications);
   writer.writeBool(offsets[11], object.isDeleted);
-  writer.writeString(offsets[12], object.name);
-  writer.writeDateTime(offsets[13], object.nextPaymentDate);
-  writer.writeString(offsets[14], object.note);
-  writer.writeDouble(offsets[15], object.price);
-  writer.writeString(offsets[16], object.uid);
-  writer.writeDateTime(offsets[17], object.updatedAt);
-  writer.writeString(offsets[18], object.userId);
+  writer.writeBool(offsets[12], object.isPaused);
+  writer.writeString(offsets[13], object.name);
+  writer.writeDateTime(offsets[14], object.nextPaymentDate);
+  writer.writeString(offsets[15], object.note);
+  writer.writeDouble(offsets[16], object.price);
+  writer.writeString(offsets[17], object.uid);
+  writer.writeDateTime(offsets[18], object.updatedAt);
+  writer.writeString(offsets[19], object.userId);
 }
 
 SubscriptionRecord _subscriptionRecordDeserialize(
@@ -317,13 +336,14 @@ SubscriptionRecord _subscriptionRecordDeserialize(
     enableNotifications: reader.readBoolOrNull(offsets[10]) ?? true,
     id: id,
     isDeleted: reader.readBoolOrNull(offsets[11]) ?? false,
-    name: reader.readString(offsets[12]),
-    nextPaymentDate: reader.readDateTime(offsets[13]),
-    note: reader.readStringOrNull(offsets[14]),
-    price: reader.readDouble(offsets[15]),
-    uid: reader.readString(offsets[16]),
-    updatedAt: reader.readDateTime(offsets[17]),
-    userId: reader.readStringOrNull(offsets[18]),
+    isPaused: reader.readBoolOrNull(offsets[12]) ?? false,
+    name: reader.readString(offsets[13]),
+    nextPaymentDate: reader.readDateTime(offsets[14]),
+    note: reader.readStringOrNull(offsets[15]),
+    price: reader.readDouble(offsets[16]),
+    uid: reader.readString(offsets[17]),
+    updatedAt: reader.readDateTime(offsets[18]),
+    userId: reader.readStringOrNull(offsets[19]),
   );
   return object;
 }
@@ -360,18 +380,20 @@ P _subscriptionRecordDeserializeProp<P>(
     case 11:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 12:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 13:
-      return (reader.readDateTime(offset)) as P;
-    case 14:
-      return (reader.readStringOrNull(offset)) as P;
-    case 15:
-      return (reader.readDouble(offset)) as P;
-    case 16:
       return (reader.readString(offset)) as P;
-    case 17:
+    case 14:
       return (reader.readDateTime(offset)) as P;
+    case 15:
+      return (reader.readStringOrNull(offset)) as P;
+    case 16:
+      return (reader.readDouble(offset)) as P;
+    case 17:
+      return (reader.readString(offset)) as P;
     case 18:
+      return (reader.readDateTime(offset)) as P;
+    case 19:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -414,6 +436,15 @@ extension SubscriptionRecordQueryWhereSort
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'updatedAt'),
+      );
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhere>
+      anyIsPaused() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'isPaused'),
       );
     });
   }
@@ -883,6 +914,51 @@ extension SubscriptionRecordQueryWhere
         upper: [upperUpdatedAt],
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      isPausedEqualTo(bool isPaused) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'isPaused',
+        value: [isPaused],
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      isPausedNotEqualTo(bool isPaused) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isPaused',
+              lower: [],
+              upper: [isPaused],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isPaused',
+              lower: [isPaused],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isPaused',
+              lower: [isPaused],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isPaused',
+              lower: [],
+              upper: [isPaused],
+              includeUpper: false,
+            ));
+      }
     });
   }
 
@@ -2240,6 +2316,16 @@ extension SubscriptionRecordQueryFilter
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      isPausedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isPaused',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
       nameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -3175,6 +3261,20 @@ extension SubscriptionRecordQuerySortBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByIsPaused() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPaused', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByIsPausedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPaused', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -3458,6 +3558,20 @@ extension SubscriptionRecordQuerySortThenBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByIsPaused() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPaused', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByIsPausedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPaused', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -3645,6 +3759,13 @@ extension SubscriptionRecordQueryWhereDistinct
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
+      distinctByIsPaused() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isPaused');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
       distinctByName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
@@ -3781,6 +3902,12 @@ extension SubscriptionRecordQueryProperty
   QueryBuilder<SubscriptionRecord, bool, QQueryOperations> isDeletedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isDeleted');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, bool, QQueryOperations> isPausedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isPaused');
     });
   }
 

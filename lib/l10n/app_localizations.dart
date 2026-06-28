@@ -1728,6 +1728,60 @@ abstract class AppLocalizations {
     String price,
     String currency,
   );
+
+  /// No description provided for @pauseSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause Subscription'**
+  String get pauseSubscription;
+
+  /// No description provided for @resumeSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume Subscription'**
+  String get resumeSubscription;
+
+  /// No description provided for @subscriptionPausedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription paused successfully.'**
+  String get subscriptionPausedSuccess;
+
+  /// No description provided for @subscriptionResumedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription activated successfully.'**
+  String get subscriptionResumedSuccess;
+
+  /// No description provided for @pausedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get pausedStatus;
+
+  /// No description provided for @activeStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeStatus;
+
+  /// No description provided for @pauseConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause Subscription?'**
+  String get pauseConfirmTitle;
+
+  /// No description provided for @pauseConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'When you pause this subscription, upcoming payments will be excluded from calculations and reminders will be temporarily disabled.'**
+  String get pauseConfirmBody;
+
+  /// No description provided for @pausedSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused Subscriptions'**
+  String get pausedSubscriptions;
 }
 
 class _AppLocalizationsDelegate

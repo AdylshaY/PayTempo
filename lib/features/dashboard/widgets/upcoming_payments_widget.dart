@@ -37,7 +37,7 @@ class UpcomingPaymentsWidget extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return StreamBuilder<List<SubscriptionRecord>>(
-      stream: subscriptionService.watchActiveSubscriptions(),
+      stream: subscriptionService.watchAllSubscriptions(),
       builder: (
         BuildContext context,
         AsyncSnapshot<List<SubscriptionRecord>> snapshot,
@@ -68,8 +68,9 @@ class UpcomingPaymentsWidget extends StatelessWidget {
                   payment.subscriptionUid: payment,
             };
 
-            // Filter unpaid subscriptions sorted by due date
+            // Filter unpaid active subscriptions sorted by due date
             final List<_UpcomingItem> upcomingItems = allItems
+                .where((SubscriptionRecord sub) => !sub.isPaused)
                 .map((SubscriptionRecord sub) {
                   final bool isPaid =
                       paidThisMonthBySubscription.containsKey(sub.uid);
@@ -142,6 +143,20 @@ class UpcomingPaymentsWidget extends StatelessWidget {
                         icon: Icons.celebration_rounded,
                         title: l10n.upcomingPayments,
                         message: l10n.noUpcomingPayments,
+                        action: totalCount > 0
+                            ? OutlinedButton.icon(
+                                onPressed: () {
+                                  HapticFeedback.lightImpact();
+                                  onSeeAll();
+                                },
+                                icon: const Icon(Icons.list_alt_rounded),
+                                label: Text(
+                                  l10n.localeName == 'tr'
+                                      ? 'Tüm Abonelikleri Gör'
+                                      : 'View All Subscriptions',
+                                ),
+                              )
+                            : null,
                       )
                     else
                       ListView.separated(

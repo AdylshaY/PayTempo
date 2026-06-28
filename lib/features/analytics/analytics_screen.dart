@@ -266,7 +266,7 @@ class AnalyticsScreen extends StatelessWidget {
 
                         const SizedBox(height: AppSpacing.md),
                         BillingCycleBreakdown(
-                          subscriptions: subscriptions,
+                          subscriptions: subscriptions.where((s) => !s.isPaused).toList(),
                           baseCurrency: baseCurrency,
                         ),
                       ],

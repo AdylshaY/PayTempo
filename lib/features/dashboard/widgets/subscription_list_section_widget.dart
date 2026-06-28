@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
 import 'package:pay_tempo/app/widgets/empty_state_widget.dart';
+import 'package:pay_tempo/app/widgets/app_segmented_control.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -39,6 +40,7 @@ class _SubscriptionListSectionWidgetState
     extends State<SubscriptionListSectionWidget> {
   String _searchQuery = '';
   SubscriptionSortOption _sortOption = SubscriptionSortOption.dueDate;
+  bool _showPaused = false;
 
   Future<void> _openPaidSheet(
     BuildContext context,
@@ -99,7 +101,7 @@ class _SubscriptionListSectionWidgetState
     final l10n = AppLocalizations.of(context)!;
 
     return StreamBuilder<List<SubscriptionRecord>>(
-      stream: subscriptionService.watchActiveSubscriptions(),
+      stream: subscriptionService.watchAllSubscriptions(),
       builder:
           (
             BuildContext context,
@@ -145,9 +147,10 @@ class _SubscriptionListSectionWidgetState
                       payment.subscriptionUid: payment,
                 };
 
-                // 1. Filter by search query
+                // 1. Filter by pause state and search query
                 final String query = _searchQuery.trim().toLowerCase();
                 final List<SubscriptionRecord> filteredItems = allItems.where((sub) {
+                  if (sub.isPaused != _showPaused) return false;
                   return query.isEmpty || sub.name.toLowerCase().contains(query);
                 }).toList();
 
@@ -197,6 +200,9 @@ class _SubscriptionListSectionWidgetState
                   }
                 });
 
+                final int activeCount = allItems.where((s) => !s.isPaused).length;
+                final int pausedCount = allItems.where((s) => s.isPaused).length;
+
                 return Card(
                   child: Padding(
                     padding: const EdgeInsets.all(AppSpacing.md),
@@ -206,7 +212,12 @@ class _SubscriptionListSectionWidgetState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(l10n.activeSubscriptions, style: textTheme.titleMedium),
+                            Text(
+                              _showPaused ? l10n.pausedSubscriptions : l10n.activeSubscriptions,
+                              style: textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             Text(
                               l10n.totalItems(filteredItems.length),
                               style: textTheme.bodySmall,
@@ -214,6 +225,28 @@ class _SubscriptionListSectionWidgetState
                           ],
                         ),
                         const SizedBox(height: AppSpacing.sm),
+                        AppSegmentedControl<bool>(
+                          width: double.infinity,
+                          tabs: [
+                            AppSegmentedTab<bool>(
+                              value: false,
+                              label: '${l10n.activeStatus} ($activeCount)',
+                              icon: Icons.check_circle_outline_rounded,
+                            ),
+                            AppSegmentedTab<bool>(
+                              value: true,
+                              label: '${l10n.pausedStatus} ($pausedCount)',
+                              icon: Icons.pause_circle_outline_rounded,
+                            ),
+                          ],
+                          selectedValue: _showPaused,
+                          onValueChanged: (bool val) {
+                            setState(() {
+                              _showPaused = val;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: AppSpacing.md),
                         Row(
                           children: [
                             Expanded(
@@ -367,9 +400,17 @@ class _SubscriptionListSectionWidgetState
                         const SizedBox(height: AppSpacing.md),
                         if (filteredItems.isEmpty)
                           EmptyStateWidget(
-                            icon: Icons.search_off_rounded,
-                            title: l10n.payments,
-                            message: l10n.noSubscriptionsMatchSearch,
+                            icon: _showPaused
+                                ? Icons.pause_circle_outline_rounded
+                                : Icons.search_off_rounded,
+                            title: _showPaused
+                                ? l10n.pausedSubscriptions
+                                : l10n.activeSubscriptions,
+                            message: _showPaused
+                                ? (l10n.localeName == 'tr'
+                                    ? 'Duraklatılmış aboneliğiniz bulunmuyor.'
+                                    : 'No paused subscriptions found.')
+                                : l10n.noSubscriptionsMatchSearch,
                           )
                         else
                           ListView.separated(

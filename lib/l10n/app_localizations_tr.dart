@@ -900,4 +900,32 @@ class AppLocalizationsTr extends AppLocalizations {
   ) {
     return '$name ödemesine $days gün kaldı ($price $currency)';
   }
+
+  @override
+  String get pauseSubscription => 'Aboneliği Duraklat';
+
+  @override
+  String get resumeSubscription => 'Aboneliği Başlat';
+
+  @override
+  String get subscriptionPausedSuccess => 'Abonelik başarıyla duraklatıldı.';
+
+  @override
+  String get subscriptionResumedSuccess => 'Abonelik başarıyla aktife alındı.';
+
+  @override
+  String get pausedStatus => 'Duraklatıldı';
+
+  @override
+  String get activeStatus => 'Aktif';
+
+  @override
+  String get pauseConfirmTitle => 'Aboneliği Duraklat?';
+
+  @override
+  String get pauseConfirmBody =>
+      'Bu aboneliği duraklattığınızda, yaklaşan ödemeler hesaplamalardan hariç tutulacak ve bildirimler geçici olarak devre dışı bırakılacaktır.';
+
+  @override
+  String get pausedSubscriptions => 'Duraklatılmış Abonelikler';
 }

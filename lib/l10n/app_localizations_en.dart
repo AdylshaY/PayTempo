@@ -898,4 +898,33 @@ class AppLocalizationsEn extends AppLocalizations {
   ) {
     return '$name is due in $days days ($price $currency)';
   }
+
+  @override
+  String get pauseSubscription => 'Pause Subscription';
+
+  @override
+  String get resumeSubscription => 'Resume Subscription';
+
+  @override
+  String get subscriptionPausedSuccess => 'Subscription paused successfully.';
+
+  @override
+  String get subscriptionResumedSuccess =>
+      'Subscription activated successfully.';
+
+  @override
+  String get pausedStatus => 'Paused';
+
+  @override
+  String get activeStatus => 'Active';
+
+  @override
+  String get pauseConfirmTitle => 'Pause Subscription?';
+
+  @override
+  String get pauseConfirmBody =>
+      'When you pause this subscription, upcoming payments will be excluded from calculations and reminders will be temporarily disabled.';
+
+  @override
+  String get pausedSubscriptions => 'Paused Subscriptions';
 }

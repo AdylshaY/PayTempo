@@ -160,14 +160,40 @@ class SubscriptionService {
   }
 
   Future<List<SubscriptionRecord>> getActiveSubscriptions() {
-    return _isar.subscriptionRecords.filter().isDeletedEqualTo(false).findAll();
+    return _isar.subscriptionRecords
+        .filter()
+        .isDeletedEqualTo(false)
+        .isPausedEqualTo(false)
+        .findAll();
   }
 
   Stream<List<SubscriptionRecord>> watchActiveSubscriptions() {
     return _isar.subscriptionRecords
         .filter()
         .isDeletedEqualTo(false)
+        .isPausedEqualTo(false)
         .watch(fireImmediately: true);
+  }
+
+  Stream<List<SubscriptionRecord>> watchAllSubscriptions() {
+    return _isar.subscriptionRecords
+        .filter()
+        .isDeletedEqualTo(false)
+        .watch(fireImmediately: true);
+  }
+
+  Future<void> toggleSubscriptionPause(SubscriptionRecord subscription) async {
+    // Cancel old notifications before toggling
+    await NotificationService.instance.cancelSubscriptionNotifications(subscription);
+
+    await _isar.writeTxn(() async {
+      subscription.isPaused = !subscription.isPaused;
+      subscription.updatedAt = DateTime.now();
+      await _isar.subscriptionRecords.put(subscription);
+    });
+
+    // Schedule notifications again (if unpaused, this will reschedule them; if paused, it does nothing)
+    await NotificationService.instance.scheduleSubscriptionNotifications(subscription);
   }
 
   DateTime _nextPaymentDate({
