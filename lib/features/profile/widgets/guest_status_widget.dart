@@ -8,9 +8,7 @@ import 'package:pay_tempo/l10n/app_localizations.dart';
 /// Auth is triggered automatically as part of the Pro purchase flow
 /// (RevenueCat), so there is no separate "Sign In" button.
 class GuestStatusWidget extends StatelessWidget {
-  const GuestStatusWidget({this.onShowPaywall, super.key});
-
-  final VoidCallback? onShowPaywall;
+  const GuestStatusWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

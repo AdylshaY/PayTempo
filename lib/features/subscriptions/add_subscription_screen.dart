@@ -5,7 +5,6 @@ import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/app/widgets/app_segmented_control.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
-import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';

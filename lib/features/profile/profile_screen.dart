@@ -4,7 +4,6 @@ import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/features/profile/widgets/profile_account_section.dart';
 import 'package:pay_tempo/features/profile/widgets/settings_widget.dart';
-import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -51,23 +50,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   ProfileAccountSection(
                     settings: settings,
-                    onManageSubscription: () {
-                      // TODO: open App Store / Play Store subscription management
-                    },
-                    onRenewPro: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const ProUpgradeScreen(),
-                        ),
-                      );
-                    },
-                    onShowPaywall: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const ProUpgradeScreen(),
-                        ),
-                      );
-                    },
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   SettingsWidget(),

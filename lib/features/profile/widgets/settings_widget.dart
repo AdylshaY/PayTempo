@@ -5,7 +5,6 @@ import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/data/local/services/backup_restore_service.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
-import 'package:pay_tempo/features/profile/pro_upgrade_screen.dart';
 import 'package:pay_tempo/features/subscriptions/manage_categories_screen.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
