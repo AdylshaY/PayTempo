@@ -28,6 +28,8 @@ class BillingCycleBreakdown extends StatelessWidget {
     double monthlyBaseSum = 0.0; // sum of monthly equivalent costs
     double yearlyBaseSum = 0.0; // sum of yearly equivalent costs
 
+    double discountableMonthlyBaseSum = 0.0;
+
     for (final sub in subscriptions) {
       final double priceInBase = rateService.convert(sub.price, sub.currency, baseCurrency);
 
@@ -37,6 +39,16 @@ class BillingCycleBreakdown extends StatelessWidget {
       } else {
         monthlyCount++;
         monthlyBaseSum += priceInBase;
+
+        final String categoryLower = sub.category.trim().toLowerCase();
+        if (categoryLower != 'housing' &&
+            categoryLower != 'housing/rent' &&
+            categoryLower != 'utilities' &&
+            categoryLower != 'bills/utilities' &&
+            categoryLower != 'finance' &&
+            categoryLower != 'finance/installment') {
+          discountableMonthlyBaseSum += priceInBase;
+        }
       }
     }
 
@@ -51,7 +63,8 @@ class BillingCycleBreakdown extends StatelessWidget {
         : 0.0;
 
     // Calculate potential 20% savings if monthly subscriptions are paid yearly
-    final double potentialSavings = monthlyBaseSum * 12.0 * 0.20;
+    // (Only applied to typical discountable digital subscriptions, excluding housing/utilities/finance)
+    final double potentialSavings = discountableMonthlyBaseSum * 12.0 * 0.20;
 
     return Card(
       child: Padding(

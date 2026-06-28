@@ -12,6 +12,9 @@ import 'package:pay_tempo/features/analytics/widgets/category_spending_list.dart
 import 'package:pay_tempo/features/analytics/widgets/billing_cycle_breakdown.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
+import 'package:pay_tempo/features/analytics/widgets/spending_trends_card.dart';
+import 'package:pay_tempo/features/analytics/widgets/fixed_costs_card.dart';
+import 'package:pay_tempo/features/analytics/widgets/installments_card.dart';
 
 class AnalyticsScreen extends StatelessWidget {
   const AnalyticsScreen({super.key});
@@ -264,6 +267,22 @@ class AnalyticsScreen extends StatelessWidget {
                             ),
                           ),
 
+                        const SizedBox(height: AppSpacing.md),
+                        SpendingTrendsCard(
+                          payments: payments,
+                          baseCurrency: baseCurrency,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        FixedCostsCard(
+                          subscriptions: subscriptions,
+                          payments: payments,
+                          baseCurrency: baseCurrency,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        InstallmentsCard(
+                          subscriptions: subscriptions,
+                          baseCurrency: baseCurrency,
+                        ),
                         const SizedBox(height: AppSpacing.md),
                         BillingCycleBreakdown(
                           subscriptions: subscriptions.where((s) => !s.isPaused).toList(),
