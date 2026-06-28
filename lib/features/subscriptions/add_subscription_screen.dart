@@ -57,6 +57,10 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     DateTime.now(),
   );
   final ValueNotifier<bool> _saving = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _isInstallment = ValueNotifier<bool>(false);
+  final TextEditingController _totalInstallmentsController = TextEditingController();
+  final TextEditingController _remainingInstallmentsController = TextEditingController();
+  bool _l10nInitialized = false;
 
   final SubscriptionService _subscriptionService = SubscriptionService();
 
@@ -72,7 +76,8 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     return subscriptionCategories
         .firstWhere(
           (SubscriptionCategoryOption item) =>
-              item.label.toLowerCase() == categoryLabel.toLowerCase(),
+              item.label.toLowerCase() == categoryLabel.toLowerCase() ||
+              item.value.toLowerCase() == categoryLabel.toLowerCase(),
           orElse: () => subscriptionCategories.first,
         )
         .value;
@@ -200,6 +205,12 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
             .substring(2)
             .toUpperCase();
       }
+
+      if (editSub.totalInstallments != null) {
+        _isInstallment.value = true;
+        _totalInstallmentsController.text = editSub.totalInstallments.toString();
+        _remainingInstallmentsController.text = editSub.remainingInstallments.toString();
+      }
     } else if (template != null) {
       _nameController.text = template.title;
       _category.value = _categoryValueFromTemplate(template.category);
@@ -215,10 +226,27 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
           .toRadixString(16)
           .substring(2)
           .toUpperCase();
+
+      if (template.id == 'installment') {
+        _isInstallment.value = true;
+      }
     }
 
     if (widget.initialPriceOverride != null && editSub == null) {
       _priceController.text = widget.initialPriceOverride!.toString();
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_l10nInitialized) {
+      final template = widget.template;
+      if (template != null) {
+        final l10n = AppLocalizations.of(context)!;
+        _nameController.text = getTemplateTitle(template.id, template.title, l10n);
+      }
+      _l10nInitialized = true;
     }
   }
 
@@ -235,6 +263,9 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
     _billingCycle.dispose();
     _firstPaymentDate.dispose();
     _saving.dispose();
+    _isInstallment.dispose();
+    _totalInstallmentsController.dispose();
+    _remainingInstallmentsController.dispose();
     super.dispose();
   }
 
@@ -320,6 +351,12 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
         note: _noteController.text.trim().isEmpty
             ? null
             : _noteController.text.trim(),
+        totalInstallments: _isInstallment.value
+            ? int.tryParse(_totalInstallmentsController.text.trim())
+            : null,
+        remainingInstallments: _isInstallment.value
+            ? int.tryParse(_remainingInstallmentsController.text.trim())
+            : null,
       );
 
       if (isEdit) {
@@ -590,6 +627,88 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                       trailing: IconButton(
                         onPressed: _pickDate,
                         icon: const Icon(Icons.calendar_today_outlined),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              ValueListenableBuilder<bool>(
+                valueListenable: _isInstallment,
+                builder: (BuildContext context, bool isInstall, _) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(AppSpacing.sm),
+                      child: Column(
+                        children: [
+                          SwitchListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              l10n.isInstallmentLabel,
+                              style: textTheme.titleMedium,
+                            ),
+                            value: isInstall,
+                            onChanged: (bool value) {
+                              _isInstallment.value = value;
+                            },
+                          ),
+                          if (isInstall) ...[
+                            const SizedBox(height: AppSpacing.sm),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _totalInstallmentsController,
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.next,
+                                    decoration: InputDecoration(
+                                      labelText: l10n.totalInstallmentsLabel,
+                                    ),
+                                    validator: (String? value) {
+                                      if (!isInstall) return null;
+                                      final String text = value?.trim() ?? '';
+                                      if (text.isEmpty) {
+                                        return l10n.fieldRequired;
+                                      }
+                                      final int? total = int.tryParse(text);
+                                      if (total == null || total <= 0) {
+                                        return l10n.invalidNumber;
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: AppSpacing.sm),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _remainingInstallmentsController,
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.done,
+                                    decoration: InputDecoration(
+                                      labelText: l10n.remainingInstallmentsLabel,
+                                    ),
+                                    validator: (String? value) {
+                                      if (!isInstall) return null;
+                                      final String text = value?.trim() ?? '';
+                                      if (text.isEmpty) {
+                                        return l10n.fieldRequired;
+                                      }
+                                      final int? remaining = int.tryParse(text);
+                                      if (remaining == null || remaining < 0) {
+                                        return l10n.invalidNumber;
+                                      }
+                                      final int? total = int.tryParse(_totalInstallmentsController.text.trim());
+                                      if (total != null && remaining > total) {
+                                        return l10n.validationInstallmentRange;
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                   );

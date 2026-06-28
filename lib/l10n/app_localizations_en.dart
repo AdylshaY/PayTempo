@@ -257,6 +257,60 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryNews => 'News';
 
   @override
+  String get categoryHousing => 'Housing/Rent';
+
+  @override
+  String get categoryUtilities => 'Bills/Utilities';
+
+  @override
+  String get categoryFinance => 'Finance/Installment';
+
+  @override
+  String get isInstallmentLabel => 'Installment Payment';
+
+  @override
+  String get totalInstallmentsLabel => 'Total Installments';
+
+  @override
+  String get remainingInstallmentsLabel => 'Remaining Installments';
+
+  @override
+  String installmentProgress(int current, int total) {
+    return 'Installment $current of $total';
+  }
+
+  @override
+  String get installmentsCompleted => 'Installments Completed';
+
+  @override
+  String get validationInstallmentRange =>
+      'Remaining installments cannot exceed total installments.';
+
+  @override
+  String get fieldRequired => 'This field is required.';
+
+  @override
+  String get invalidNumber => 'Please enter a valid number.';
+
+  @override
+  String get templateRent => 'Rent';
+
+  @override
+  String get templateElectricity => 'Electricity Bill';
+
+  @override
+  String get templateWater => 'Water Bill';
+
+  @override
+  String get templateGas => 'Gas Bill';
+
+  @override
+  String get templateInternet => 'Internet Bill';
+
+  @override
+  String get templateInstallment => 'Card Installment';
+
+  @override
   String get currencyTRY => 'Turkish Lira';
 
   @override

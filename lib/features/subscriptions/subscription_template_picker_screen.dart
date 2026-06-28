@@ -41,12 +41,23 @@ class _SubscriptionTemplatePickerScreenState
   }
 
   List<SubscriptionTemplate> get _filteredTemplates {
+    final l10n = AppLocalizations.of(context)!;
     return subscriptionTemplates.where((template) {
+      final String localizedTitle = getTemplateTitle(template.id, template.title, l10n);
       final bool matchesSearch =
-          template.title.toLowerCase().contains(_searchQuery);
+          localizedTitle.toLowerCase().contains(_searchQuery);
       
+      final String templateCategoryValue = subscriptionCategories
+          .firstWhere(
+            (opt) =>
+                opt.label.toLowerCase() == template.category.toLowerCase() ||
+                opt.value.toLowerCase() == template.category.toLowerCase(),
+            orElse: () => subscriptionCategories.first,
+          )
+          .value;
+
       final bool matchesCategory = _selectedCategory == 'all' ||
-          template.category.toLowerCase() == _selectedCategory.toLowerCase();
+          templateCategoryValue.toLowerCase() == _selectedCategory.toLowerCase();
 
       return matchesSearch && matchesCategory;
     }).toList();

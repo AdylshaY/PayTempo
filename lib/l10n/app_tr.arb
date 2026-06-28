@@ -78,6 +78,33 @@
   "categoryProductivity": "Verimlilik",
   "categoryGaming": "Oyun",
   "categoryNews": "Haber",
+  "categoryHousing": "Ev/Kira",
+  "categoryUtilities": "Fatura",
+  "categoryFinance": "Finans/Taksit",
+  "isInstallmentLabel": "Taksitli Ödeme",
+  "totalInstallmentsLabel": "Toplam Taksit",
+  "remainingInstallmentsLabel": "Kalan Taksit",
+  "installmentProgress": "Taksit {current} / {total}",
+  "@installmentProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "installmentsCompleted": "Taksitler Tamamlandı",
+  "validationInstallmentRange": "Kalan taksit sayısı toplam taksit sayısından fazla olamaz.",
+  "fieldRequired": "Bu alan zorunludur.",
+  "invalidNumber": "Lütfen geçerli bir sayı girin.",
+  "templateRent": "Kira",
+  "templateElectricity": "Elektrik Faturası",
+  "templateWater": "Su Faturası",
+  "templateGas": "Doğalgaz Faturası",
+  "templateInternet": "İnternet Faturası",
+  "templateInstallment": "Kart Taksiti",
   "currencyTRY": "Türk Lirası",
   "currencyUSD": "Amerikan Doları",
   "currencyEUR": "Euro",

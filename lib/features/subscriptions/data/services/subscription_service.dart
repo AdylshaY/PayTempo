@@ -44,6 +44,8 @@ class SubscriptionService {
       updatedAt: now,
       isDeleted: false,
       note: draft.note?.trim(),
+      totalInstallments: draft.totalInstallments,
+      remainingInstallments: draft.remainingInstallments,
     );
 
     await _isar.writeTxn(() async {
@@ -115,6 +117,12 @@ class SubscriptionService {
       await _isar.paymentTransactions.put(transaction);
 
       subscription.nextPaymentDate = nextPaymentDate;
+      if (subscription.remainingInstallments != null) {
+        subscription.remainingInstallments = max(0, subscription.remainingInstallments! - 1);
+        if (subscription.remainingInstallments == 0) {
+          subscription.isPaused = true;
+        }
+      }
       subscription.updatedAt = now;
       await _isar.subscriptionRecords.put(subscription);
     });
@@ -147,6 +155,8 @@ class SubscriptionService {
     existing.currency = draft.currency.toUpperCase();
     existing.billingCycle = draft.billingCycle;
     existing.note = draft.note;
+    existing.totalInstallments = draft.totalInstallments;
+    existing.remainingInstallments = draft.remainingInstallments;
     existing.nextPaymentDate = draft.firstPaymentDate;
     existing.anchorDay = draft.firstPaymentDate.day;
     existing.updatedAt = now;

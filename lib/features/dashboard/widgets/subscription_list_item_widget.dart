@@ -52,6 +52,7 @@ class SubscriptionListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final AppLocalizations l10n = AppLocalizations.of(context)!;
     final DateTime dueDate = dueDateOverride ?? item.nextPaymentDate;
     final ({String label, Color color}) status =
         statusLabel == null || statusColor == null
@@ -122,7 +123,11 @@ class SubscriptionListItemWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            dueDate.toMonthDayLabel(),
+                            item.remainingInstallments == 0
+                                ? l10n.installmentsCompleted
+                                : (item.totalInstallments != null
+                                    ? '${dueDate.toMonthDayLabel()} • ${l10n.installmentProgress(item.totalInstallments! - item.remainingInstallments! + 1, item.totalInstallments!)}'
+                                    : dueDate.toMonthDayLabel()),
                             style: textTheme.bodySmall,
                           ),
                           const Spacer(),

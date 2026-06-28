@@ -95,6 +95,14 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       buffer.writeln('📝 ${l10n.noteLabel}: ${subscription.note}');
     }
 
+    if (subscription.totalInstallments != null) {
+      if (subscription.remainingInstallments == 0) {
+        buffer.writeln('🔢 ${l10n.isInstallmentLabel}: ${l10n.installmentsCompleted}');
+      } else {
+        buffer.writeln('🔢 ${l10n.isInstallmentLabel}: ${subscription.totalInstallments! - subscription.remainingInstallments! + 1} / ${subscription.totalInstallments}');
+      }
+    }
+
     buffer.writeln();
     buffer.write('Tracked via PayTempo ⚡');
 
@@ -508,6 +516,20 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                           value: subscription.nextPaymentDate
                               .toMonthDayYearCommaLabel(l10n.localeName),
                         ),
+                        if (subscription.totalInstallments != null) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          _InfoRow(
+                            icon: Icons.format_list_numbered_rounded,
+                            label: l10n.totalInstallmentsLabel,
+                            value: '${subscription.totalInstallments}',
+                          ),
+                          const SizedBox(height: AppSpacing.xs),
+                          _InfoRow(
+                            icon: Icons.hourglass_empty_rounded,
+                            label: l10n.remainingInstallmentsLabel,
+                            value: '${subscription.remainingInstallments}',
+                          ),
+                        ],
                         const SizedBox(height: AppSpacing.xs),
                         _InfoRow(
                           icon: Icons.pin_outlined,

@@ -26,6 +26,8 @@ class SubscriptionRecord {
     this.isPaused = false,
     this.note,
     this.enableNotifications = true,
+    this.totalInstallments,
+    this.remainingInstallments,
   });
 
   Id id;
@@ -77,4 +79,8 @@ class SubscriptionRecord {
 
   @Index()
   bool enableNotifications;
+
+  int? totalInstallments;
+
+  int? remainingInstallments;
 }

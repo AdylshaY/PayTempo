@@ -115,6 +115,33 @@
   "categoryProductivity": "Productivity",
   "categoryGaming": "Gaming",
   "categoryNews": "News",
+  "categoryHousing": "Housing/Rent",
+  "categoryUtilities": "Bills/Utilities",
+  "categoryFinance": "Finance/Installment",
+  "isInstallmentLabel": "Installment Payment",
+  "totalInstallmentsLabel": "Total Installments",
+  "remainingInstallmentsLabel": "Remaining Installments",
+  "installmentProgress": "Installment {current} of {total}",
+  "@installmentProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "installmentsCompleted": "Installments Completed",
+  "validationInstallmentRange": "Remaining installments cannot exceed total installments.",
+  "fieldRequired": "This field is required.",
+  "invalidNumber": "Please enter a valid number.",
+  "templateRent": "Rent",
+  "templateElectricity": "Electricity Bill",
+  "templateWater": "Water Bill",
+  "templateGas": "Gas Bill",
+  "templateInternet": "Internet Bill",
+  "templateInstallment": "Card Installment",
   "currencyTRY": "Turkish Lira",
   "currencyUSD": "US Dollar",
   "currencyEUR": "Euro",

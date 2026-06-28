@@ -14,6 +14,8 @@ class SubscriptionDraft {
     required this.firstPaymentDate,
     this.userId,
     this.note,
+    this.totalInstallments,
+    this.remainingInstallments,
   });
 
   final String name;
@@ -30,4 +32,6 @@ class SubscriptionDraft {
   final String billingCycle;
   final DateTime firstPaymentDate;
   final String? userId;
+  final int? totalInstallments;
+  final int? remainingInstallments;
 }

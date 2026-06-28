@@ -566,6 +566,108 @@ abstract class AppLocalizations {
   /// **'News'**
   String get categoryNews;
 
+  /// No description provided for @categoryHousing.
+  ///
+  /// In en, this message translates to:
+  /// **'Housing/Rent'**
+  String get categoryHousing;
+
+  /// No description provided for @categoryUtilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Bills/Utilities'**
+  String get categoryUtilities;
+
+  /// No description provided for @categoryFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance/Installment'**
+  String get categoryFinance;
+
+  /// No description provided for @isInstallmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment Payment'**
+  String get isInstallmentLabel;
+
+  /// No description provided for @totalInstallmentsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Installments'**
+  String get totalInstallmentsLabel;
+
+  /// No description provided for @remainingInstallmentsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining Installments'**
+  String get remainingInstallmentsLabel;
+
+  /// No description provided for @installmentProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment {current} of {total}'**
+  String installmentProgress(int current, int total);
+
+  /// No description provided for @installmentsCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Installments Completed'**
+  String get installmentsCompleted;
+
+  /// No description provided for @validationInstallmentRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining installments cannot exceed total installments.'**
+  String get validationInstallmentRange;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required.'**
+  String get fieldRequired;
+
+  /// No description provided for @invalidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid number.'**
+  String get invalidNumber;
+
+  /// No description provided for @templateRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent'**
+  String get templateRent;
+
+  /// No description provided for @templateElectricity.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity Bill'**
+  String get templateElectricity;
+
+  /// No description provided for @templateWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water Bill'**
+  String get templateWater;
+
+  /// No description provided for @templateGas.
+  ///
+  /// In en, this message translates to:
+  /// **'Gas Bill'**
+  String get templateGas;
+
+  /// No description provided for @templateInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'Internet Bill'**
+  String get templateInternet;
+
+  /// No description provided for @templateInstallment.
+  ///
+  /// In en, this message translates to:
+  /// **'Card Installment'**
+  String get templateInstallment;
+
   /// No description provided for @currencyTRY.
   ///
   /// In en, this message translates to:

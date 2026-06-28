@@ -57,7 +57,7 @@ class SubscriptionTemplateTile extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                template.title,
+                getTemplateTitle(template.id, template.title, l10n),
                 style: textTheme.titleMedium,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

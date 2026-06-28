@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tempo/l10n/app_localizations.dart';
 
 class SubscriptionTemplate {
   const SubscriptionTemplate({
@@ -14,6 +15,25 @@ class SubscriptionTemplate {
   final String category;
   final IconData icon;
   final Color brandColor;
+}
+
+String getTemplateTitle(String id, String fallback, AppLocalizations l10n) {
+  switch (id) {
+    case 'rent':
+      return l10n.templateRent;
+    case 'electricity':
+      return l10n.templateElectricity;
+    case 'water':
+      return l10n.templateWater;
+    case 'gas':
+      return l10n.templateGas;
+    case 'internet':
+      return l10n.templateInternet;
+    case 'installment':
+      return l10n.templateInstallment;
+    default:
+      return fallback;
+  }
 }
 
 const List<SubscriptionTemplate> subscriptionTemplates = <SubscriptionTemplate>[
@@ -177,5 +197,47 @@ const List<SubscriptionTemplate> subscriptionTemplates = <SubscriptionTemplate>[
     category: 'News',
     icon: Icons.newspaper_outlined,
     brandColor: Color(0xFF121212),
+  ),
+  SubscriptionTemplate(
+    id: 'rent',
+    title: 'Rent',
+    category: 'Housing/Rent',
+    icon: Icons.home_outlined,
+    brandColor: Color(0xFFF59E0B),
+  ),
+  SubscriptionTemplate(
+    id: 'electricity',
+    title: 'Electricity Bill',
+    category: 'Bills/Utilities',
+    icon: Icons.electric_bolt_outlined,
+    brandColor: Color(0xFF06B6D4),
+  ),
+  SubscriptionTemplate(
+    id: 'water',
+    title: 'Water Bill',
+    category: 'Bills/Utilities',
+    icon: Icons.water_drop_outlined,
+    brandColor: Color(0xFF3B82F6),
+  ),
+  SubscriptionTemplate(
+    id: 'gas',
+    title: 'Gas Bill',
+    category: 'Bills/Utilities',
+    icon: Icons.propane_tank_outlined,
+    brandColor: Color(0xFFEF4444),
+  ),
+  SubscriptionTemplate(
+    id: 'internet',
+    title: 'Internet Bill',
+    category: 'Bills/Utilities',
+    icon: Icons.wifi_rounded,
+    brandColor: Color(0xFF8B5CF6),
+  ),
+  SubscriptionTemplate(
+    id: 'installment',
+    title: 'Card Installment',
+    category: 'Finance/Installment',
+    icon: Icons.credit_card_outlined,
+    brandColor: Color(0xFF10B981),
   ),
 ];

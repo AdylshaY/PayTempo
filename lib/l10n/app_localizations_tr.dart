@@ -259,6 +259,60 @@ class AppLocalizationsTr extends AppLocalizations {
   String get categoryNews => 'Haber';
 
   @override
+  String get categoryHousing => 'Ev/Kira';
+
+  @override
+  String get categoryUtilities => 'Fatura';
+
+  @override
+  String get categoryFinance => 'Finans/Taksit';
+
+  @override
+  String get isInstallmentLabel => 'Taksitli Ödeme';
+
+  @override
+  String get totalInstallmentsLabel => 'Toplam Taksit';
+
+  @override
+  String get remainingInstallmentsLabel => 'Kalan Taksit';
+
+  @override
+  String installmentProgress(int current, int total) {
+    return 'Taksit $current / $total';
+  }
+
+  @override
+  String get installmentsCompleted => 'Taksitler Tamamlandı';
+
+  @override
+  String get validationInstallmentRange =>
+      'Kalan taksit sayısı toplam taksit sayısından fazla olamaz.';
+
+  @override
+  String get fieldRequired => 'Bu alan zorunludur.';
+
+  @override
+  String get invalidNumber => 'Lütfen geçerli bir sayı girin.';
+
+  @override
+  String get templateRent => 'Kira';
+
+  @override
+  String get templateElectricity => 'Elektrik Faturası';
+
+  @override
+  String get templateWater => 'Su Faturası';
+
+  @override
+  String get templateGas => 'Doğalgaz Faturası';
+
+  @override
+  String get templateInternet => 'İnternet Faturası';
+
+  @override
+  String get templateInstallment => 'Kart Taksiti';
+
+  @override
   String get currencyTRY => 'Türk Lirası';
 
   @override

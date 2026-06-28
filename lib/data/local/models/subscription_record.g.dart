@@ -103,18 +103,28 @@ const SubscriptionRecordSchema = CollectionSchema(
       name: r'price',
       type: IsarType.double,
     ),
-    r'uid': PropertySchema(
+    r'remainingInstallments': PropertySchema(
       id: 17,
+      name: r'remainingInstallments',
+      type: IsarType.long,
+    ),
+    r'totalInstallments': PropertySchema(
+      id: 18,
+      name: r'totalInstallments',
+      type: IsarType.long,
+    ),
+    r'uid': PropertySchema(
+      id: 19,
       name: r'uid',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 18,
+      id: 20,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
     r'userId': PropertySchema(
-      id: 19,
+      id: 21,
       name: r'userId',
       type: IsarType.string,
     )
@@ -311,9 +321,11 @@ void _subscriptionRecordSerialize(
   writer.writeDateTime(offsets[14], object.nextPaymentDate);
   writer.writeString(offsets[15], object.note);
   writer.writeDouble(offsets[16], object.price);
-  writer.writeString(offsets[17], object.uid);
-  writer.writeDateTime(offsets[18], object.updatedAt);
-  writer.writeString(offsets[19], object.userId);
+  writer.writeLong(offsets[17], object.remainingInstallments);
+  writer.writeLong(offsets[18], object.totalInstallments);
+  writer.writeString(offsets[19], object.uid);
+  writer.writeDateTime(offsets[20], object.updatedAt);
+  writer.writeString(offsets[21], object.userId);
 }
 
 SubscriptionRecord _subscriptionRecordDeserialize(
@@ -341,9 +353,11 @@ SubscriptionRecord _subscriptionRecordDeserialize(
     nextPaymentDate: reader.readDateTime(offsets[14]),
     note: reader.readStringOrNull(offsets[15]),
     price: reader.readDouble(offsets[16]),
-    uid: reader.readString(offsets[17]),
-    updatedAt: reader.readDateTime(offsets[18]),
-    userId: reader.readStringOrNull(offsets[19]),
+    remainingInstallments: reader.readLongOrNull(offsets[17]),
+    totalInstallments: reader.readLongOrNull(offsets[18]),
+    uid: reader.readString(offsets[19]),
+    updatedAt: reader.readDateTime(offsets[20]),
+    userId: reader.readStringOrNull(offsets[21]),
   );
   return object;
 }
@@ -390,10 +404,14 @@ P _subscriptionRecordDeserializeProp<P>(
     case 16:
       return (reader.readDouble(offset)) as P;
     case 17:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 18:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 19:
+      return (reader.readString(offset)) as P;
+    case 20:
+      return (reader.readDateTime(offset)) as P;
+    case 21:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2738,6 +2756,154 @@ extension SubscriptionRecordQueryFilter
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      remainingInstallmentsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'remainingInstallments',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      remainingInstallmentsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'remainingInstallments',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      remainingInstallmentsEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'remainingInstallments',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      remainingInstallmentsGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'remainingInstallments',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      remainingInstallmentsLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'remainingInstallments',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      remainingInstallmentsBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'remainingInstallments',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      totalInstallmentsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'totalInstallments',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      totalInstallmentsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'totalInstallments',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      totalInstallmentsEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'totalInstallments',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      totalInstallmentsGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'totalInstallments',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      totalInstallmentsLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'totalInstallments',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      totalInstallmentsBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'totalInstallments',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
       uidEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -3331,6 +3497,34 @@ extension SubscriptionRecordQuerySortBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByRemainingInstallments() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remainingInstallments', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByRemainingInstallmentsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remainingInstallments', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByTotalInstallments() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalInstallments', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByTotalInstallmentsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalInstallments', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       sortByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -3628,6 +3822,34 @@ extension SubscriptionRecordQuerySortThenBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByRemainingInstallments() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remainingInstallments', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByRemainingInstallmentsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remainingInstallments', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByTotalInstallments() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalInstallments', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByTotalInstallmentsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalInstallments', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       thenByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -3793,6 +4015,20 @@ extension SubscriptionRecordQueryWhereDistinct
     });
   }
 
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
+      distinctByRemainingInstallments() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'remainingInstallments');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
+      distinctByTotalInstallments() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'totalInstallments');
+    });
+  }
+
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct> distinctByUid(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -3933,6 +4169,20 @@ extension SubscriptionRecordQueryProperty
   QueryBuilder<SubscriptionRecord, double, QQueryOperations> priceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'price');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, int?, QQueryOperations>
+      remainingInstallmentsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'remainingInstallments');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, int?, QQueryOperations>
+      totalInstallmentsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'totalInstallments');
     });
   }
 

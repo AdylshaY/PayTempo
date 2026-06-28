@@ -33,6 +33,15 @@ String getCategoryLabel(String valueOrLabel, AppLocalizations l10n) {
       return l10n.categoryGaming;
     case 'news':
       return l10n.categoryNews;
+    case 'housing':
+    case 'housing/rent':
+      return l10n.categoryHousing;
+    case 'utilities':
+    case 'bills/utilities':
+      return l10n.categoryUtilities;
+    case 'finance':
+    case 'finance/installment':
+      return l10n.categoryFinance;
     default:
       return valueOrLabel;
   }
@@ -96,5 +105,23 @@ const List<SubscriptionCategoryOption> subscriptionCategories = <SubscriptionCat
     label: 'News',
     icon: Icons.newspaper_outlined,
     color: Color(0xFF64748B),
+  ),
+  SubscriptionCategoryOption(
+    value: 'housing',
+    label: 'Housing/Rent',
+    icon: Icons.home_outlined,
+    color: Color(0xFFF59E0B),
+  ),
+  SubscriptionCategoryOption(
+    value: 'utilities',
+    label: 'Bills/Utilities',
+    icon: Icons.electric_bolt_outlined,
+    color: Color(0xFF06B6D4),
+  ),
+  SubscriptionCategoryOption(
+    value: 'finance',
+    label: 'Finance/Installment',
+    icon: Icons.credit_card_outlined,
+    color: Color(0xFF10B981),
   ),
 ];
