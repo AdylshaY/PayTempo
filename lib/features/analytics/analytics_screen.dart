@@ -389,6 +389,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
         billingCycle: 'monthly',
         anchorDay: 15,
         nextPaymentDate: DateTime.now(),
+        firstPaymentDate: DateTime.now(),
         updatedAt: DateTime.now(),
       ),
       SubscriptionRecord(
@@ -400,6 +401,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
         billingCycle: 'yearly',
         anchorDay: 1,
         nextPaymentDate: DateTime.now(),
+        firstPaymentDate: DateTime.now(),
         updatedAt: DateTime.now(),
       ),
     ];

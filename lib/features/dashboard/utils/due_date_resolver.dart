@@ -40,6 +40,17 @@ DateTime resolveEffectiveDueDate({
     currentDueDay,
   );
 
+  if (subscription.firstPaymentDate != null) {
+    final DateTime firstPayment = DateTime(
+      subscription.firstPaymentDate!.year,
+      subscription.firstPaymentDate!.month,
+      subscription.firstPaymentDate!.day,
+    );
+    if (firstPayment.isAfter(currentMonthDueDate)) {
+      return storedNextPaymentDate;
+    }
+  }
+
   if (!currentMonthDueDate.isAfter(normalizedNow)) {
     return currentMonthDueDate;
   }

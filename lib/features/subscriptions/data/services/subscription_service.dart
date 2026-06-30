@@ -41,6 +41,7 @@ class SubscriptionService {
       billingCycle: draft.billingCycle,
       anchorDay: anchorDay,
       nextPaymentDate: nextPaymentDate,
+      firstPaymentDate: draft.firstPaymentDate,
       updatedAt: now,
       isDeleted: false,
       note: draft.note?.trim(),
@@ -158,6 +159,7 @@ class SubscriptionService {
     existing.totalInstallments = draft.totalInstallments;
     existing.remainingInstallments = draft.remainingInstallments;
     existing.nextPaymentDate = draft.firstPaymentDate;
+    existing.firstPaymentDate = draft.firstPaymentDate;
     existing.anchorDay = draft.firstPaymentDate.day;
     existing.updatedAt = now;
 

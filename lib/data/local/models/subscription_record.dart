@@ -28,6 +28,7 @@ class SubscriptionRecord {
     this.enableNotifications = true,
     this.totalInstallments,
     this.remainingInstallments,
+    this.firstPaymentDate,
   });
 
   Id id;
@@ -68,6 +69,9 @@ class SubscriptionRecord {
 
   @Index()
   DateTime nextPaymentDate;
+
+  @Index()
+  DateTime? firstPaymentDate;
 
   @Index()
   DateTime updatedAt;

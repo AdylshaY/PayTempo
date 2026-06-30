@@ -73,58 +73,63 @@ const SubscriptionRecordSchema = CollectionSchema(
       name: r'enableNotifications',
       type: IsarType.bool,
     ),
-    r'isDeleted': PropertySchema(
+    r'firstPaymentDate': PropertySchema(
       id: 11,
+      name: r'firstPaymentDate',
+      type: IsarType.dateTime,
+    ),
+    r'isDeleted': PropertySchema(
+      id: 12,
       name: r'isDeleted',
       type: IsarType.bool,
     ),
     r'isPaused': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'isPaused',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'name',
       type: IsarType.string,
     ),
     r'nextPaymentDate': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'nextPaymentDate',
       type: IsarType.dateTime,
     ),
     r'note': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'note',
       type: IsarType.string,
     ),
     r'price': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'price',
       type: IsarType.double,
     ),
     r'remainingInstallments': PropertySchema(
-      id: 17,
+      id: 18,
       name: r'remainingInstallments',
       type: IsarType.long,
     ),
     r'totalInstallments': PropertySchema(
-      id: 18,
+      id: 19,
       name: r'totalInstallments',
       type: IsarType.long,
     ),
     r'uid': PropertySchema(
-      id: 19,
+      id: 20,
       name: r'uid',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 20,
+      id: 21,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
     r'userId': PropertySchema(
-      id: 21,
+      id: 22,
       name: r'userId',
       type: IsarType.string,
     )
@@ -195,6 +200,19 @@ const SubscriptionRecordSchema = CollectionSchema(
       properties: [
         IndexPropertySchema(
           name: r'nextPaymentDate',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'firstPaymentDate': IndexSchema(
+      id: 5459515695371628213,
+      name: r'firstPaymentDate',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'firstPaymentDate',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -315,17 +333,18 @@ void _subscriptionRecordSerialize(
   writer.writeString(offsets[8], object.category);
   writer.writeString(offsets[9], object.currency);
   writer.writeBool(offsets[10], object.enableNotifications);
-  writer.writeBool(offsets[11], object.isDeleted);
-  writer.writeBool(offsets[12], object.isPaused);
-  writer.writeString(offsets[13], object.name);
-  writer.writeDateTime(offsets[14], object.nextPaymentDate);
-  writer.writeString(offsets[15], object.note);
-  writer.writeDouble(offsets[16], object.price);
-  writer.writeLong(offsets[17], object.remainingInstallments);
-  writer.writeLong(offsets[18], object.totalInstallments);
-  writer.writeString(offsets[19], object.uid);
-  writer.writeDateTime(offsets[20], object.updatedAt);
-  writer.writeString(offsets[21], object.userId);
+  writer.writeDateTime(offsets[11], object.firstPaymentDate);
+  writer.writeBool(offsets[12], object.isDeleted);
+  writer.writeBool(offsets[13], object.isPaused);
+  writer.writeString(offsets[14], object.name);
+  writer.writeDateTime(offsets[15], object.nextPaymentDate);
+  writer.writeString(offsets[16], object.note);
+  writer.writeDouble(offsets[17], object.price);
+  writer.writeLong(offsets[18], object.remainingInstallments);
+  writer.writeLong(offsets[19], object.totalInstallments);
+  writer.writeString(offsets[20], object.uid);
+  writer.writeDateTime(offsets[21], object.updatedAt);
+  writer.writeString(offsets[22], object.userId);
 }
 
 SubscriptionRecord _subscriptionRecordDeserialize(
@@ -346,18 +365,19 @@ SubscriptionRecord _subscriptionRecordDeserialize(
     category: reader.readString(offsets[8]),
     currency: reader.readString(offsets[9]),
     enableNotifications: reader.readBoolOrNull(offsets[10]) ?? true,
+    firstPaymentDate: reader.readDateTimeOrNull(offsets[11]),
     id: id,
-    isDeleted: reader.readBoolOrNull(offsets[11]) ?? false,
-    isPaused: reader.readBoolOrNull(offsets[12]) ?? false,
-    name: reader.readString(offsets[13]),
-    nextPaymentDate: reader.readDateTime(offsets[14]),
-    note: reader.readStringOrNull(offsets[15]),
-    price: reader.readDouble(offsets[16]),
-    remainingInstallments: reader.readLongOrNull(offsets[17]),
-    totalInstallments: reader.readLongOrNull(offsets[18]),
-    uid: reader.readString(offsets[19]),
-    updatedAt: reader.readDateTime(offsets[20]),
-    userId: reader.readStringOrNull(offsets[21]),
+    isDeleted: reader.readBoolOrNull(offsets[12]) ?? false,
+    isPaused: reader.readBoolOrNull(offsets[13]) ?? false,
+    name: reader.readString(offsets[14]),
+    nextPaymentDate: reader.readDateTime(offsets[15]),
+    note: reader.readStringOrNull(offsets[16]),
+    price: reader.readDouble(offsets[17]),
+    remainingInstallments: reader.readLongOrNull(offsets[18]),
+    totalInstallments: reader.readLongOrNull(offsets[19]),
+    uid: reader.readString(offsets[20]),
+    updatedAt: reader.readDateTime(offsets[21]),
+    userId: reader.readStringOrNull(offsets[22]),
   );
   return object;
 }
@@ -392,26 +412,28 @@ P _subscriptionRecordDeserializeProp<P>(
     case 10:
       return (reader.readBoolOrNull(offset) ?? true) as P;
     case 11:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 12:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 13:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 14:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 15:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 16:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 17:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 18:
       return (reader.readLongOrNull(offset)) as P;
     case 19:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 20:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 21:
+      return (reader.readDateTime(offset)) as P;
+    case 22:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -445,6 +467,15 @@ extension SubscriptionRecordQueryWhereSort
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'nextPaymentDate'),
+      );
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhere>
+      anyFirstPaymentDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'firstPaymentDate'),
       );
     });
   }
@@ -837,6 +868,121 @@ extension SubscriptionRecordQueryWhere
         lower: [lowerNextPaymentDate],
         includeLower: includeLower,
         upper: [upperNextPaymentDate],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      firstPaymentDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'firstPaymentDate',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      firstPaymentDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'firstPaymentDate',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      firstPaymentDateEqualTo(DateTime? firstPaymentDate) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'firstPaymentDate',
+        value: [firstPaymentDate],
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      firstPaymentDateNotEqualTo(DateTime? firstPaymentDate) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'firstPaymentDate',
+              lower: [],
+              upper: [firstPaymentDate],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'firstPaymentDate',
+              lower: [firstPaymentDate],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'firstPaymentDate',
+              lower: [firstPaymentDate],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'firstPaymentDate',
+              lower: [],
+              upper: [firstPaymentDate],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      firstPaymentDateGreaterThan(
+    DateTime? firstPaymentDate, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'firstPaymentDate',
+        lower: [firstPaymentDate],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      firstPaymentDateLessThan(
+    DateTime? firstPaymentDate, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'firstPaymentDate',
+        lower: [],
+        upper: [firstPaymentDate],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterWhereClause>
+      firstPaymentDateBetween(
+    DateTime? lowerFirstPaymentDate,
+    DateTime? upperFirstPaymentDate, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'firstPaymentDate',
+        lower: [lowerFirstPaymentDate],
+        includeLower: includeLower,
+        upper: [upperFirstPaymentDate],
         includeUpper: includeUpper,
       ));
     });
@@ -2268,6 +2414,80 @@ extension SubscriptionRecordQueryFilter
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      firstPaymentDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'firstPaymentDate',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      firstPaymentDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'firstPaymentDate',
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      firstPaymentDateEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'firstPaymentDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      firstPaymentDateGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'firstPaymentDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      firstPaymentDateLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'firstPaymentDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
+      firstPaymentDateBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'firstPaymentDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterFilterCondition>
       idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -3413,6 +3633,20 @@ extension SubscriptionRecordQuerySortBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByFirstPaymentDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstPaymentDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      sortByFirstPaymentDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstPaymentDate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       sortByIsDeleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isDeleted', Sort.asc);
@@ -3724,6 +3958,20 @@ extension SubscriptionRecordQuerySortThenBy
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByFirstPaymentDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstPaymentDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
+      thenByFirstPaymentDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstPaymentDate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QAfterSortBy>
       thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -3974,6 +4222,13 @@ extension SubscriptionRecordQueryWhereDistinct
   }
 
   QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
+      distinctByFirstPaymentDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'firstPaymentDate');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, SubscriptionRecord, QDistinct>
       distinctByIsDeleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isDeleted');
@@ -4132,6 +4387,13 @@ extension SubscriptionRecordQueryProperty
       enableNotificationsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'enableNotifications');
+    });
+  }
+
+  QueryBuilder<SubscriptionRecord, DateTime?, QQueryOperations>
+      firstPaymentDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'firstPaymentDate');
     });
   }
 

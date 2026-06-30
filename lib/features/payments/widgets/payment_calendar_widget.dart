@@ -94,6 +94,7 @@ class _PaymentCalendarWidgetState extends State<PaymentCalendarWidget> {
             billingCycle: 'monthly',
             anchorDay: tx.paidAt.day,
             nextPaymentDate: tx.paidAt,
+            firstPaymentDate: tx.paidAt,
             updatedAt: tx.updatedAt,
           ),
         );

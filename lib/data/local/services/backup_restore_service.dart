@@ -59,6 +59,7 @@ class BackupRestoreService {
               'billingCycle': sub.billingCycle,
               'anchorDay': sub.anchorDay,
               'nextPaymentDate': sub.nextPaymentDate.toIso8601String(),
+              'firstPaymentDate': sub.firstPaymentDate?.toIso8601String(),
               'updatedAt': sub.updatedAt.toIso8601String(),
               'isDeleted': sub.isDeleted,
               'enableNotifications': sub.enableNotifications,
@@ -175,6 +176,9 @@ class BackupRestoreService {
               billingCycle: subMap['billingCycle'] as String? ?? 'monthly',
               anchorDay: subMap['anchorDay'] as int? ?? 1,
               nextPaymentDate: DateTime.parse(subMap['nextPaymentDate'] as String),
+              firstPaymentDate: subMap['firstPaymentDate'] != null
+                  ? DateTime.parse(subMap['firstPaymentDate'] as String)
+                  : null,
               updatedAt: DateTime.parse(subMap['updatedAt'] as String),
               isDeleted: subMap['isDeleted'] as bool? ?? false,
               enableNotifications: subMap['enableNotifications'] as bool? ?? true,
