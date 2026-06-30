@@ -38,13 +38,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
   // ─── Bottom Sheet Helper ────────────────────────────────────────────────────
 
-  /// Generic bottom-sheet picker. Returns the selected [T] or null if dismissed.
-  Future<T?> _showPickerSheet<T>({
+  /// Generic bottom-sheet picker. Returns the selected [T] wrapped in PickerResult or null if dismissed.
+  Future<PickerResult<T>?> _showPickerSheet<T>({
     required String title,
     required List<_PickerOption<T>> options,
     required T currentValue,
   }) {
-    return showModalBottomSheet<T>(
+    return showModalBottomSheet<PickerResult<T>>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
@@ -102,7 +102,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           )
                         : null,
                     onTap: () =>
-                        Navigator.of(sheetContext).pop(opt.value),
+                        Navigator.of(sheetContext).pop(PickerResult<T>(opt.value)),
                   );
                 }),
               ],
@@ -130,14 +130,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         )
         .toList();
 
-    final String? selected = await _showPickerSheet<String>(
+    final result = await _showPickerSheet<String>(
       title: l10n.changeCurrencyTitle,
       options: options,
       currentValue: currentCurrency,
     );
 
-    if (selected == null || !mounted || selected == currentCurrency) return;
-    await _confirmAndChangeCurrency(selected);
+    if (result == null || !mounted || result.value == currentCurrency) return;
+    await _confirmAndChangeCurrency(result.value);
   }
 
   Future<void> _confirmAndChangeCurrency(String newCurrency) async {
@@ -189,7 +189,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     final l10n = AppLocalizations.of(context)!;
     final ThemeMode current = UserSettingsService.appThemeNotifier.value;
 
-    final selected = await _showPickerSheet<ThemeMode>(
+    final result = await _showPickerSheet<ThemeMode>(
       title: l10n.appearance,
       options: [
         _PickerOption(
@@ -208,9 +208,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       currentValue: current,
     );
 
-    if (selected == null || !mounted || selected == current) return;
+    if (result == null || !mounted || result.value == current) return;
     HapticFeedback.lightImpact();
-    UserSettingsService().setThemeMode(_flutterModeToAppMode(selected));
+    UserSettingsService().setThemeMode(_flutterModeToAppMode(result.value));
   }
 
   // ─── Language ───────────────────────────────────────────────────────────────
@@ -219,7 +219,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     final l10n = AppLocalizations.of(context)!;
     final String? current = UserSettingsService.appLanguageNotifier.value;
 
-    final selected = await _showPickerSheet<String?>(
+    final result = await _showPickerSheet<String?>(
       title: l10n.language,
       options: [
         _PickerOption<String?>(value: null, label: l10n.languageSystem),
@@ -229,14 +229,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       currentValue: current,
     );
 
-    // showModalBottomSheet returns null when dismissed — distinguish from
-    // "null language code" selection by checking via the picker result type.
-    // We pop the value explicitly so null == "System" when tapped.
-    if (!mounted) return;
-    // If the sheet was dismissed without selection the result is identical to
-    // `null` (system language). We can't distinguish — so we just always apply.
+    if (result == null || !mounted) return;
     HapticFeedback.lightImpact();
-    UserSettingsService().setLanguageCode(selected);
+    UserSettingsService().setLanguageCode(result.value);
   }
 
   // ─── Budget ─────────────────────────────────────────────────────────────────
@@ -790,4 +785,9 @@ class _PickerOption<T> {
   final T value;
   final String label;
   final String? sublabel;
+}
+
+class PickerResult<T> {
+  const PickerResult(this.value);
+  final T value;
 }
