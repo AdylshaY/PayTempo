@@ -9,7 +9,6 @@ class ProfileHeaderCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
@@ -17,18 +16,13 @@ class ProfileHeaderCardWidget extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.sm),
         child: Row(
           children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(AppRadii.card),
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.account_balance_wallet_outlined,
-                size: 28,
-                color: colorScheme.primary,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadii.card),
+              child: Image.asset(
+                'assets/images/app_icon.png',
+                width: 56,
+                height: 56,
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(width: AppSpacing.sm),

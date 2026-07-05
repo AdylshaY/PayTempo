@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dark mode color resources -->
+<resources>
+    <!-- Matches AppColors.backgroundDark = Color(0xFF0B1020) -->
+    <color name="dark_background">#FF0B1020</color>
+</resources>
