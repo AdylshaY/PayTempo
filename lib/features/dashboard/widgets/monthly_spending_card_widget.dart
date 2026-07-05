@@ -249,18 +249,21 @@ class _HeroCardContent extends StatelessWidget {
                   icon: Icons.repeat_rounded,
                   label: l10n.heroStatActive,
                   value: activeCount.toString(),
+                  flex: 3,
                 ),
                 _miniDivider(),
                 _MiniStat(
                   icon: Icons.check_circle_outline_rounded,
                   label: l10n.heroStatPaid,
                   value: '$paidCount/$dueCount',
+                  flex: 3,
                 ),
                 _miniDivider(),
                 _MiniStat(
                   icon: Icons.trending_up_rounded,
                   label: l10n.heroStatEstimated,
                   value: CurrencyFormatter.format(estimatedTotal, baseCurrency),
+                  flex: 4,
                 ),
               ],
             ),
@@ -308,8 +311,8 @@ class _HeroCardContent extends StatelessWidget {
                               l10n.budgetLabel,
                               style: TextStyle(
                                 color: isExceeded
-                                    ? barColor
-                                    : Colors.white70,
+                                  ? barColor
+                                  : Colors.white70,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -385,35 +388,45 @@ class _MiniStat extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
+    required this.flex,
   });
 
   final IconData icon;
   final String label;
   final String value;
+  final int flex;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      flex: flex,
       child: Column(
         children: [
           Icon(icon, color: Colors.white70, size: 16),
           const SizedBox(height: 2),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              maxLines: 1,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.6),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              label,
+              maxLines: 1,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.6),
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

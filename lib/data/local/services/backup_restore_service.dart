@@ -33,11 +33,7 @@ class BackupRestoreService {
         'userSettings': userSettings == null
             ? null
             : {
-                'userId': userSettings.userId,
-                'displayName': userSettings.displayName,
-                'email': userSettings.email,
                 'baseCurrency': userSettings.baseCurrency,
-                'isPro': userSettings.isPro,
                 'themeMode': userSettings.themeMode.name,
                 'languageCode': userSettings.languageCode,
                 'notificationsEnabled': userSettings.notificationsEnabled,
@@ -142,11 +138,7 @@ class BackupRestoreService {
 
         userSettings = UserSettings(
           id: 1,
-          userId: settingsMap['userId'] as String?,
-          displayName: settingsMap['displayName'] as String?,
-          email: settingsMap['email'] as String?,
           baseCurrency: (settingsMap['baseCurrency'] as String? ?? 'USD').toUpperCase(),
-          isPro: settingsMap['isPro'] as bool? ?? false,
           themeMode: parsedTheme,
           languageCode: settingsMap['languageCode'] as String?,
           notificationsEnabled: settingsMap['notificationsEnabled'] as bool? ?? true,

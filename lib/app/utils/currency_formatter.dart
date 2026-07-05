@@ -39,7 +39,7 @@ class CurrencyFormatter {
 
   /// Formats the [amount] according to the [currencyCode] standard styling.
   /// Example: format(1234.56, 'TRY') -> "1.234,56 ₺"
-  /// Example: format(1234.56, 'USD') -> "$1,234.56"
+  /// Example: format(1234.56, 'USD') -> "$ 1,234.56"
   static String format(double amount, String currencyCode) {
     final locale = _getLocale(currencyCode);
     final decimalDigits = _getDecimalDigits(currencyCode);
@@ -49,7 +49,9 @@ class CurrencyFormatter {
       name: currencyCode.toUpperCase(),
       decimalDigits: decimalDigits,
     );
-    return formatter.format(amount);
+    
+    final formatted = formatter.format(amount);
+    return _addSpaceToSymbol(formatted);
   }
 
   /// Formats the [amount] compactly (rounded to integer, but still formatted nicely).
@@ -61,6 +63,27 @@ class CurrencyFormatter {
       name: currencyCode.toUpperCase(),
       decimalDigits: 0,
     );
-    return formatter.format(amount);
+    
+    final formatted = formatter.format(amount);
+    return _addSpaceToSymbol(formatted);
+  }
+
+  /// Helper to insert a space between a currency symbol and the number digits.
+  static String _addSpaceToSymbol(String formatted) {
+    // If it starts with a non-digit, non-space character (symbol) followed by a digit
+    // e.g. "$1,200.00" -> "$ 1,200.00" or "TRY1,200.00" -> "TRY 1,200.00"
+    final startMatch = RegExp(r'^([^\d\s\-\+,.]+)([\d\-+])');
+    if (startMatch.hasMatch(formatted)) {
+      return formatted.replaceFirstMapped(startMatch, (match) => '${match.group(1)} ${match.group(2)}');
+    }
+
+    // If it ends with a non-digit, non-space character (symbol) preceded by a digit
+    // e.g. "1.200,00₺" -> "1.200,00 ₺"
+    final endMatch = RegExp(r'([\d])([^\d\s\-\+,.]+)$');
+    if (endMatch.hasMatch(formatted)) {
+      return formatted.replaceFirstMapped(endMatch, (match) => '${match.group(1)} ${match.group(2)}');
+    }
+
+    return formatted;
   }
 }

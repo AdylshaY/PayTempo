@@ -368,30 +368,6 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profile;
 
-  /// No description provided for @anonymousLocalData.
-  ///
-  /// In en, this message translates to:
-  /// **'Anonymous · Local Data'**
-  String get anonymousLocalData;
-
-  /// No description provided for @proPlanActive.
-  ///
-  /// In en, this message translates to:
-  /// **'Pro Plan · Active'**
-  String get proPlanActive;
-
-  /// No description provided for @proExpiredBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'Pro Expired'**
-  String get proExpiredBadge;
-
-  /// No description provided for @guestUser.
-  ///
-  /// In en, this message translates to:
-  /// **'Guest User'**
-  String get guestUser;
-
   /// No description provided for @user.
   ///
   /// In en, this message translates to:

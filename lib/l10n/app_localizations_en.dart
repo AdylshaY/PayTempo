@@ -150,18 +150,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile => 'Profile';
 
   @override
-  String get anonymousLocalData => 'Anonymous · Local Data';
-
-  @override
-  String get proPlanActive => 'Pro Plan · Active';
-
-  @override
-  String get proExpiredBadge => 'Pro Expired';
-
-  @override
-  String get guestUser => 'Guest User';
-
-  @override
   String get user => 'User';
 
   @override

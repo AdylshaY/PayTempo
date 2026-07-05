@@ -179,22 +179,7 @@ class UserSettingsService {
     return recalculated;
   }
 
-  Future<void> setProStatus({
-    required bool isPro,
-    String? userId,
-  }) async {
-    await _isar.writeTxn(() async {
-      final UserSettings? current = await _isar.userSettings.get(1);
-      if (current == null) {
-        throw StateError('UserSettings not found. Save base currency first.');
-      }
 
-      current.isPro = isPro;
-      current.userId = userId;
-      current.lastSyncTime = DateTime.now();
-      await _isar.userSettings.put(current);
-    });
-  }
 
   Future<void> setNotificationsEnabled(bool enabled) async {
     await _isar.writeTxn(() async {

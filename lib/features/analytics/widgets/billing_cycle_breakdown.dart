@@ -146,7 +146,7 @@ class BillingCycleBreakdown extends StatelessWidget {
                         Expanded(
                           flex: (yearlyRatio * 100).round(),
                           child: Container(
-                            color: AppColors.proGold,
+                            color: Colors.orangeAccent,
                           ),
                         ),
                     ],
@@ -194,7 +194,7 @@ class BillingCycleBreakdown extends StatelessWidget {
                       width: 10,
                       height: 10,
                       decoration: const BoxDecoration(
-                        color: AppColors.proGold,
+                        color: Colors.orangeAccent,
                         shape: BoxShape.circle,
                       ),
                     ),

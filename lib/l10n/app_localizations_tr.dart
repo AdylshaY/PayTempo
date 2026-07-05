@@ -153,18 +153,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profile => 'Profil';
 
   @override
-  String get anonymousLocalData => 'Anonim · Yerel Veri';
-
-  @override
-  String get proPlanActive => 'Pro Plan · Aktif';
-
-  @override
-  String get proExpiredBadge => 'Pro Süresi Doldu';
-
-  @override
-  String get guestUser => 'Misafir Kullanıcı';
-
-  @override
   String get user => 'Kullanıcı';
 
   @override
