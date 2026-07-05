@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
@@ -69,7 +70,7 @@ class InstallmentsCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${monthlyCommitmentSum.toStringAsFixed(2)} $baseCurrency',
+                        CurrencyFormatter.format(monthlyCommitmentSum, baseCurrency),
                         style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppColors.error, // Installment load
@@ -90,7 +91,7 @@ class InstallmentsCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${remainingDebtSum.toStringAsFixed(2)} $baseCurrency',
+                        CurrencyFormatter.format(remainingDebtSum, baseCurrency),
                         style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -154,13 +155,13 @@ class InstallmentsCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '${priceInBase.toStringAsFixed(2)} $baseCurrency',
+                          CurrencyFormatter.format(priceInBase, baseCurrency),
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          '${sub.price.toStringAsFixed(2)} ${sub.currency}',
+                          CurrencyFormatter.format(sub.price, sub.currency),
                           style: textTheme.bodySmall?.copyWith(
                             color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                           ),

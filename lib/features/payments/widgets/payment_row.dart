@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
@@ -105,7 +106,7 @@ class PaymentRow extends StatelessWidget {
                 Text(subscription.name, style: textTheme.bodyMedium),
                 const SizedBox(height: 2),
                 Text(
-                  '${paidAmount.toStringAsFixed(2)} $paidCurrency • ${paidAt.toMonthDayLabel()}',
+                  '${CurrencyFormatter.format(paidAmount, paidCurrency)} • ${paidAt.toMonthDayLabel()}',
                   style: textTheme.bodySmall,
                 ),
               ],
@@ -116,7 +117,7 @@ class PaymentRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${snapshotBaseAmount.toStringAsFixed(2)} $snapshotBaseCurrency',
+                CurrencyFormatter.format(snapshotBaseAmount, snapshotBaseCurrency),
                 style: textTheme.bodyMedium?.copyWith(
                   color: AppColors.success,
                   fontWeight: FontWeight.w600,

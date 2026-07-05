@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/app/widgets/info_banner_widget.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
@@ -93,7 +94,7 @@ class BillingCycleBreakdown extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${totalMonthlyEquivalent.toStringAsFixed(2)} $baseCurrency',
+                        CurrencyFormatter.format(totalMonthlyEquivalent, baseCurrency),
                         style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -114,7 +115,7 @@ class BillingCycleBreakdown extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${totalYearlyEquivalent.toStringAsFixed(2)} $baseCurrency',
+                        CurrencyFormatter.format(totalYearlyEquivalent, baseCurrency),
                         style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -251,7 +252,7 @@ class BillingCycleBreakdown extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                           TextSpan(
-                            text: '${potentialSavings.toStringAsFixed(2)} $baseCurrency',
+                            text: CurrencyFormatter.format(potentialSavings, baseCurrency),
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: AppColors.success,

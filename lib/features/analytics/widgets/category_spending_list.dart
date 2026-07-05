@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/features/subscriptions/data/subscription_categories.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/category_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
@@ -60,7 +61,7 @@ class CategorySpendingList extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${data.amount.toStringAsFixed(2)} $baseCurrency',
+                    CurrencyFormatter.format(data.amount, baseCurrency),
                     style: textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/data/local/models/user_settings.dart';
 import 'package:pay_tempo/data/local/services/backup_restore_service.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
@@ -239,7 +240,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   Future<void> _showBudgetDialog(double? currentBudget) async {
     final l10n = AppLocalizations.of(context)!;
     final TextEditingController controller = TextEditingController(
-      text: currentBudget != null ? currentBudget.toStringAsFixed(0) : '',
+      text: currentBudget != null ? currentBudget.toStringAsFixed(2) : '',
     );
 
     final double? result = await showDialog<double?>(
@@ -471,12 +472,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
             const SizedBox(height: AppSpacing.xs),
 
-            // Budget
             ValueListenableBuilder<double?>(
               valueListenable: UserSettingsService.budgetLimitNotifier,
               builder: (context, budgetLimit, _) {
                 final String displayValue = budgetLimit != null
-                    ? '${budgetLimit.toStringAsFixed(0)} ${UserSettingsService.baseCurrencyNotifier.value}'
+                    ? CurrencyFormatter.format(budgetLimit, UserSettingsService.baseCurrencyNotifier.value)
                     : l10n.budgetNotSet;
                 return _SettingsActionTile(
                   icon: Icons.account_balance_wallet_outlined,

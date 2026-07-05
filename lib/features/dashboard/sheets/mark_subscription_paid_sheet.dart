@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
@@ -150,7 +151,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '${widget.subscription.price.toStringAsFixed(2)} ${widget.subscription.currency}',
+                          CurrencyFormatter.format(widget.subscription.price, widget.subscription.currency),
                           style: textTheme.titleMedium,
                         ),
                         if (widget.subscription.currency.toUpperCase() !=
@@ -163,7 +164,7 @@ class _MarkSubscriptionPaidSheetState extends State<MarkSubscriptionPaidSheet> {
                               widget.baseCurrency,
                             );
                             return Text(
-                              '≈ ${converted.toStringAsFixed(2)} ${widget.baseCurrency}',
+                              '≈ ${CurrencyFormatter.format(converted, widget.baseCurrency)}',
                               style: textTheme.bodySmall?.copyWith(
                                 color: AppColors.textSecondary,
                               ),

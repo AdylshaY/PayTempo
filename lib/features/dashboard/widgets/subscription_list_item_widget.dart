@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/app/widgets/subscription_avatar_widget.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -100,7 +101,7 @@ class SubscriptionListItemWidget extends StatelessWidget {
                           ),
                           const SizedBox(width: AppSpacing.xs),
                           Text(
-                            '${item.price.toStringAsFixed(2)} ${item.currency}',
+                            CurrencyFormatter.format(item.price, item.currency),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),

@@ -4,7 +4,6 @@ import 'package:pay_tempo/l10n/app_localizations.dart';
 import 'package:pay_tempo/app/widgets/app_dropdown_field_widget.dart';
 import 'package:pay_tempo/app/widgets/app_segmented_control.dart';
 import 'package:pay_tempo/features/onboarding/data/onboarding_currencies.dart';
-import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/features/subscriptions/data/models/subscription_draft.dart';
 import 'package:pay_tempo/features/subscriptions/data/services/subscription_service.dart';
@@ -181,7 +180,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
 
     if (editSub != null) {
       _nameController.text = editSub.name;
-      _priceController.text = editSub.price.toString();
+      _priceController.text = editSub.price.toStringAsFixed(2);
       _noteController.text = editSub.note ?? '';
       _category.value = editSub.category;
       _avatarType.value = editSub.avatarType ?? 'icon';

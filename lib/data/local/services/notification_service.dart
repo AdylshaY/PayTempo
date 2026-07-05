@@ -9,6 +9,7 @@ import 'package:pay_tempo/data/local/models/notification_reminder.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/features/onboarding/data/user_settings_service.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:isar/isar.dart';
 
 class NotificationService {
@@ -164,7 +165,7 @@ class NotificationService {
     final Locale locale = Locale(localeCode);
     final AppLocalizations l10n = await AppLocalizations.delegate.load(locale);
 
-    final String formattedPrice = subscription.price.toStringAsFixed(2);
+    final String formattedPrice = CurrencyFormatter.format(subscription.price, subscription.currency);
     final tz.TZDateTime nowZoned = tz.TZDateTime.now(tz.local);
 
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(

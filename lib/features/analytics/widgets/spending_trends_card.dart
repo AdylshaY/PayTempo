@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/l10n/app_localizations.dart';
 
@@ -118,7 +119,7 @@ class SpendingTrendsCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         children: [
                           Text(
-                            '${currentTotal.toStringAsFixed(2)} $baseCurrency',
+                            CurrencyFormatter.format(currentTotal, baseCurrency),
                             style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(width: AppSpacing.xs),
@@ -134,8 +135,8 @@ class SpendingTrendsCard extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           l10n.localeName == 'tr'
-                              ? 'Geçen Ay: ${prevTotal.toStringAsFixed(2)} $baseCurrency'
-                              : 'Last Month: ${prevTotal.toStringAsFixed(2)} $baseCurrency',
+                              ? 'Geçen Ay: ${CurrencyFormatter.format(prevTotal, baseCurrency)}'
+                              : 'Last Month: ${CurrencyFormatter.format(prevTotal, baseCurrency)}',
                           style: textTheme.bodySmall?.copyWith(
                             color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                           ),

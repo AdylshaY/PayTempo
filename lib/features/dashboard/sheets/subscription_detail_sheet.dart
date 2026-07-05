@@ -7,6 +7,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
@@ -83,10 +84,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
 
     final StringBuffer buffer = StringBuffer();
     buffer.writeln('📋 ${subscription.name} — ${l10n.subscriptionManageTitle}');
-    buffer.writeln('💵 ${l10n.priceLabel}: ${subscription.price.toStringAsFixed(2)} ${subscription.currency} ($cycle)');
+    buffer.writeln('💵 ${l10n.priceLabel}: ${CurrencyFormatter.format(subscription.price, subscription.currency)} ($cycle)');
 
     if (showConversion) {
-      buffer.writeln('🔄 ${l10n.equivalentLabel}: ≈ ${basePrice.toStringAsFixed(2)} $baseCurrency');
+      buffer.writeln('🔄 ${l10n.equivalentLabel}: ≈ ${CurrencyFormatter.format(basePrice, baseCurrency)}');
     }
 
     buffer.writeln('📅 ${l10n.nextPaymentLabel}: ${subscription.nextPaymentDate.toMonthDayYearCommaLabel(l10n.localeName)}');
@@ -491,8 +492,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                         _InfoRow(
                           icon: Icons.payments_outlined,
                           label: l10n.priceLabel,
-                          value:
-                              '${subscription.price.toStringAsFixed(2)} ${subscription.currency}',
+                          value: CurrencyFormatter.format(subscription.price, subscription.currency),
                         ),
                         if (showConversion) ...[
                           const SizedBox(height: AppSpacing.xs),
@@ -500,7 +500,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                             icon: Icons.currency_exchange,
                             label: l10n.equivalentLabel,
                             value:
-                                '≈ ${ExchangeRateService.instance.convert(subscription.price, subscription.currency, baseCurrency).toStringAsFixed(2)} $baseCurrency',
+                                '≈ ${CurrencyFormatter.format(ExchangeRateService.instance.convert(subscription.price, subscription.currency, baseCurrency), baseCurrency)}',
                           ),
                         ],
                         const SizedBox(height: AppSpacing.xs),
@@ -785,8 +785,8 @@ class _RecentPaymentsSection extends StatelessWidget {
                         const Spacer(),
                         Text(
                           showConverted
-                              ? '${tx.snapshotBaseAmount.toStringAsFixed(2)} ${tx.snapshotBaseCurrency}'
-                              : '${tx.paidAmount.toStringAsFixed(2)} ${tx.paidCurrency}',
+                              ? CurrencyFormatter.format(tx.snapshotBaseAmount, tx.snapshotBaseCurrency)
+                              : CurrencyFormatter.format(tx.paidAmount, tx.paidCurrency),
                           style: textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),

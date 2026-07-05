@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -209,10 +210,10 @@ class _HeroCardContent extends StatelessWidget {
 
             // Main amount
             Text(
-              paidTotal.toStringAsFixed(2),
+              CurrencyFormatter.format(paidTotal, baseCurrency),
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 40,
+                fontSize: 32, // Adjusted font size slightly because currency symbol is prepended/appended
                 fontWeight: FontWeight.w700,
                 height: 1.1,
                 letterSpacing: -1,
@@ -223,8 +224,8 @@ class _HeroCardContent extends StatelessWidget {
             // Remaining subtitle
             Text(
               l10n.remainingFromActive(
-                remainingTotal.toStringAsFixed(2),
-                baseCurrency,
+                CurrencyFormatter.format(remainingTotal, baseCurrency),
+                '', // Handled by CurrencyFormatter, empty suffix is fine or localization modification
               ),
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.7),
@@ -259,7 +260,7 @@ class _HeroCardContent extends StatelessWidget {
                 _MiniStat(
                   icon: Icons.trending_up_rounded,
                   label: l10n.heroStatEstimated,
-                  value: estimatedTotal.toStringAsFixed(0),
+                  value: CurrencyFormatter.format(estimatedTotal, baseCurrency),
                 ),
               ],
             ),
@@ -317,9 +318,9 @@ class _HeroCardContent extends StatelessWidget {
                         ),
                         Text(
                           l10n.budgetOf(
-                            estimatedTotal.toStringAsFixed(0),
-                            budgetLimit.toStringAsFixed(0),
-                            baseCurrency,
+                            CurrencyFormatter.format(estimatedTotal, baseCurrency),
+                            CurrencyFormatter.format(budgetLimit, baseCurrency),
+                            '',
                           ),
                           style: TextStyle(
                             color: isExceeded

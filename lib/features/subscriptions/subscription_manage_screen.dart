@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -363,8 +364,8 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                                 const SizedBox(height: 4),
                                 Text(
                                   hasConversion
-                                      ? '${totalSpentBase.toStringAsFixed(2)} ${widget.baseCurrency}'
-                                      : '${totalSpentSubscriptionCurrency.toStringAsFixed(2)} ${subscription.currency}',
+                                      ? CurrencyFormatter.format(totalSpentBase, widget.baseCurrency)
+                                      : CurrencyFormatter.format(totalSpentSubscriptionCurrency, subscription.currency),
                                   style: textTheme.titleMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.primary,
@@ -373,7 +374,7 @@ class _SubscriptionManageScreenState extends State<SubscriptionManageScreen> {
                                 if (hasConversion) ...[
                                   const SizedBox(height: 2),
                                   Text(
-                                    '${totalSpentSubscriptionCurrency.toStringAsFixed(2)} ${subscription.currency}',
+                                    CurrencyFormatter.format(totalSpentSubscriptionCurrency, subscription.currency),
                                     style: textTheme.bodySmall,
                                   ),
                                 ],

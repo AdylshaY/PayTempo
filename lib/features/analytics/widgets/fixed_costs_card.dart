@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/services/exchange_rate_service.dart';
@@ -99,7 +100,7 @@ class FixedCostsCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${monthlyProjection.toStringAsFixed(2)} $baseCurrency',
+                        CurrencyFormatter.format(monthlyProjection, baseCurrency),
                         style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -120,7 +121,7 @@ class FixedCostsCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${annualProjection.toStringAsFixed(2)} $baseCurrency',
+                        CurrencyFormatter.format(annualProjection, baseCurrency),
                         style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -168,7 +169,7 @@ class FixedCostsCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          '${actualSpent12Months.toStringAsFixed(2)} $baseCurrency',
+                          CurrencyFormatter.format(actualSpent12Months, baseCurrency),
                           style: textTheme.bodyLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),

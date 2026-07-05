@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/app/widgets/empty_state_widget.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
@@ -205,7 +206,7 @@ class _RecentPaymentListItem extends StatelessWidget {
                 Text(subscriptionName, style: textTheme.bodyMedium),
                 const SizedBox(height: 2),
                 Text(
-                  '${paidAmount.toStringAsFixed(2)} $paidCurrency • ${paidAt.toMonthDayLabel(l10n.localeName)}',
+                  '${CurrencyFormatter.format(paidAmount, paidCurrency)} • ${paidAt.toMonthDayLabel(l10n.localeName)}',
                   style: textTheme.bodySmall,
                 ),
               ],
@@ -216,7 +217,7 @@ class _RecentPaymentListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${snapshotBaseAmount.toStringAsFixed(2)} $snapshotBaseCurrency',
+                CurrencyFormatter.format(snapshotBaseAmount, snapshotBaseCurrency),
                 style: textTheme.bodyMedium?.copyWith(
                   color: AppColors.success,
                   fontWeight: FontWeight.w600,

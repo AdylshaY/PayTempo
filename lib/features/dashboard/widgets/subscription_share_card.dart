@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/app/utils/date_formatter.dart';
 import 'package:pay_tempo/app/widgets/subscription_avatar_widget.dart';
 import 'package:pay_tempo/app/utils/subscription_helpers.dart';
@@ -128,7 +129,7 @@ class SubscriptionShareCard extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      '${subscription.price.toStringAsFixed(2)} ${subscription.currency} / $cycleLabel',
+                      '${CurrencyFormatter.format(subscription.price, subscription.currency)} / $cycleLabel',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: AppTypography.fontFamily,
@@ -140,7 +141,7 @@ class SubscriptionShareCard extends StatelessWidget {
                     if (showConversion) ...[
                       const SizedBox(height: 2),
                       Text(
-                        '≈ ${convertedAmount.toStringAsFixed(2)} $baseCurrency',
+                        '≈ ${CurrencyFormatter.format(convertedAmount, baseCurrency)}',
                         style: TextStyle(
                           fontFamily: AppTypography.fontFamily,
                           fontSize: 14,

@@ -1,7 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:pay_tempo/app/theme/app_theme.dart';
+import 'package:pay_tempo/app/utils/currency_formatter.dart';
 import 'package:pay_tempo/data/local/isar_database.dart';
 import 'package:pay_tempo/data/local/models/payment_transaction.dart';
 import 'package:pay_tempo/data/local/models/subscription_record.dart';
@@ -229,8 +229,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
-                                                activeDisplayTotal.toStringAsFixed(0),
-                                                style: textTheme.titleMedium?.copyWith(
+                                                CurrencyFormatter.format(activeDisplayTotal, baseCurrency),
+                                                style: textTheme.bodyMedium?.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -258,7 +258,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                             ),
                                             const SizedBox(height: 2),
                                             Text(
-                                              '${activeDisplayTotal.toStringAsFixed(2)} $baseCurrency',
+                                              CurrencyFormatter.format(activeDisplayTotal, baseCurrency),
                                               style: textTheme.titleMedium?.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 color: AppColors.primary,
@@ -508,7 +508,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${amount.toStringAsFixed(2)} $baseCurrency',
+                      CurrencyFormatter.format(amount, baseCurrency),
                       style: textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
